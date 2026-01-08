@@ -2,4 +2,4 @@ name = "ignis-ai-labs-landing-page"
 compatibility_date = "2025-11-01"
 
 [assets]
-directory = "./dist"
+directory = "./build"
