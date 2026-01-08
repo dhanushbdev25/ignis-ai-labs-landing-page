@@ -92,8 +92,11 @@ export function InteractiveBackground() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Generate more nodes across three layers (60-80 particles)
-    const nodeCount = Math.floor(Math.random() * 21) + 60; // 60-80
+    // Generate nodes - fewer on mobile devices
+    const isMobile = window.innerWidth < 768;
+    const nodeCount = isMobile 
+      ? Math.floor(Math.random() * 11) + 25 // 25-35 on mobile
+      : Math.floor(Math.random() * 21) + 60; // 60-80 on desktop/tablet
     const generatedNodes: Node[] = [];
     
     for (let i = 0; i < nodeCount; i++) {

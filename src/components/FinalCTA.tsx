@@ -30,7 +30,7 @@ export function FinalCTA() {
 
   return (
     <section id="contact" className="py-[var(--s-8)] bg-gradient-to-br from-[var(--surface-white)] to-[var(--surface-light)]">
-      <div className="max-w-[1400px] mx-auto px-[120px]">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 xl:px-[120px]">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -44,13 +44,13 @@ export function FinalCTA() {
               Deploy with intelligence.
             </h2>
             
-            <p className="text-lg text-[var(--neutral-700)] mb-12 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-[var(--neutral-700)] mb-8 md:mb-12 max-w-2xl mx-auto">
               Let's discuss how we can engineer intelligent systems for your enterprise transformation.
             </p>
           </motion.div>
 
           <motion.div
-            className="bg-white rounded-2xl p-8 shadow-lg border border-[var(--neutral-300)] max-w-2xl mx-auto"
+            className="bg-white rounded-2xl p-4 md:p-8 shadow-lg border border-[var(--neutral-300)] max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -138,8 +138,8 @@ export function FinalCTA() {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             Prefer email? Reach us directly at{' '}
-            <a href="mailto:contact@ignisailabs.com" className="text-[var(--accent-blue)] hover:underline">
-              contact@ignisailabs.com
+            <a href="mailto:contact.ignisailabs@gmail.com" className="text-[var(--accent-blue)] hover:underline">
+              contact.ignisailabs@gmail.com
             </a>
           </motion.p>
         </div>

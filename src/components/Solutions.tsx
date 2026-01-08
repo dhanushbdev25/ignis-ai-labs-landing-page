@@ -42,10 +42,10 @@ function SolutionCard({ solution, index, onClick }: { solution: Solution; index:
   };
 
   return (
-    <div className="relative" style={{ perspective: '1000px' }}>
+    <div className="relative h-full" style={{ perspective: '1000px' }}>
       <motion.div
         ref={ref}
-        className="relative p-6 rounded-xl cursor-pointer group overflow-hidden"
+        className="relative p-6 rounded-xl cursor-pointer group overflow-hidden h-full flex flex-col"
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.8)',
           backdropFilter: 'blur(12px)',
@@ -98,7 +98,7 @@ function SolutionCard({ solution, index, onClick }: { solution: Solution; index:
           }}
         />
 
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col h-full">
           <div className="mb-4">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--surface-light)] to-white flex items-center justify-center group-hover:from-[var(--accent-blue)] group-hover:to-[#2E5AD1] transition-all duration-300 shadow-md group-hover:shadow-lg">
               <solution.icon className="text-[var(--accent-slate)] group-hover:text-white transition-colors duration-300" size={20} />
@@ -106,7 +106,7 @@ function SolutionCard({ solution, index, onClick }: { solution: Solution; index:
           </div>
           
           <h4 className="mb-2 text-base">{solution.title}</h4>
-          <p className="text-sm text-[var(--neutral-700)] leading-relaxed">
+          <p className="text-sm text-[var(--neutral-700)] leading-relaxed flex-grow">
             {solution.summary}
           </p>
           
@@ -211,10 +211,10 @@ export function Solutions() {
 
   return (
     <section id="solutions" className="py-[var(--s-8)] bg-[var(--surface-light)]">
-      <div className="max-w-[1400px] mx-auto px-[120px]">
-        <div className="mb-12">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 xl:px-[120px]">
+        <div className="mb-8 md:mb-12">
           <h2 className="mb-4">Solutions & Implementations</h2>
-          <p className="text-lg text-[var(--neutral-700)] max-w-2xl">
+          <p className="text-base md:text-lg text-[var(--neutral-700)] max-w-2xl">
             Production systems delivering measurable business value
           </p>
         </div>
@@ -235,14 +235,14 @@ export function Solutions() {
       <AnimatePresence>
         {selectedSolution && (
           <motion.div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-6"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 md:p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedSolution(null)}
           >
             <motion.div
-              className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto shadow-2xl border border-[var(--neutral-300)]"
+              className="bg-white rounded-2xl p-4 md:p-8 max-w-2xl w-full mx-4 md:mx-auto max-h-[80vh] overflow-y-auto shadow-2xl border border-[var(--neutral-300)]"
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
@@ -257,7 +257,8 @@ export function Solutions() {
                 </div>
                 <button
                   onClick={() => setSelectedSolution(null)}
-                  className="text-[var(--neutral-700)] hover:text-[var(--neutral-900)] transition-colors p-1 hover:bg-[var(--neutral-300)] rounded"
+                  className="text-[var(--neutral-700)] hover:text-[var(--neutral-900)] transition-colors p-2 hover:bg-[var(--neutral-300)] rounded min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  aria-label="Close modal"
                 >
                   <X size={24} />
                 </button>
@@ -267,7 +268,7 @@ export function Solutions() {
                 {selectedSolution.details}
               </p>
               
-              <div className="bg-[var(--surface-light)] rounded-xl p-6">
+              <div className="bg-[var(--surface-light)] rounded-xl p-4 md:p-6">
                 <h4 className="mb-3 text-base text-[var(--neutral-900)] font-semibold">Key Outcomes</h4>
                 <ul className="space-y-3">
                   {selectedSolution.outcomes.map((outcome, idx) => (

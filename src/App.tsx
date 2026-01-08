@@ -19,7 +19,7 @@ export default function App() {
         <Solutions />
         <Process />
         <Metrics />
-        <CaseStudies />
+        {/* <CaseStudies /> */}
         <Testimonials />
         <FinalCTA />
       </main>

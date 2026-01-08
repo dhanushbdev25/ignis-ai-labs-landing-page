@@ -43,10 +43,10 @@ export function Capabilities() {
 
   return (
     <section id="capabilities" className="py-[var(--s-8)] bg-[var(--surface-light)]">
-      <div className="max-w-[1400px] mx-auto px-[120px]">
-        <div className="mb-12">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 xl:px-[120px]">
+        <div className="mb-8 md:mb-12">
           <h2 className="mb-4">Capabilities</h2>
-          <p className="text-lg text-[var(--neutral-700)] max-w-2xl">
+          <p className="text-base md:text-lg text-[var(--neutral-700)] max-w-2xl">
             Full-spectrum engineering services for modern enterprises
           </p>
         </div>

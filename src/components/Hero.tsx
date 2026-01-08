@@ -24,12 +24,12 @@ export function Hero() {
   return (
     <section 
       ref={sectionRef}
-      className="relative min-h-[72vh] flex items-center overflow-hidden bg-gradient-to-br from-[var(--surface-white)] to-[var(--surface-light)]"
+      className="relative min-h-[60vh] md:min-h-[72vh] flex items-center overflow-hidden bg-gradient-to-br from-[var(--surface-white)] to-[var(--surface-light)]"
     >
       <InteractiveBackground />
       
       <motion.div 
-        className="relative z-10 max-w-[1400px] mx-auto px-[120px] py-[var(--s-8)] w-full"
+        className="relative z-10 max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 xl:px-[120px] py-[var(--s-8)] w-full"
         style={{ y, opacity }}
       >
         <div className="grid grid-cols-12 gap-8">
@@ -58,7 +58,7 @@ export function Hero() {
             </motion.h1>
             
             <motion.p 
-              className="text-xl text-[var(--neutral-700)] mb-8 max-w-2xl"
+              className="text-lg md:text-xl text-[var(--neutral-700)] mb-8 max-w-2xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -67,7 +67,6 @@ export function Hero() {
             </motion.p>
             
             <motion.div 
-              className="flex flex-wrap gap-4 mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -76,6 +75,7 @@ export function Hero() {
                 variant="primary" 
                 icon={ArrowRight}
                 onClick={() => scrollToSection('contact')}
+                className='mb-4'
               >
                 Start Your Project
               </Button>
@@ -83,6 +83,7 @@ export function Hero() {
                 variant="secondary" 
                 icon={FileText}
                 onClick={() => scrollToSection('work')}
+                className='mb-4'
               >
                 View Case Studies
               </Button>

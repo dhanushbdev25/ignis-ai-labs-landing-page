@@ -44,7 +44,7 @@ function AnimatedCounter({ value, suffix = '' }: { value: string; suffix?: strin
   }, [isInView, value]);
 
   return (
-    <span ref={ref} className="text-5xl text-[var(--accent-blue)] font-semibold">
+    <span ref={ref} className="text-5xl md:text-6xl lg:text-7xl text-[var(--accent-blue)] font-semibold">
       {displayValue}{suffix}
     </span>
   );
@@ -56,7 +56,7 @@ export function Metrics() {
       value: '20+',
       label: 'Enterprise Workflows',
       sublabel: 'Production systems',
-      suffix: '+'
+      suffix: ''
     },
     {
       value: '30-60',
@@ -68,20 +68,20 @@ export function Metrics() {
       value: '99.99%',
       label: 'Uptime',
       sublabel: 'Production reliability',
-      suffix: '%'
+      suffix: ''
     },
     {
       value: '100%',
       label: 'Client Satisfaction',
       sublabel: 'Ongoing partnerships',
-      suffix: '%'
+      suffix: ''
     }
   ];
 
   return (
     <section className="py-[var(--s-7)] bg-white">
-      <div className="max-w-[1400px] mx-auto px-[120px]">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 xl:px-[120px]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {metrics.map((metric, index) => (
             <motion.div
               key={metric.label}
@@ -101,7 +101,7 @@ export function Metrics() {
                 transition={{ type: 'spring', stiffness: 400, damping: 10 }}
               >
                 {metric.value.includes('-') ? (
-                  <span className="text-5xl text-[var(--accent-blue)] font-semibold">{metric.value}</span>
+                  <span className="text-5xl md:text-6xl lg:text-7xl text-[var(--accent-blue)] font-semibold">{metric.value}</span>
                 ) : (
                   <AnimatedCounter value={metric.value} suffix={metric.suffix} />
                 )}

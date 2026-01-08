@@ -68,16 +68,16 @@ export function Process() {
 
   return (
     <section id="process" className="py-[var(--s-8)] bg-white">
-      <div className="max-w-[1400px] mx-auto px-[120px]">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-12 xl:px-[120px]">
         <motion.div 
-          className="mb-16 text-center"
+          className="mb-8 md:mb-16 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2 className="mb-4">Engineering Process</h2>
-          <p className="text-lg text-[var(--neutral-700)] max-w-2xl mx-auto">
+          <p className="text-base md:text-lg text-[var(--neutral-700)] max-w-2xl mx-auto">
             A structured approach from concept to production
           </p>
         </motion.div>
@@ -104,7 +104,7 @@ export function Process() {
         </div>
 
         {/* Mobile Timeline */}
-        <div className="lg:hidden space-y-8">
+        <div className="lg:hidden space-y-6 md:space-y-8">
           {processSteps.map((step, index) => (
             <motion.div 
               key={step.title} 

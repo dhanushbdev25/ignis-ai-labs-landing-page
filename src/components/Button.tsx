@@ -16,7 +16,7 @@ export function Button({
   icon: Icon,
   className = '' 
 }: ButtonProps) {
-  const baseStyles = "h-12 px-8 rounded-lg transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer";
+  const baseStyles = "h-10 px-8 rounded-lg transition-all duration-200 flex items-center gap-2 justify-center cursor-pointer";
   
   const variants = {
     primary: "bg-[var(--accent-blue)] text-white hover:bg-[#2E5AD1] shadow-sm",
