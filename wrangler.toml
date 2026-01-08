@@ -1,6 +1,4 @@
 name = "ignis-ai-labs-landing-page"
-
-main = "worker.js"
 compatibility_date = "2025-11-01"
 
 [assets]
