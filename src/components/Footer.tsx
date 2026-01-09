@@ -8,11 +8,11 @@ export function Footer() {
     // },
     {
       title: 'Services',
-      links: ['Software Engineering', 'AI & ML', 'Data Engineering', 'Product Design']
+      links: ['Software Engineering', 'AI & ML', 'Data Engineering', 'Product Design', 'Consulting', 'Training']
     },
     {
       title: 'Solutions',
-      links: ['Enterprise Software', 'Supply Chain', 'Financial Systems', 'Healthcare Tech']
+      links: ['Enterprise Software', 'Supply Chain', 'Financial Systems', 'Healthcare Tech', 'Energy & Utilities', 'Transportation & Logistics']
     },
     // {
     //   title: 'Resources',
