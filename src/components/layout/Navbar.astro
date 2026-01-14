@@ -1,0 +1,168 @@
+---
+const navLinks = [
+  { href: '#process', label: 'Process' },
+  { href: '#benefits', label: 'Benefits' },
+  { href: '#services', label: 'Services' },
+  { href: '#faq', label: 'FAQ' },
+];
+---
+
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out">
+  <nav class="container-custom">
+    <div class="flex items-center justify-between h-20 md:h-24">
+      <!-- Logo -->
+      <a href="/" class="flex items-center gap-3 group">
+        <!-- Hamburger Icon -->
+        <div class="flex flex-col gap-1.5">
+          <span class="w-6 h-0.5 bg-[var(--color-text-primary)] rounded-full transition-colors duration-300"></span>
+          <span class="w-6 h-0.5 bg-[var(--color-text-primary)] rounded-full transition-colors duration-300"></span>
+          <span class="w-4 h-0.5 bg-[var(--color-text-primary)] rounded-full transition-colors duration-300"></span>
+        </div>
+        <span class="text-2xl md:text-3xl font-bold text-[var(--color-text-primary)] transition-colors duration-300">
+          Ignis<span class="text-gradient">.</span>
+        </span>
+      </a>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-10">
+        {navLinks.map((link) => (
+          <a 
+            href={link.href} 
+            class="text-[var(--color-text-primary)] hover:text-purple-600 font-medium text-base transition-colors duration-300 relative group"
+          >
+            {link.label}
+            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+          </a>
+        ))}
+      </div>
+      
+      <!-- CTA Button -->
+      <div class="flex items-center gap-4">
+        <!-- Book a call button - Gradient style like in image -->
+        <button class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 via-purple-500 to-fuchsia-500 text-white font-semibold text-base rounded-full px-6 py-3 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 hover:scale-105 consultation-trigger relative overflow-hidden group">
+          <span class="relative z-10">Book a call</span>
+          <span class="relative z-10 w-5 h-5 flex items-center justify-center">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </span>
+          <!-- Hover gradient effect -->
+          <span class="absolute inset-0 bg-gradient-to-r from-purple-700 via-purple-600 to-fuchsia-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+        </button>
+        
+        <!-- Mobile Menu Button -->
+        <button 
+          class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          id="mobile-menu-btn"
+          aria-label="Toggle menu"
+        >
+          <svg class="w-6 h-6 text-[var(--color-text-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div 
+      id="mobile-menu"
+      class="md:hidden hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-xl"
+    >
+      <div class="container-custom py-6 space-y-2">
+        {navLinks.map((link) => (
+          <a 
+            href={link.href}
+            class="block py-3 px-4 text-[var(--color-text-primary)] hover:text-purple-600 hover:bg-purple-50 rounded-xl font-medium transition-all duration-200"
+          >
+            {link.label}
+          </a>
+        ))}
+        <div class="pt-4 border-t border-gray-200">
+          <button class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-fuchsia-500 text-white font-semibold text-base rounded-full py-3 px-6 shadow-lg shadow-purple-500/30 consultation-trigger">
+            <span>Book a call</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Spacer for fixed header -->
+<div class="h-20 md:h-24"></div>
+
+<script>
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  
+  menuBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+  
+  // Close menu when clicking a link
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+    });
+  });
+  
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menuBtn?.contains(e.target as Node) && !mobileMenu?.contains(e.target as Node)) {
+      mobileMenu?.classList.add('hidden');
+    }
+  });
+
+  // Glassmorphism effect on scroll
+  const navbar = document.getElementById('navbar');
+  let lastScroll = 0;
+  
+  function updateNavbar() {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 50) {
+      // Scrolled - Apply glassmorphism
+      navbar?.classList.add('navbar-scrolled');
+    } else {
+      // At top - Remove glassmorphism
+      navbar?.classList.remove('navbar-scrolled');
+    }
+    
+    lastScroll = currentScroll;
+  }
+  
+  // Smooth scroll handling with requestAnimationFrame
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateNavbar();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+  
+  // Initial check
+  updateNavbar();
+</script>
+
+<style>
+  /* Default navbar - Subtle and classy */
+  #navbar {
+    background: rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Glassmorphism effect on scroll */
+  #navbar.navbar-scrolled {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+</style>

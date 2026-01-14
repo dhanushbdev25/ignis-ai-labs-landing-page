@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/sections/Hero.astro';
+import Process from '../components/sections/Process.astro';
+import Benefits from '../components/sections/Benefits.astro';
+import Services from '../components/sections/Services.astro';
+import Projects from '../components/sections/Projects.astro';
+
+// React interactive components
+import TestimonialCarousel from '../components/interactive/TestimonialCarousel';
+import FAQAccordion from '../components/interactive/FAQAccordion';
+import ConsultationModal from '../components/interactive/ConsultationModal';
+
+// Mock data for now - will be replaced with Sanity data
+import { mockTestimonials, mockFAQs } from '../lib/mock-data';
+---
+
+<Layout>
+  <Hero />
+  <Process />
+  <Benefits />
+  <Services />
+  <Projects />
+  
+  <!-- React Islands for interactive components -->
+  <TestimonialCarousel 
+    client:load 
+    testimonials={mockTestimonials} 
+  />
+  
+  <FAQAccordion 
+    client:visible 
+    faqs={mockFAQs} 
+  />
+  
+  <!-- Consultation Modal - Always mounted for trigger handling -->
+  <ConsultationModal client:load />
+</Layout>

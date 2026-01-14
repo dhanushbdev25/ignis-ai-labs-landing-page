@@ -1,0 +1,848 @@
+---
+import { mockProjects } from '../../lib/mock-data';
+
+const projects = mockProjects;
+---
+
+<section id="projects" class="section-padding bg-gradient-to-b from-white to-purple-50/30 relative overflow-hidden">
+  <!-- Background particles -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="particle particle-1"></div>
+    <div class="particle particle-2"></div>
+    <div class="particle particle-3"></div>
+    <div class="particle particle-4"></div>
+    <div class="particle particle-5"></div>
+  </div>
+
+  <div class="container-custom relative z-10">
+    <!-- Section Header -->
+    <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+      <span class="section-label mb-4 inline-block">Projects</span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[var(--color-text-primary)]">
+        Recent Projects
+      </h2>
+      <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
+        Transforming businesses with cutting-edge enterprise solutions
+      </p>
+    </div>
+    
+    <!-- Projects Bento Grid -->
+    <div class="projects-masonry">
+      {projects.map((project, index) => (
+        <div 
+          class={`project-card grid-${project.gridSize}`}
+          data-index={index}
+          data-grid-size={project.gridSize}
+          style={`--delay: ${index * 100}ms;`}
+        >
+          <!-- Card inner wrapper for 3D effect -->
+          <div class="project-card-inner">
+            <!-- Glassmorphism background -->
+            <div class="project-glass-bg"></div>
+            
+            <!-- Gradient overlay background -->
+            <div class={`project-gradient bg-gradient-to-br ${project.gradient} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
+            
+            <!-- Tech Stack Badges (Top) -->
+            <div class="tech-stack">
+              {project.techStack.map((tech, techIndex) => (
+                <span 
+                  class="tech-badge"
+                  style={`--tech-delay: ${techIndex * 50}ms;`}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <!-- Project Image -->
+            <div class="project-image-wrapper">
+              <img 
+                src={project.image}
+                alt={project.title}
+                class="project-image"
+                loading="lazy"
+              />
+              <div class="image-overlay"></div>
+            </div>
+            
+            <!-- Content Section -->
+            <div class="project-content">
+              <!-- Category Badge -->
+              <span class="category-badge">
+                {project.category}
+              </span>
+              
+              <!-- Title -->
+              <h3 class="project-title">
+                {project.title}
+              </h3>
+              
+              <!-- Description -->
+              <p class="project-description">
+                {project.description}
+              </p>
+
+              <!-- Metrics Badge -->
+              <div class="metrics-badge">
+                <svg class="metrics-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {project.metrics.icon === 'zap' && (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  )}
+                  {project.metrics.icon === 'trending-down' && (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/>
+                  )}
+                  {project.metrics.icon === 'file-text' && (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  )}
+                  {project.metrics.icon === 'package' && (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                  )}
+                  {project.metrics.icon === 'globe' && (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  )}
+                  {project.metrics.icon === 'credit-card' && (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                  )}
+                </svg>
+                <span class="metrics-text">{project.metrics.label}</span>
+              </div>
+              
+              <!-- View Project Link -->
+              <a 
+                href="#" 
+                class="project-link"
+              >
+                View project
+                <svg class="project-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- Glow effect on hover -->
+            <div class="project-glow"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===== PARTICLE EFFECTS ===== */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0) 70%);
+    pointer-events: none;
+  }
+
+  .particle-1 {
+    width: 400px;
+    height: 400px;
+    top: -200px;
+    left: -100px;
+    animation: float-particle-1 20s ease-in-out infinite;
+  }
+
+  .particle-2 {
+    width: 300px;
+    height: 300px;
+    top: 30%;
+    right: -150px;
+    animation: float-particle-2 25s ease-in-out infinite;
+  }
+
+  .particle-3 {
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 10%;
+    animation: float-particle-3 18s ease-in-out infinite;
+  }
+
+  .particle-4 {
+    width: 350px;
+    height: 350px;
+    bottom: -100px;
+    right: 5%;
+    animation: float-particle-1 22s ease-in-out infinite reverse;
+  }
+
+  .particle-5 {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    animation: float-particle-2 30s ease-in-out infinite;
+  }
+
+  @keyframes float-particle-1 {
+    0%, 100% { 
+      transform: translate(0, 0) scale(1);
+      opacity: 0.3;
+    }
+    33% { 
+      transform: translate(30px, -40px) scale(1.1);
+      opacity: 0.2;
+    }
+    66% { 
+      transform: translate(-20px, 30px) scale(0.9);
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes float-particle-2 {
+    0%, 100% { 
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0.2;
+    }
+    50% { 
+      transform: translate(-50px, 40px) rotate(180deg);
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes float-particle-3 {
+    0%, 100% { 
+      transform: translate(0, 0);
+      opacity: 0.25;
+    }
+    50% { 
+      transform: translate(40px, -30px);
+      opacity: 0.4;
+    }
+  }
+
+  /* ===== BENTO GRID ===== */
+  .projects-masonry {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .projects-masonry {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      grid-auto-rows: 380px;
+      grid-auto-flow: dense;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .projects-masonry {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      grid-auto-rows: 400px;
+      grid-auto-flow: dense;
+    }
+  }
+
+  /* Grid size variants for mobile - all regular */
+  .grid-regular,
+  .grid-wide,
+  .grid-tall,
+  .grid-large {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  /* Grid size variants for tablet and desktop */
+  @media (min-width: 768px) {
+    .grid-regular {
+      grid-column: span 1;
+      grid-row: span 1;
+    }
+
+    .grid-wide {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .grid-tall {
+      grid-column: span 1;
+      grid-row: span 2;
+    }
+
+    .grid-large {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+  }
+
+  /* ===== PROJECT CARD ===== */
+  .project-card {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 0.8s var(--ease-smooth) forwards;
+    animation-delay: var(--delay);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity 0.3s ease,
+                z-index 0s;
+    will-change: transform;
+    position: relative;
+    z-index: 1;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Mobile: auto height */
+  @media (max-width: 767px) {
+    .project-card {
+      height: auto;
+    }
+  }
+
+  .project-card.neighbor-pushed {
+    opacity: 0.7;
+  }
+
+  .project-card.card-hovering {
+    z-index: 100;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .project-card-inner {
+    position: relative;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(168, 85, 247, 0.1);
+    transition: all 0.5s var(--ease-smooth);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+
+  .project-card:hover .project-card-inner {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 
+      0 20px 60px rgba(168, 85, 247, 0.15),
+      0 0 0 1px rgba(168, 85, 247, 0.1);
+  }
+
+  /* Enhanced hover for card being hovered in neighbor-push effect */
+  .project-card.card-hovering .project-card-inner {
+    transform: translateY(-12px) scale(1.02);
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 
+      0 30px 80px rgba(168, 85, 247, 0.25),
+      0 0 0 1px rgba(168, 85, 247, 0.2);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Pushed neighbors get subtle scale down and dimming */
+  .project-card.neighbor-pushed .project-card-inner {
+    filter: brightness(0.95);
+  }
+
+  /* ===== GLASSMORPHISM BACKGROUND ===== */
+  .project-glass-bg {
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.7);
+    z-index: -1;
+  }
+
+  .project-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .project-card.card-hovering .project-gradient {
+    opacity: 0.25 !important;
+  }
+
+  /* ===== TECH STACK BADGES ===== */
+  .tech-stack {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.5s var(--ease-smooth) 0.1s;
+  }
+
+  .project-card:hover .tech-stack {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tech-badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent-purple-dark);
+    opacity: 0;
+    transform: scale(0.8);
+    animation: popIn 0.4s var(--ease-bounce) forwards;
+    animation-delay: calc(var(--tech-delay) + 200ms);
+  }
+
+  .project-card:hover .tech-badge {
+    animation-play-state: running;
+  }
+
+  @keyframes popIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* ===== PROJECT IMAGE ===== */
+  .project-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5f3ff 0%, #e9d5ff 100%);
+  }
+
+  /* Tall cards: Vertical emphasis */
+  @media (min-width: 768px) {
+    .grid-tall .project-image-wrapper {
+      aspect-ratio: 3/4;
+    }
+  }
+
+  /* Wide cards: Horizontal aspect */
+  @media (min-width: 768px) {
+    .grid-wide .project-image-wrapper {
+      aspect-ratio: 16/9;
+    }
+  }
+
+  /* Large cards: Cinematic aspect */
+  @media (min-width: 768px) {
+    .grid-large .project-image-wrapper {
+      aspect-ratio: 16/9;
+    }
+
+    .grid-large .project-title {
+      font-size: 1.75rem;
+    }
+
+    .grid-large .project-description {
+      font-size: 1rem;
+    }
+  }
+
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s var(--ease-smooth);
+  }
+
+  .project-card:hover .project-image {
+    transform: scale(1.1);
+  }
+
+  .image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-smooth);
+  }
+
+  .project-card:hover .image-overlay {
+    opacity: 1;
+  }
+
+  /* ===== PROJECT CONTENT ===== */
+  .project-content {
+    padding: 1.5rem;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+  }
+
+  .category-badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent-purple-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.3;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+
+  .project-card:hover .project-title {
+    color: var(--color-accent-purple-dark);
+  }
+
+  .project-description {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+    flex: 1;
+  }
+
+  /* ===== METRICS BADGE ===== */
+  .metrics-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 0.75rem;
+    margin-top: 0.5rem;
+    transform: translateY(0);
+    transition: all 0.3s var(--ease-smooth);
+  }
+
+  .project-card:hover .metrics-badge {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+    transform: translateY(-2px);
+  }
+
+  .metrics-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--color-accent-purple);
+    flex-shrink: 0;
+  }
+
+  .metrics-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-accent-purple-dark);
+  }
+
+  /* ===== PROJECT LINK ===== */
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-accent-purple-dark);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 0.5rem;
+    transition: all 0.3s var(--ease-smooth);
+    width: fit-content;
+  }
+
+  .project-link:hover {
+    gap: 0.75rem;
+    color: var(--color-accent-purple);
+  }
+
+  .project-arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+    transition: transform 0.3s var(--ease-smooth);
+  }
+
+  .project-link:hover .project-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ===== GLOW EFFECT ===== */
+  .project-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.5) 0%,
+      rgba(99, 102, 241, 0.5) 100%
+    );
+    border-radius: 1.5rem;
+    opacity: 0;
+    filter: blur(20px);
+    z-index: -1;
+    transition: opacity 0.5s var(--ease-smooth);
+  }
+
+  .project-card:hover .project-glow {
+    opacity: 0.3;
+  }
+
+  /* ===== ACCESSIBILITY & PERFORMANCE ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .project-card,
+    .project-card-inner,
+    .project-image,
+    .tech-badge,
+    .tech-stack,
+    .particle {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .project-card {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ===== MOBILE OPTIMIZATIONS ===== */
+  @media (max-width: 767px) {
+    .project-card-inner {
+      border-radius: 1rem;
+    }
+
+    .project-content {
+      padding: 1.25rem;
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+    }
+
+    .tech-stack {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 1rem 0;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tech-badge {
+      opacity: 1;
+      transform: scale(1);
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // ===== UTILITIES =====
+  function getCardCenter(card) {
+    const rect = card.getBoundingClientRect();
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2
+    };
+  }
+
+  function getDistance(x1, y1, x2, y2) {
+    return Math.hypot(x2 - x1, y2 - y1);
+  }
+
+  function findGridNeighbors(card, allCards) {
+    const cardRect = card.getBoundingClientRect();
+    const cardWidth = cardRect.width;
+    const detectionRadius = cardWidth + 100; // Larger detection for varied sizes
+    
+    return Array.from(allCards).filter(other => {
+      if (other === card) return false;
+      
+      const otherRect = other.getBoundingClientRect();
+      const distance = Math.hypot(
+        (cardRect.left + cardRect.width/2) - (otherRect.left + otherRect.width/2),
+        (cardRect.top + cardRect.height/2) - (otherRect.top + otherRect.height/2)
+      );
+      
+      return distance < detectionRadius;
+    });
+  }
+
+  function calculatePushDirection(source, target) {
+    const sourceRect = source.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    
+    // Calculate center points
+    const sourceCenterX = sourceRect.left + sourceRect.width / 2;
+    const sourceCenterY = sourceRect.top + sourceRect.height / 2;
+    const targetCenterX = targetRect.left + targetRect.width / 2;
+    const targetCenterY = targetRect.top + targetRect.height / 2;
+    
+    // Calculate push direction
+    const angle = Math.atan2(
+      targetCenterY - sourceCenterY,
+      targetCenterX - sourceCenterX
+    );
+    
+    const pushAmount = 15; // pixels to push
+    
+    return {
+      x: Math.cos(angle) * pushAmount,
+      y: Math.sin(angle) * pushAmount
+    };
+  }
+
+  // ===== NEIGHBOR PUSHING EFFECT =====
+  function setupNeighborPush() {
+    const cards = document.querySelectorAll('.project-card');
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Disable on mobile/touch devices or if reduced motion is preferred
+    if (isTouch || prefersReducedMotion || window.innerWidth < 768) {
+      return;
+    }
+    
+    cards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        // Add hovering class
+        card.classList.add('card-hovering');
+        
+        // Scale up hovered card
+        requestAnimationFrame(() => {
+          card.style.transform = 'scale(1.05)';
+        });
+        
+        // Find and push neighbors
+        const neighbors = findGridNeighbors(card, cards);
+        
+        neighbors.forEach(neighbor => {
+          const pushVector = calculatePushDirection(card, neighbor);
+          neighbor.classList.add('neighbor-pushed');
+          
+          requestAnimationFrame(() => {
+            neighbor.style.transform = `translate(${pushVector.x}px, ${pushVector.y}px) scale(0.98)`;
+          });
+        });
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        // Remove hovering class
+        card.classList.remove('card-hovering');
+        
+        // Reset all cards
+        requestAnimationFrame(() => {
+          cards.forEach(c => {
+            c.style.transform = '';
+            c.classList.remove('neighbor-pushed');
+          });
+        });
+      });
+    });
+  }
+
+  // ===== SCROLL ANIMATIONS =====
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationPlayState = 'running';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.project-card').forEach(card => {
+    observer.observe(card);
+  });
+
+  // ===== 3D TILT EFFECT (Desktop only) =====
+  if (window.matchMedia('(min-width: 768px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const cards = document.querySelectorAll('.project-card-inner');
+    
+    cards.forEach(card => {
+      let isHovering = false;
+      
+      card.addEventListener('mouseenter', () => {
+        isHovering = true;
+      });
+      
+      card.addEventListener('mousemove', (e) => {
+        if (!isHovering) return;
+        
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -5;
+        const rotateY = ((x - centerX) / centerX) * 5;
+        
+        requestAnimationFrame(() => {
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
+        });
+      });
+      
+      card.addEventListener('mouseleave', () => {
+        isHovering = false;
+        requestAnimationFrame(() => {
+          card.style.transform = '';
+        });
+      });
+    });
+  }
+
+  // ===== INITIALIZATION =====
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNeighborPush);
+  } else {
+    setupNeighborPush();
+  }
+
+  // Re-initialize on window resize (debounced)
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      // Remove all transforms
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.style.transform = '';
+        card.classList.remove('neighbor-pushed', 'card-hovering');
+      });
+      
+      // Re-setup if needed
+      setupNeighborPush();
+    }, 250);
+  });
+</script>
