@@ -1,0 +1,39 @@
+---
+import { mockTestimonials } from '../../lib/mock-data';
+
+// Use companies from testimonials for trusted by section
+const trustedLogos = mockTestimonials.map(testimonial => ({
+  name: testimonial.company,
+  logo: testimonial.companyLogo,
+}));
+---
+
+<section class="trusted-by-section pt-12 md:pt-16 pb-12 md:pb-16 bg-[var(--color-bg-primary)]">
+  <div class="container-custom">
+    <p class="text-center text-[var(--color-text-muted)] mb-10 text-xs uppercase tracking-[0.2em] font-medium">Trusted by</p>
+    
+    <!-- Infinite Carousel Wrapper -->
+    <div class="overflow-hidden relative">
+      <!-- Carousel Track - Multiple duplicates for seamless circular flow -->
+      <div class="carousel-track flex items-center gap-10 md:gap-16">
+        {/* Repeat logos 4 times to ensure no gaps at any screen size */}
+        {[...Array(4)].map((_, setIndex) => (
+          trustedLogos.map((logo, logoIndex) => (
+            <div 
+              key={`${setIndex}-${logoIndex}`}
+              class="h-12 md:h-16 flex items-center justify-center opacity-60 flex-shrink-0"
+              style="max-width: 150px;"
+            >
+              <img 
+                src={logo.logo}
+                alt={logo.name}
+                class="max-h-full max-w-full w-auto h-auto object-contain"
+                style="aspect-ratio: auto;"
+              />
+            </div>
+          ))
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

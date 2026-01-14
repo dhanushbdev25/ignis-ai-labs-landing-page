@@ -1,0 +1,285 @@
+---
+import { mockLifeCyclePhases } from '../../lib/mock-data';
+import LifeCycleVisualization from '../interactive/LifeCycleVisualization';
+---
+
+<section id="lifecycle" class="lifecycle-evolution-section">
+  <div class="container-custom">
+    <!-- Section Header -->
+    <div class="section-header">
+      <h2 class="section-headline">Streamlined and Effective</h2>
+      <p class="section-supporting-line">
+        Intelligence evolves through deliberate stages
+      </p>
+    </div>
+
+    <!-- Central Visualization Container -->
+    <div class="visualization-container">
+      <LifeCycleVisualization 
+        client:visible
+        phases={mockLifeCyclePhases} 
+      />
+    </div>
+
+    <!-- Soft CTA -->
+    <div class="section-cta">
+      <a href="#projects" class="cta-link">
+        <span class="cta-text">Watch Intelligence Evolve</span>
+        <span class="cta-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lifecycle-evolution-section {
+    position: relative;
+    width: 100%;
+    background-color: var(--color-bg-primary);
+    padding: 4rem 0 6rem;
+  }
+
+  @media (min-width: 768px) {
+    .lifecycle-evolution-section {
+      padding: 6rem 0 8rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .lifecycle-evolution-section {
+      padding: 8rem 0 10rem;
+    }
+  }
+
+  /* Section Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-header {
+      margin-bottom: 3rem;
+    }
+  }
+
+  .section-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+  }
+
+  .section-supporting-line {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Visualization Container */
+  .visualization-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 600px;
+  }
+
+  @media (min-width: 1024px) {
+    .visualization-container {
+      min-height: 800px;
+    }
+  }
+
+  /* Phase Descriptions */
+  .phase-descriptions {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .phase-description {
+    z-index: 10;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+
+  /* Desktop: Better spacing for descriptions */
+  @media (min-width: 1024px) {
+    .phase-description {
+      /* Max-width handled inline in component */
+      padding: 0.75rem;
+    }
+  }
+
+  /* Mobile: Center all descriptions */
+  @media (max-width: 1023px) {
+    .phase-description {
+      max-width: 320px;
+      text-align: center;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .phase-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+    transition: color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    line-height: 1.3;
+  }
+
+  .phase-description.active .phase-title {
+    color: var(--color-accent-purple);
+  }
+
+  .phase-text {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    font-weight: 300;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    color: var(--color-text-secondary);
+    margin: 0;
+    word-spacing: 0.1em;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+  }
+
+  .phase-description.active .phase-text {
+    color: var(--color-text-primary);
+  }
+
+  /* CTA */
+  .section-cta {
+    text-align: center;
+    margin-top: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-cta {
+      margin-top: 5rem;
+    }
+  }
+
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 0.25rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (min-width: 768px) {
+    .cta-link {
+      font-size: 1.125rem;
+    }
+  }
+
+  .cta-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, #9333ea, #6366f1);
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cta-link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .cta-link:hover::after {
+    width: 100%;
+  }
+
+  .cta-arrow {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .cta-link:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Lifecycle SVG Styles */
+  .lifecycle-visualization-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+  }
+
+  @media (min-width: 1024px) {
+    .lifecycle-visualization-container {
+      min-height: 800px;
+    }
+  }
+
+  .lifecycle-svg-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    min-height: 600px;
+  }
+
+  @media (min-width: 1024px) {
+    .lifecycle-svg-wrapper {
+      min-height: 800px;
+    }
+  }
+
+  .lifecycle-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Phase Marker Styles */
+  .phase-marker-group {
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .phase-description,
+    .cta-link,
+    .cta-arrow {
+      transition: none;
+    }
+  }
+</style>

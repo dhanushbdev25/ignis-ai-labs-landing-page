@@ -1,13 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
-import Process from '../components/sections/Process.astro';
+import LifeCycleEvolution from '../components/sections/LifeCycleEvolution.astro';
+import TrustedBy from '../components/sections/TrustedBy.astro';
 import Benefits from '../components/sections/Benefits.astro';
-import Services from '../components/sections/Services.astro';
+import IntelligenceApplied from '../components/sections/IntelligenceApplied.astro';
 import Projects from '../components/sections/Projects.astro';
 
 // React interactive components
-import TestimonialCarousel from '../components/interactive/TestimonialCarousel';
+import TestimonialsHorizontal from '../components/interactive/TestimonialsHorizontal';
 import FAQAccordion from '../components/interactive/FAQAccordion';
 import ConsultationModal from '../components/interactive/ConsultationModal';
 
@@ -17,13 +18,14 @@ import { mockTestimonials, mockFAQs } from '../lib/mock-data';
 
 <Layout>
   <Hero />
-  <Process />
+  <LifeCycleEvolution />
   <Benefits />
-  <Services />
+  <IntelligenceApplied />
+  <TrustedBy />
   <Projects />
   
   <!-- React Islands for interactive components -->
-  <TestimonialCarousel 
+  <TestimonialsHorizontal 
     client:load 
     testimonials={mockTestimonials} 
   />

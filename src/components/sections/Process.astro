@@ -57,13 +57,13 @@ const steps = mockProcessSteps;
               class={`process-step-item animate-on-scroll stagger-${index + 1} ${isLeft ? 'process-step-left' : 'process-step-right'}`}
               data-step={index + 1}
             >
-              <!-- Desktop Layout -->
-              <div class="hidden lg:grid grid-cols-2 gap-12 items-center">
+              <!-- Desktop Layout - 3 Column Grid -->
+              <div class="hidden lg:grid lg:grid-cols-[1fr_auto_1fr] lg:gap-16 lg:items-center">
                 {isLeft ? (
                   <>
-                    <!-- Left Side - Card -->
-                    <div class="text-right">
-                      <div class="process-card glassmorphic-card group">
+                    <!-- Left Column: Card -->
+                    <div class="flex justify-end pr-8">
+                      <div class="process-card glassmorphic-card group max-w-lg">
                         <div class="flex items-start gap-6 flex-row-reverse">
                           <div class="flex-shrink-0">
                             <div class="gradient-number-badge">
@@ -84,8 +84,8 @@ const steps = mockProcessSteps;
                         </div>
                       </div>
                     </div>
-                    <!-- Center - Icon Node -->
-                    <div class="flex justify-start">
+                    <!-- Center Column: Node -->
+                    <div class="flex justify-center w-32">
                       <div class="process-node">
                         <div class="process-icon-wrapper">
                           {step.icon === 'search' && (
@@ -121,11 +121,15 @@ const steps = mockProcessSteps;
                         </div>
                       </div>
                     </div>
+                    <!-- Right Column: Empty spacer -->
+                    <div></div>
                   </>
                 ) : (
                   <>
-                    <!-- Center - Icon Node -->
-                    <div class="flex justify-end">
+                    <!-- Left Column: Empty spacer -->
+                    <div></div>
+                    <!-- Center Column: Node -->
+                    <div class="flex justify-center w-32">
                       <div class="process-node">
                         <div class="process-icon-wrapper">
                           {step.icon === 'search' && (
@@ -161,9 +165,9 @@ const steps = mockProcessSteps;
                         </div>
                       </div>
                     </div>
-                    <!-- Right Side - Card -->
-                    <div class="text-left">
-                      <div class="process-card glassmorphic-card group">
+                    <!-- Right Column: Card -->
+                    <div class="flex justify-start pl-8">
+                      <div class="process-card glassmorphic-card group max-w-lg">
                         <div class="flex items-start gap-6">
                           <div class="flex-shrink-0">
                             <div class="gradient-number-badge">
@@ -218,66 +222,21 @@ const steps = mockProcessSteps;
     </div>
   </div>
 </section>
-
 <script>
-  // Simplified and smooth animations
+  // Static display - show all steps immediately
   function initProcessAnimation() {
-    const pathLine = document.querySelector('.process-path-line');
-    const processSection = document.querySelector('#process');
+    const pathLine = document.querySelector('.process-path-line') as SVGLineElement | null;
     const steps = document.querySelectorAll('.process-step-item');
     
-    // Simple Intersection Observer for step reveals (only once)
-    const observerOptions = {
-      threshold: 0.15,
-      rootMargin: '0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('animate-in')) {
-          entry.target.classList.add('animate-in');
-          // Stop observing once animated
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-    
-    // Observe only the steps
-    steps.forEach(step => observer.observe(step));
-    
-    // Smooth animated progress line with throttling
-    if (pathLine && processSection) {
-      let ticking = false;
-      
-      const animatePath = () => {
-        const sectionTop = processSection.offsetTop;
-        const sectionHeight = processSection.offsetHeight;
-        const scrollPosition = window.scrollY + window.innerHeight / 2;
-        
-        const progress = Math.max(0, Math.min(1, 
-          (scrollPosition - sectionTop) / (sectionHeight * 0.75)
-        ));
-        
-        const pathLength = 1000;
-        const offset = pathLength - (pathLength * progress);
-        
-        pathLine.style.strokeDashoffset = offset.toString();
-        ticking = false;
-      };
+    if (!pathLine) return;
 
-      const requestTick = () => {
-        if (!ticking) {
-          requestAnimationFrame(animatePath);
-          ticking = true;
-        }
-      };
-
-      // Initial animation
-      animatePath();
-      
-      // Throttled scroll animation
-      window.addEventListener('scroll', requestTick, { passive: true });
-    }
+    // Show complete path line
+    pathLine.style.strokeDashoffset = '0';
+    
+    // Show all steps immediately
+    steps.forEach((step) => {
+      (step as HTMLElement).classList.add('animate-in');
+    });
   }
 
   // Initialize on page load
@@ -370,6 +329,12 @@ const steps = mockProcessSteps;
     box-shadow: 0 12px 35px rgba(147, 51, 234, 0.4);
   }
 
+  /* Process Card - Ensure proper spacing */
+  .process-card {
+    position: relative;
+    z-index: 2;
+  }
+
   /* Process Node (Center Circle) */
   .process-node {
     width: 80px;
@@ -416,3 +381,4 @@ const steps = mockProcessSteps;
     }
   }
 </style>
+

@@ -1,108 +1,46 @@
 ---
-import { mockStats, mockTestimonials } from '../../lib/mock-data';
-
-const stats = mockStats;
-
-// Use companies from testimonials for trusted by section
-const trustedLogos = mockTestimonials.map(testimonial => ({
-  name: testimonial.company,
-  logo: testimonial.companyLogo,
-}));
+import TypeMorph from '../interactive/TypeMorph';
 ---
 
-<section class="relative bg-[var(--color-bg-primary)] overflow-hidden">
-  <!-- Subtle gradient background - Dark theme -->
-  <div class="absolute inset-0 bg-gradient-to-b from-purple-900/10 to-transparent pointer-events-none"></div>
+<section class="hero-living-interface relative bg-[var(--color-bg-primary)] overflow-hidden min-h-[90vh] flex items-center">
+  <!-- System Text Background - Very subtle -->
+  <div class="system-text-background absolute inset-0 pointer-events-none z-0">
+    <div class="system-text-item">Evolving models…</div>
+    <div class="system-text-item">Adapting systems…</div>
+    <div class="system-text-item">Learning patterns…</div>
+  </div>
   
-  <div class="container-custom relative">
+  <div class="container-custom relative z-10">
     <!-- Main Hero Content -->
-    <div class="pt-16 md:pt-24 lg:pt-32 pb-12 md:pb-16 text-center">
+    <div class="pt-16 md:pt-24 lg:pt-32 pb-16 md:pb-24 text-center">
       
-      <!-- Animated Headlines - Bold & Dramatic -->
+      <!-- Primary Headline - Static, Bold -->
+      <h1 class="hero-primary-headline text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6 md:mb-8">
+        We Don't Build Software.<br />
+        We Grow Intelligence.
+      </h1>
       
-        <h1 class="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight animate-fade-in-up">
-          <span class="text-gradient italic">Endless</span>
-          <span class="text-[var(--color-text-primary)]"> Software</span>
-        </h1>
-        <h1 class="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-[0.95] tracking-tight animate-fade-in-up delay-100">
-          <span class="text-[var(--color-text-primary)]">solutions </span>
-          <span class="text-gradient italic">for everyone</span>
-        </h1>
+      <!-- Secondary Line - Type Morph Effect -->
+      <div class="hero-secondary-line text-3xl md:text-4xl lg:text-5xl font-light text-[var(--color-text-secondary)] mb-6 md:mb-8 min-h-[1.2em]">
+        <TypeMorph client:load />
+      </div>
       
-      
-      <!-- Subtitle - Refined -->
-      <p class="max-w-2xl mx-auto text-lg md:text-xl text-[var(--color-text-secondary)] pt-10 mb-8 md:mb-10 animate-fade-in-up delay-200 leading-relaxed">
-        Ready for world-class software development services? We build scalable, high-performance solutions that drive real business impact and transform your digital operations.
+      <!-- Micro Descriptor - Subtle -->
+      <p class="hero-micro-descriptor text-sm md:text-base text-[var(--color-text-muted)] opacity-70 mb-10 md:mb-12 font-light">
+        Custom AI. Intelligent Platforms. Real-world Impact.
       </p>
       
-      <!-- CTA Button - Enhanced with micro-interactions -->
-      <div class="animate-fade-in-up delay-300 mb-14 md:mb-16">
-        <button class="btn-primary group consultation-trigger relative">
-          <span class="mr-3 relative z-10">Get started</span>
-          <span class="btn-arrow">
-            <svg class="w-5 h-5 text-[#9333ea]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </span>
+      <!-- CTA Buttons -->
+      <div class="hero-cta-container flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
+        <!-- Primary CTA - Glassmorphism -->
+        <button class="btn-hero-primary consultation-trigger">
+          <span class="btn-hero-text">Explore the Intelligence</span>
         </button>
-      </div>
-    </div>
-    
-    <!-- Stats Section - Enhanced typography -->
-    <div class="py-12 md:py-16">
-      <div class="grid grid-cols-3 gap-6 md:gap-12 max-w-4xl mx-auto">
-        <!-- Happy Customers -->
-        <div class="text-center animate-on-scroll group">
-          <div class="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-2 hover-scale">
-            {stats.happyCustomers}
-          </div>
-          <p class="text-sm md:text-base text-[var(--color-text-secondary)] font-medium">Happy customers</p>
-        </div>
         
-        <!-- Projects Completed -->
-        <div class="text-center animate-on-scroll group">
-          <div class="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-2 hover-scale">
-            {stats.projectsCompleted}
-          </div>
-          <p class="text-sm md:text-base text-[var(--color-text-secondary)] font-medium">Projects completed</p>
-        </div>
-        
-        <!-- Customer Satisfaction -->
-        <div class="text-center animate-on-scroll group">
-          <div class="text-4xl md:text-6xl lg:text-7xl font-bold text-gradient mb-2 hover-scale">
-            {stats.satisfaction}
-          </div>
-          <p class="text-sm md:text-base text-[var(--color-text-secondary)] font-medium">Customer satisfaction</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Trusted By Section - Infinite Carousel -->
-    <div class="pt-12 md:pt-16 pb-6 md:pb-8 border-t border-[var(--color-border)]">
-      <p class="text-center text-[var(--color-text-muted)] mb-10 text-xs uppercase tracking-[0.2em] font-medium">Trusted by</p>
-      
-      <!-- Infinite Carousel Wrapper -->
-      <div class="overflow-hidden relative">
-        <!-- Carousel Track - Multiple duplicates for seamless circular flow -->
-        <div class="carousel-track flex items-center gap-10 md:gap-16">
-          {/* Repeat logos 4 times to ensure no gaps at any screen size */}
-          {[...Array(4)].map((_, setIndex) => (
-            trustedLogos.map((logo, logoIndex) => (
-              <div 
-                key={`${setIndex}-${logoIndex}`}
-                class="h-12 md:h-16 flex items-center justify-center opacity-30 hover:opacity-80 transition-all duration-500 grayscale hover:grayscale-0 flex-shrink-0"
-                style="max-width: 150px;"
-              >
-                <img 
-                  src={logo.logo}
-                  alt={logo.name}
-                  class="max-h-full max-w-full w-auto h-auto object-contain filter blur-[0.5px] hover:blur-0 transition-all duration-500"
-                  style="aspect-ratio: auto;"
-                />
-              </div>
-            ))
-          ))}
-        </div>
+        <!-- Secondary CTA - Desktop Only -->
+        <a href="#projects" class="btn-hero-secondary hidden md:inline-flex">
+          See Our Work →
+        </a>
       </div>
     </div>
   </div>

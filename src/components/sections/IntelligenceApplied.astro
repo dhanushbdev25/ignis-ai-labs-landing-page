@@ -1,0 +1,209 @@
+---
+// Intelligence, Applied section
+// Product-level capabilities in a clean, grid-based layout
+
+const offerings = [
+  {
+    title: 'AI Platforms',
+    description: 'Systems that learn, adapt, and operate at scale — built to evolve with your business.',
+  },
+  {
+    title: 'Intelligent Products',
+    description: 'User-facing software infused with decision-making intelligence, not just features.',
+  },
+  {
+    title: 'Data & Intelligence Engineering',
+    description: 'Pipelines, models, and infrastructure that turn data into real leverage.',
+  },
+  {
+    title: 'Enterprise Systems',
+    description: 'Reliable, scalable foundations engineered for long-term performance and growth.',
+  },
+];
+---
+
+<section id="intelligence-applied" class="pt-16 md:pt-20 lg:pt-24 pb-16 md:pb-20 lg:pb-24 bg-[var(--color-bg-primary)]">
+  <div class="container-custom">
+    <!-- Section Header -->
+    <div class="text-center mb-12 md:mb-16 lg:mb-20 animate-on-scroll">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-[var(--color-text-primary)] tracking-tight">
+        Intelligence, Applied.
+      </h2>
+      <p class="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto leading-relaxed">
+        We design and engineer intelligent systems that solve real problems — and hold up in production.
+      </p>
+    </div>
+    
+    <!-- Offerings Grid -->
+    <div class="intelligence-grid">
+      {offerings.map((offering, index) => (
+        <div 
+          class="intelligence-item animate-on-scroll group"
+          style={`transition-delay: ${index * 100}ms;`}
+        >
+          <!-- Title -->
+          <h3 class="intelligence-title text-2xl md:text-3xl font-bold mb-3 md:mb-4 text-[var(--color-text-primary)] tracking-tight">
+            {offering.title}
+          </h3>
+          
+          <!-- Description -->
+          <p class="intelligence-description text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed">
+            {offering.description}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ===== INTELLIGENCE GRID ===== */
+  .intelligence-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Mobile: Single column, stacked */
+  @media (min-width: 768px) {
+    .intelligence-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+    }
+  }
+
+  /* ===== GRID ITEMS ===== */
+  .intelligence-item {
+    padding: 2rem 1.5rem;
+    position: relative;
+    transition: all 0.3s var(--ease-smooth);
+  }
+
+  @media (min-width: 768px) {
+    .intelligence-item {
+      padding: 3rem 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .intelligence-item {
+      padding: 4rem 3rem;
+    }
+  }
+
+  /* Subtle separators - horizontal lines on mobile */
+  .intelligence-item:not(:last-child) {
+    border-bottom: 1px solid rgba(42, 42, 42, 0.5);
+  }
+
+  /* Vertical and horizontal separators on tablet/desktop */
+  @media (min-width: 768px) {
+    .intelligence-item:nth-child(1),
+    .intelligence-item:nth-child(2) {
+      border-bottom: 1px solid rgba(42, 42, 42, 0.5);
+    }
+
+    .intelligence-item:nth-child(odd) {
+      border-right: 1px solid rgba(42, 42, 42, 0.5);
+    }
+  }
+
+  /* Remove border on last items */
+  @media (min-width: 768px) {
+    .intelligence-item:nth-child(3),
+    .intelligence-item:nth-child(4) {
+      border-bottom: none;
+    }
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  .intelligence-title {
+    transition: color 0.3s var(--ease-smooth);
+  }
+
+  .intelligence-description {
+    transition: transform 0.3s var(--ease-smooth);
+  }
+
+  /* ===== HOVER EFFECTS ===== */
+  .intelligence-item:hover .intelligence-title {
+    color: var(--color-text-primary);
+    opacity: 1;
+    filter: brightness(1.1);
+  }
+
+  .intelligence-item:hover .intelligence-description {
+    transform: translateY(-2px);
+  }
+
+  /* Subtle brightness increase on hover */
+  .intelligence-item:hover {
+    background: rgba(26, 26, 26, 0.3);
+  }
+
+  /* ===== SCROLL ANIMATIONS ===== */
+  .intelligence-item.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s var(--ease-out-expo),
+                transform 0.8s var(--ease-out-expo);
+  }
+
+  .intelligence-item.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== ACCESSIBILITY ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .intelligence-item,
+    .intelligence-title,
+    .intelligence-description {
+      transition: none;
+      animation: none;
+    }
+
+    .intelligence-item.animate-on-scroll {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ===== RESPONSIVE ADJUSTMENTS ===== */
+  @media (max-width: 767px) {
+    .intelligence-item {
+      padding: 2rem 1rem;
+    }
+
+    .intelligence-title {
+      font-size: 1.5rem;
+    }
+
+    .intelligence-description {
+      font-size: 0.9375rem;
+    }
+  }
+</style>
+
+<script>
+  // Scroll-triggered animations
+  if (typeof window !== 'undefined') {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.intelligence-item.animate-on-scroll').forEach(item => {
+      observer.observe(item);
+    });
+  }
+</script>

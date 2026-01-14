@@ -5,844 +5,673 @@ const projects = mockProjects;
 ---
 
 <section id="projects" class="section-padding bg-gradient-to-b from-[var(--color-bg-primary)] to-purple-900/10 relative overflow-hidden">
-  <!-- Background particles -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="particle particle-1"></div>
-    <div class="particle particle-2"></div>
-    <div class="particle particle-3"></div>
-    <div class="particle particle-4"></div>
-    <div class="particle particle-5"></div>
-  </div>
-
   <div class="container-custom relative z-10">
     <!-- Section Header -->
-    <div class="text-center mb-12 md:mb-16 animate-on-scroll">
+    <div class="text-center mb-12 md:mb-20 animate-on-scroll">
       <span class="section-label mb-4 inline-block">Projects</span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[var(--color-text-primary)]">
         Recent Projects
       </h2>
       <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-        Transforming businesses with cutting-edge enterprise solutions
+        Proof of intelligence in the real world
       </p>
     </div>
     
-    <!-- Projects Bento Grid -->
-    <div class="projects-masonry">
+    <!-- Case Studies Vertical Stack -->
+    <div class="case-studies-stack">
       {projects.map((project, index) => (
-        <div 
-          class={`project-card grid-${project.gridSize}`}
+        <article 
+          class={`case-study-item ${index % 2 === 0 ? 'align-left' : 'align-right'}`}
           data-index={index}
-          data-grid-size={project.gridSize}
-          style={`--delay: ${index * 100}ms;`}
+          data-visual-type={project.visualType}
         >
-          <!-- Card inner wrapper for 3D effect -->
-          <div class="project-card-inner">
-            <!-- Glassmorphism background -->
-            <div class="project-glass-bg"></div>
-            
-            <!-- Gradient overlay background -->
-            <div class={`project-gradient bg-gradient-to-br ${project.gradient} opacity-10 group-hover:opacity-20 transition-opacity duration-500`}></div>
-            
-            <!-- Tech Stack Badges (Top) -->
-            <div class="tech-stack">
-              {project.techStack.map((tech, techIndex) => (
-                <span 
-                  class="tech-badge"
-                  style={`--tech-delay: ${techIndex * 50}ms;`}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-
-            <!-- Project Image -->
-            <div class="project-image-wrapper">
-              <img 
-                src={project.image}
-                alt={project.title}
-                class="project-image"
-                loading="lazy"
-              />
-              <div class="image-overlay"></div>
-            </div>
-            
-            <!-- Content Section -->
-            <div class="project-content">
-              <!-- Category Badge -->
-              <span class="category-badge">
-                {project.category}
-              </span>
-              
-              <!-- Title -->
-              <h3 class="project-title">
-                {project.title}
-              </h3>
-              
-              <!-- Description -->
-              <p class="project-description">
-                {project.description}
-              </p>
-
-              <!-- Metrics Badge -->
-              <div class="metrics-badge">
-                <svg class="metrics-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  {project.metrics.icon === 'zap' && (
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                  )}
-                  {project.metrics.icon === 'trending-down' && (
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/>
-                  )}
-                  {project.metrics.icon === 'file-text' && (
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                  )}
-                  {project.metrics.icon === 'package' && (
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                  )}
-                  {project.metrics.icon === 'globe' && (
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  )}
-                  {project.metrics.icon === 'credit-card' && (
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
-                  )}
-                </svg>
-                <span class="metrics-text">{project.metrics.label}</span>
+          <!-- Visual Treatment (Motion-based) -->
+          <div class="case-visual">
+            {project.visualType === 'warehouse-grid' && (
+              <div class="visual-warehouse-grid">
+                <div class="grid-row row-1">
+                  <div class="grid-item item-1"></div>
+                  <div class="grid-item item-2"></div>
+                  <div class="grid-item item-3"></div>
+                  <div class="grid-item item-4"></div>
+                </div>
+                <div class="grid-row row-2">
+                  <div class="grid-item item-5"></div>
+                  <div class="grid-item item-6"></div>
+                  <div class="grid-item item-7"></div>
+                  <div class="grid-item item-8"></div>
+                </div>
+                <div class="grid-row row-3">
+                  <div class="grid-item item-9"></div>
+                  <div class="grid-item item-10"></div>
+                  <div class="grid-item item-11"></div>
+                  <div class="grid-item item-12"></div>
+                </div>
               </div>
-              
-              <!-- View Project Link -->
-              <a 
-                href="#" 
-                class="project-link"
-              >
-                View project
-                <svg class="project-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                </svg>
-              </a>
-            </div>
-
-            <!-- Glow effect on hover -->
-            <div class="project-glow"></div>
+            )}
+            {project.visualType === 'logistics-flow' && (
+              <div class="visual-logistics-flow">
+                <div class="flow-stage stage-1">
+                  <div class="flow-document doc-1"></div>
+                </div>
+                <div class="flow-arrow arrow-1"></div>
+                <div class="flow-stage stage-2">
+                  <div class="flow-document doc-2"></div>
+                </div>
+                <div class="flow-arrow arrow-2"></div>
+                <div class="flow-stage stage-3">
+                  <div class="flow-document doc-3"></div>
+                </div>
+                <div class="flow-arrow arrow-3"></div>
+                <div class="flow-stage stage-4">
+                  <div class="flow-document doc-4"></div>
+                </div>
+              </div>
+            )}
+            {project.visualType === 'document-assembly' && (
+              <div class="visual-document-assembly">
+                <div class="template-layer layer-base"></div>
+                <div class="template-layer layer-content"></div>
+                <div class="template-layer layer-approval"></div>
+                <div class="template-layer layer-final"></div>
+              </div>
+            )}
           </div>
-        </div>
+
+          <!-- Content Section -->
+          <div class="case-content">
+            <!-- Meta (small, muted) -->
+            <div class="case-meta">{project.meta}</div>
+            
+            <!-- Title (Outcome-Driven) -->
+            <h3 class="case-title">{project.title}</h3>
+            
+            <!-- Impact Statement -->
+            <p class="case-impact">{project.impact}</p>
+            
+            <!-- CTA (Minimal, hover-only) -->
+            <a href="#" class="case-cta">
+              View Case →
+            </a>
+          </div>
+        </article>
       ))}
     </div>
   </div>
 </section>
 
 <style>
-  /* ===== PARTICLE EFFECTS ===== */
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0) 70%);
-    pointer-events: none;
-  }
-
-  .particle-1 {
-    width: 400px;
-    height: 400px;
-    top: -200px;
-    left: -100px;
-    animation: float-particle-1 20s ease-in-out infinite;
-  }
-
-  .particle-2 {
-    width: 300px;
-    height: 300px;
-    top: 30%;
-    right: -150px;
-    animation: float-particle-2 25s ease-in-out infinite;
-  }
-
-  .particle-3 {
-    width: 250px;
-    height: 250px;
-    bottom: 10%;
-    left: 10%;
-    animation: float-particle-3 18s ease-in-out infinite;
-  }
-
-  .particle-4 {
-    width: 350px;
-    height: 350px;
-    bottom: -100px;
-    right: 5%;
-    animation: float-particle-1 22s ease-in-out infinite reverse;
-  }
-
-  .particle-5 {
-    width: 200px;
-    height: 200px;
-    top: 50%;
-    left: 50%;
-    animation: float-particle-2 30s ease-in-out infinite;
-  }
-
-  @keyframes float-particle-1 {
-    0%, 100% { 
-      transform: translate(0, 0) scale(1);
-      opacity: 0.3;
-    }
-    33% { 
-      transform: translate(30px, -40px) scale(1.1);
-      opacity: 0.2;
-    }
-    66% { 
-      transform: translate(-20px, 30px) scale(0.9);
-      opacity: 0.4;
-    }
-  }
-
-  @keyframes float-particle-2 {
-    0%, 100% { 
-      transform: translate(0, 0) rotate(0deg);
-      opacity: 0.2;
-    }
-    50% { 
-      transform: translate(-50px, 40px) rotate(180deg);
-      opacity: 0.35;
-    }
-  }
-
-  @keyframes float-particle-3 {
-    0%, 100% { 
-      transform: translate(0, 0);
-      opacity: 0.25;
-    }
-    50% { 
-      transform: translate(40px, -30px);
-      opacity: 0.4;
-    }
-  }
-
-  /* ===== BENTO GRID ===== */
-  .projects-masonry {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin: 0 auto;
-    width: 100%;
-    position: relative;
-  }
-
-  @media (min-width: 768px) {
-    .projects-masonry {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2rem;
-      grid-auto-rows: 380px;
-      grid-auto-flow: dense;
-    }
+  /* ===== CASE STUDIES STACK ===== */
+  .case-studies-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 4rem;
   }
 
   @media (min-width: 1024px) {
-    .projects-masonry {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-      grid-auto-rows: 400px;
-      grid-auto-flow: dense;
+    .case-studies-stack {
+      gap: 1.5rem;
     }
   }
 
-  /* Grid size variants for mobile - all regular */
-  .grid-regular,
-  .grid-wide,
-  .grid-tall,
-  .grid-large {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
-  /* Grid size variants for tablet and desktop */
-  @media (min-width: 768px) {
-    .grid-regular {
-      grid-column: span 1;
-      grid-row: span 1;
-    }
-
-    .grid-wide {
-      grid-column: span 2;
-      grid-row: span 1;
-    }
-
-    .grid-tall {
-      grid-column: span 1;
-      grid-row: span 2;
-    }
-
-    .grid-large {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-  }
-
-  /* ===== PROJECT CARD ===== */
-  .project-card {
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeInUp 0.8s var(--ease-smooth) forwards;
-    animation-delay: var(--delay);
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-                opacity 0.3s ease,
-                z-index 0s;
-    will-change: transform;
-    position: relative;
-    z-index: 1;
-    min-height: 100%;
+  /* ===== CASE STUDY ITEM ===== */
+  .case-study-item {
+    min-height: auto;
     display: flex;
     flex-direction: column;
-  }
-
-  /* Mobile: auto height */
-  @media (max-width: 767px) {
-    .project-card {
-      height: auto;
-    }
-  }
-
-  .project-card.neighbor-pushed {
-    opacity: 0.7;
-  }
-
-  .project-card.card-hovering {
-    z-index: 100;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .project-card-inner {
     position: relative;
-    background: rgba(26, 26, 26, 0.8);
-    border-radius: 1.5rem;
+    opacity: 1;
+    filter: blur(0px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, filter;
+  }
+
+  .case-study-item.is-active {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  .case-study-item.is-inactive {
+    opacity: 0.4;
+    filter: blur(2px);
+  }
+
+  @media (min-width: 1024px) {
+    .case-study-item {
+      min-height: auto;
+      flex-direction: row;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .case-study-item.align-left {
+      flex-direction: row;
+    }
+
+    .case-study-item.align-right {
+      flex-direction: row-reverse;
+    }
+  }
+
+  /* ===== VISUAL TREATMENT ===== */
+  .case-visual {
+    width: 100%;
+    height: 30vh;
+    min-height: 200px;
+    position: relative;
     overflow: hidden;
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(31, 31, 31, 0.6) 100%);
+    border: 1px solid rgba(168, 85, 247, 0.1);
+  }
+
+  @media (min-width: 1024px) {
+    .case-visual {
+      width: 50%;
+      height: 45vh;
+      min-height: 350px;
+    }
+  }
+
+  /* ===== WAREHOUSE GRID VISUAL ===== */
+  .visual-warehouse-grid {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+  }
+
+  .grid-row {
+    display: flex;
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .grid-item {
+    flex: 1;
+    aspect-ratio: 1;
+    background: rgba(168, 85, 247, 0.1);
     border: 1px solid rgba(168, 85, 247, 0.2);
-    transition: all 0.5s var(--ease-smooth);
+    border-radius: 0.375rem;
+    animation: itemUpdate 4s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.3) 0%,
+      rgba(168, 85, 247, 0.1) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .grid-item:nth-child(odd)::before {
+    animation: itemPulse 3s ease-in-out infinite;
+  }
+
+  .item-1 { animation-delay: 0s; }
+  .item-2 { animation-delay: 0.5s; }
+  .item-3 { animation-delay: 1s; }
+  .item-4 { animation-delay: 1.5s; }
+  .item-5 { animation-delay: 0.3s; }
+  .item-6 { animation-delay: 0.8s; }
+  .item-7 { animation-delay: 1.3s; }
+  .item-8 { animation-delay: 1.8s; }
+  .item-9 { animation-delay: 0.6s; }
+  .item-10 { animation-delay: 1.1s; }
+  .item-11 { animation-delay: 1.6s; }
+  .item-12 { animation-delay: 2.1s; }
+
+  @keyframes itemUpdate {
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes itemPulse {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* ===== LOGISTICS FLOW VISUAL ===== */
+  .visual-logistics-flow {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .flow-stage {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .flow-document {
     width: 100%;
     height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(168, 85, 247, 0.2) 0%,
+      rgba(168, 85, 247, 0.1) 100%
+    );
+    border: 1.5px solid rgba(168, 85, 247, 0.3);
+    border-radius: 0.25rem;
+    animation: documentProcess 3s ease-in-out infinite;
+    position: relative;
+  }
+
+  .flow-document::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(168, 85, 247, 0.4) 50%,
+      transparent 100%
+    );
+    animation: documentShine 2s ease-in-out infinite;
+  }
+
+  .doc-1 { animation-delay: 0s; }
+  .doc-2 { animation-delay: 0.75s; }
+  .doc-3 { animation-delay: 1.5s; }
+  .doc-4 { animation-delay: 2.25s; }
+
+  .flow-arrow {
+    width: 20px;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      rgba(168, 85, 247, 0.3) 0%,
+      rgba(168, 85, 247, 0.5) 50%,
+      rgba(168, 85, 247, 0.3) 100%
+    );
+    position: relative;
+    animation: arrowFlow 2s ease-in-out infinite;
+  }
+
+  .flow-arrow::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: -3px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid rgba(168, 85, 247, 0.5);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+
+  .arrow-1 { animation-delay: 0.3s; }
+  .arrow-2 { animation-delay: 1.05s; }
+  .arrow-3 { animation-delay: 1.8s; }
+
+  @keyframes documentProcess {
+    0%, 100% {
+      opacity: 0.5;
+      transform: scale(1) translateY(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1) translateY(-3px);
+    }
+  }
+
+  @keyframes documentShine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  @keyframes arrowFlow {
+    0%, 100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+
+  /* ===== DOCUMENT ASSEMBLY VISUAL ===== */
+  .visual-document-assembly {
+    position: absolute;
+    inset: 0;
     display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    transform-style: preserve-3d;
+    align-items: center;
+    justify-content: center;
     perspective: 1000px;
   }
 
-  .project-card:hover .project-card-inner {
-    transform: translateY(-8px) scale(1.02);
-    border-color: rgba(168, 85, 247, 0.3);
-    box-shadow: 
-      0 20px 60px rgba(168, 85, 247, 0.15),
-      0 0 0 1px rgba(168, 85, 247, 0.1);
-  }
-
-  /* Enhanced hover for card being hovered in neighbor-push effect */
-  .project-card.card-hovering .project-card-inner {
-    transform: translateY(-12px) scale(1.02);
-    border-color: rgba(168, 85, 247, 0.4);
-    box-shadow: 
-      0 30px 80px rgba(168, 85, 247, 0.25),
-      0 0 0 1px rgba(168, 85, 247, 0.2);
-    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  /* Pushed neighbors get subtle scale down and dimming */
-  .project-card.neighbor-pushed .project-card-inner {
-    filter: brightness(0.95);
-  }
-
-  /* ===== GLASSMORPHISM BACKGROUND - Dark theme ===== */
-  .project-glass-bg {
+  .template-layer {
     position: absolute;
-    inset: 0;
-    backdrop-filter: blur(20px);
-    background: rgba(26, 26, 26, 0.8);
-    z-index: -1;
-  }
-
-  .project-gradient {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .project-card.card-hovering .project-gradient {
-    opacity: 0.25 !important;
-  }
-
-  /* ===== TECH STACK BADGES ===== */
-  .tech-stack {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    right: 1rem;
-    z-index: 20;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.5s var(--ease-smooth) 0.1s;
-  }
-
-  .project-card:hover .tech-stack {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tech-badge {
-    display: inline-block;
-    padding: 0.375rem 0.75rem;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-accent-purple);
-    opacity: 0;
-    transform: scale(0.8);
-    animation: popIn 0.4s var(--ease-bounce) forwards;
-    animation-delay: calc(var(--tech-delay) + 200ms);
-  }
-
-  .project-card:hover .tech-badge {
-    animation-play-state: running;
-  }
-
-  @keyframes popIn {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* ===== PROJECT IMAGE ===== */
-  .project-image-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4/3;
-    overflow: hidden;
-    background: linear-gradient(135deg, #1a0a2e 0%, #16213e 100%);
-  }
-
-  /* Tall cards: Vertical emphasis */
-  @media (min-width: 768px) {
-    .grid-tall .project-image-wrapper {
-      aspect-ratio: 3/4;
-    }
-  }
-
-  /* Wide cards: Horizontal aspect */
-  @media (min-width: 768px) {
-    .grid-wide .project-image-wrapper {
-      aspect-ratio: 16/9;
-    }
-  }
-
-  /* Large cards: Cinematic aspect */
-  @media (min-width: 768px) {
-    .grid-large .project-image-wrapper {
-      aspect-ratio: 16/9;
-    }
-
-    .grid-large .project-title {
-      font-size: 1.75rem;
-    }
-
-    .grid-large .project-description {
-      font-size: 1rem;
-    }
-  }
-
-  .project-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.7s var(--ease-smooth);
-  }
-
-  .project-card:hover .project-image {
-    transform: scale(1.1);
-  }
-
-  .image-overlay {
-    position: absolute;
-    inset: 0;
+    width: 60%;
+    max-width: 200px;
+    height: 80px;
     background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.1) 100%
+      135deg,
+      rgba(168, 85, 247, 0.15) 0%,
+      rgba(168, 85, 247, 0.25) 100%
     );
-    opacity: 0;
-    transition: opacity 0.5s var(--ease-smooth);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 0.375rem;
+    animation: layerAssemble 4s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.1);
   }
 
-  .project-card:hover .image-overlay {
-    opacity: 1;
+  .layer-base {
+    z-index: 1;
+    animation-delay: 0s;
   }
 
-  /* ===== PROJECT CONTENT ===== */
-  .project-content {
-    padding: 1.5rem;
-    position: relative;
-    z-index: 10;
+  .layer-content {
+    z-index: 2;
+    transform: translateY(-10px) rotate(-1deg);
+    animation-delay: 0.5s;
+  }
+
+  .layer-approval {
+    z-index: 3;
+    transform: translateY(-20px) rotate(1deg);
+    animation-delay: 1s;
+  }
+
+  .layer-final {
+    z-index: 4;
+    transform: translateY(-30px) rotate(-0.5deg);
+    animation-delay: 1.5s;
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2);
+  }
+
+  @keyframes layerAssemble {
+    0%, 100% {
+      opacity: 0.6;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* ===== CONTENT SECTION ===== */
+  .case-content {
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    flex: 1;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
 
-  .category-badge {
-    display: inline-block;
-    width: fit-content;
-    padding: 0.25rem 0.75rem;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 9999px;
+  @media (min-width: 1024px) {
+    .case-content {
+      width: 50%;
+      margin-top: 0;
+    }
+
+    .case-content.align-left {
+      text-align: left;
+    }
+
+    .case-content.align-right {
+      text-align: right;
+    }
+  }
+
+  /* Meta (small, muted) */
+  .case-meta {
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--color-accent-purple-dark);
+    color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
   }
 
-  .project-title {
-    font-size: 1.5rem;
+  /* Title (Outcome-Driven) */
+  .case-title {
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
     color: var(--color-text-primary);
-    line-height: 1.3;
     margin: 0;
-    transition: color 0.3s ease;
   }
 
-  .project-card:hover .project-title {
-    color: var(--color-accent-purple-dark);
-  }
-
-  .project-description {
-    font-size: 0.9375rem;
+  /* Impact Statement */
+  .case-impact {
+    font-size: 1.125rem;
     line-height: 1.6;
     color: var(--color-text-secondary);
     margin: 0;
-    flex: 1;
+    max-width: 600px;
   }
 
-  /* ===== METRICS BADGE ===== */
-  .metrics-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 0.75rem;
-    margin-top: 0.5rem;
-    transform: translateY(0);
-    transition: all 0.3s var(--ease-smooth);
+  @media (min-width: 1024px) {
+    .case-content.align-right .case-impact {
+      margin-left: auto;
+    }
   }
 
-  .project-card:hover .metrics-badge {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
-    transform: translateY(-2px);
-  }
-
-  .metrics-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--color-accent-purple);
-    flex-shrink: 0;
-  }
-
-  .metrics-text {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-accent-purple-dark);
-  }
-
-  /* ===== PROJECT LINK ===== */
-  .project-link {
+  /* CTA (Minimal, hover-only) */
+  .case-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--color-accent-purple-dark);
     font-size: 0.9375rem;
     font-weight: 600;
-    text-decoration: none;
-    margin-top: 0.5rem;
-    transition: all 0.3s var(--ease-smooth);
-    width: fit-content;
-  }
-
-  .project-link:hover {
-    gap: 0.75rem;
     color: var(--color-accent-purple);
-  }
-
-  .project-arrow {
-    width: 1.25rem;
-    height: 1.25rem;
-    transition: transform 0.3s var(--ease-smooth);
-  }
-
-  .project-link:hover .project-arrow {
-    transform: translateX(4px);
-  }
-
-  /* ===== GLOW EFFECT ===== */
-  .project-glow {
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(
-      135deg,
-      rgba(168, 85, 247, 0.5) 0%,
-      rgba(99, 102, 241, 0.5) 100%
-    );
-    border-radius: 1.5rem;
+    text-decoration: none;
     opacity: 0;
-    filter: blur(20px);
-    z-index: -1;
-    transition: opacity 0.5s var(--ease-smooth);
+    transform: translateY(10px);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    width: fit-content;
+    margin-top: 0.5rem;
   }
 
-  .project-card:hover .project-glow {
-    opacity: 0.3;
+  .case-study-item:hover .case-cta,
+  .case-study-item:focus-within .case-cta {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* ===== ACCESSIBILITY & PERFORMANCE ===== */
+  .case-cta:hover {
+    color: var(--color-accent-purple-dark);
+  }
+
+  @media (min-width: 1024px) {
+    .case-content.align-right .case-cta {
+      margin-left: auto;
+    }
+  }
+
+  /* ===== SCROLL ANIMATIONS ===== */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(48px) scale(0.98);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
-    .project-card,
-    .project-card-inner,
-    .project-image,
-    .tech-badge,
-    .tech-stack,
-    .particle {
+    .case-study-item,
+    .grid-item,
+    .flow-document,
+    .flow-arrow,
+    .template-layer,
+    .case-cta {
       animation: none !important;
       transition: none !important;
     }
 
-    .project-card {
+    .case-study-item {
       opacity: 1;
-      transform: none;
-    }
-  }
-
-  /* ===== MOBILE OPTIMIZATIONS ===== */
-  @media (max-width: 767px) {
-    .project-card-inner {
-      border-radius: 1rem;
+      filter: blur(0px);
     }
 
-    .project-content {
-      padding: 1.25rem;
-    }
-
-    .project-title {
-      font-size: 1.25rem;
-    }
-
-    .tech-stack {
-      position: relative;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 1rem 1rem 0;
+    .case-cta {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    .tech-badge {
-      opacity: 1;
-      transform: scale(1);
-      animation: none;
     }
   }
 </style>
 
 <script>
-  // ===== UTILITIES =====
-  function getCardCenter(card) {
-    const rect = card.getBoundingClientRect();
-    return {
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2
-    };
-  }
-
-  function getDistance(x1, y1, x2, y2) {
-    return Math.hypot(x2 - x1, y2 - y1);
-  }
-
-  function findGridNeighbors(card, allCards) {
-    const cardRect = card.getBoundingClientRect();
-    const cardWidth = cardRect.width;
-    const detectionRadius = cardWidth + 100; // Larger detection for varied sizes
-    
-    return Array.from(allCards).filter(other => {
-      if (other === card) return false;
-      
-      const otherRect = other.getBoundingClientRect();
-      const distance = Math.hypot(
-        (cardRect.left + cardRect.width/2) - (otherRect.left + otherRect.width/2),
-        (cardRect.top + cardRect.height/2) - (otherRect.top + otherRect.height/2)
-      );
-      
-      return distance < detectionRadius;
-    });
-  }
-
-  function calculatePushDirection(source, target) {
-    const sourceRect = source.getBoundingClientRect();
-    const targetRect = target.getBoundingClientRect();
-    
-    // Calculate center points
-    const sourceCenterX = sourceRect.left + sourceRect.width / 2;
-    const sourceCenterY = sourceRect.top + sourceRect.height / 2;
-    const targetCenterX = targetRect.left + targetRect.width / 2;
-    const targetCenterY = targetRect.top + targetRect.height / 2;
-    
-    // Calculate push direction
-    const angle = Math.atan2(
-      targetCenterY - sourceCenterY,
-      targetCenterX - sourceCenterX
-    );
-    
-    const pushAmount = 15; // pixels to push
-    
-    return {
-      x: Math.cos(angle) * pushAmount,
-      y: Math.sin(angle) * pushAmount
-    };
-  }
-
-  // ===== NEIGHBOR PUSHING EFFECT =====
-  function setupNeighborPush() {
-    const cards = document.querySelectorAll('.project-card');
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  // ===== SCROLL REVEAL ANIMATIONS =====
+  function setupScrollReveals() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const header = document.querySelector('.animate-on-scroll');
+    if (header) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      );
+      observer.observe(header);
+    }
+  }
+
+  // ===== ACTIVE PROJECT DETECTION =====
+  function setupActiveProjectDetection() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const caseStudies = document.querySelectorAll('.case-study-item');
     
-    // Disable on mobile/touch devices or if reduced motion is preferred
-    if (isTouch || prefersReducedMotion || window.innerWidth < 768) {
+    if (prefersReducedMotion) {
+      // Show all projects clearly if reduced motion
+      caseStudies.forEach(item => {
+        item.classList.add('is-active');
+        item.classList.remove('is-inactive');
+      });
       return;
     }
-    
-    cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        // Add hovering class
-        card.classList.add('card-hovering');
-        
-        // Scale up hovered card
-        requestAnimationFrame(() => {
-          card.style.transform = 'scale(1.05)';
-        });
-        
-        // Find and push neighbors
-        const neighbors = findGridNeighbors(card, cards);
-        
-        neighbors.forEach(neighbor => {
-          const pushVector = calculatePushDirection(card, neighbor);
-          neighbor.classList.add('neighbor-pushed');
-          
-          requestAnimationFrame(() => {
-            neighbor.style.transform = `translate(${pushVector.x}px, ${pushVector.y}px) scale(0.98)`;
-          });
-        });
-      });
+
+    function updateActiveProject() {
+      const viewportHeight = window.innerHeight;
+      const viewportCenter = viewportHeight / 2;
       
-      card.addEventListener('mouseleave', () => {
-        // Remove hovering class
-        card.classList.remove('card-hovering');
+      let maxVisibility = 0;
+      let mostVisible = null;
+
+      caseStudies.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        const itemTop = rect.top;
+        const itemBottom = rect.bottom;
+        const itemHeight = rect.height;
+        const itemCenter = itemTop + itemHeight / 2;
         
-        // Reset all cards
-        requestAnimationFrame(() => {
-          cards.forEach(c => {
-            c.style.transform = '';
-            c.classList.remove('neighbor-pushed');
-          });
-        });
+        // Calculate visibility based on how much is in viewport
+        const visibleTop = Math.max(0, viewportHeight - itemTop);
+        const visibleBottom = Math.max(0, itemBottom);
+        const visibleHeight = Math.min(visibleTop, visibleBottom, itemHeight, viewportHeight);
+        const visibility = visibleHeight / Math.min(itemHeight, viewportHeight);
+        
+        // Bonus for being near viewport center
+        const distanceFromCenter = Math.abs(itemCenter - viewportCenter);
+        const centerBonus = Math.max(0, 1 - (distanceFromCenter / viewportHeight));
+        const adjustedVisibility = visibility * 0.7 + centerBonus * 0.3;
+
+        if (adjustedVisibility > maxVisibility && itemTop < viewportHeight && itemBottom > 0) {
+          maxVisibility = adjustedVisibility;
+          mostVisible = item;
+        }
       });
-    });
-  }
 
-  // ===== SCROLL ANIMATIONS =====
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-  };
+      // Update active state
+      caseStudies.forEach(item => {
+        if (item === mostVisible && maxVisibility > 0.1) {
+          item.classList.add('is-active');
+          item.classList.remove('is-inactive');
+        } else {
+          item.classList.remove('is-active');
+          item.classList.add('is-inactive');
+        }
+      });
+    }
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.animationPlayState = 'running';
+    // Initialize on load
+    updateActiveProject();
+    
+    // Update on scroll with throttling
+    let ticking = false;
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveProject();
+          ticking = false;
+        });
+        ticking = true;
       }
-    });
-  }, observerOptions);
+    }
 
-  document.querySelectorAll('.project-card').forEach(card => {
-    observer.observe(card);
-  });
-
-  // ===== 3D TILT EFFECT (Desktop only) =====
-  if (window.matchMedia('(min-width: 768px)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const cards = document.querySelectorAll('.project-card-inner');
+    window.addEventListener('scroll', onScroll, { passive: true });
     
-    cards.forEach(card => {
-      let isHovering = false;
-      
-      card.addEventListener('mouseenter', () => {
-        isHovering = true;
-      });
-      
-      card.addEventListener('mousemove', (e) => {
-        if (!isHovering) return;
-        
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = ((y - centerY) / centerY) * -5;
-        const rotateY = ((x - centerX) / centerX) * 5;
-        
-        requestAnimationFrame(() => {
-          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
-        });
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        isHovering = false;
-        requestAnimationFrame(() => {
-          card.style.transform = '';
-        });
-      });
+    // Also use IntersectionObserver as backup
+    const observer = new IntersectionObserver(
+      () => {
+        updateActiveProject();
+      },
+      {
+        threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.7, 1],
+        rootMargin: '0px'
+      }
+    );
+
+    caseStudies.forEach(item => {
+      observer.observe(item);
     });
   }
 
   // ===== INITIALIZATION =====
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupNeighborPush);
+    document.addEventListener('DOMContentLoaded', () => {
+      setupScrollReveals();
+      setupActiveProjectDetection();
+    });
   } else {
-    setupNeighborPush();
+    setupScrollReveals();
+    setupActiveProjectDetection();
   }
-
-  // Re-initialize on window resize (debounced)
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      // Remove all transforms
-      document.querySelectorAll('.project-card').forEach(card => {
-        card.style.transform = '';
-        card.classList.remove('neighbor-pushed', 'card-hovering');
-      });
-      
-      // Re-setup if needed
-      setupNeighborPush();
-    }, 250);
-  });
 </script>
