@@ -4,7 +4,7 @@ import { mockProcessSteps } from '../../lib/mock-data';
 const steps = mockProcessSteps;
 ---
 
-<section id="process" class="pt-12 md:pt-16 lg:pt-20 pb-24 md:pb-32 lg:pb-40 bg-gradient-to-b from-white via-purple-50/30 to-white overflow-hidden">
+<section id="process" class="pt-12 md:pt-16 lg:pt-20 pb-24 md:pb-32 lg:pb-40 bg-gradient-to-b from-[var(--color-bg-primary)] via-purple-900/10 to-[var(--color-bg-primary)] overflow-hidden">
   <div class="container-custom">
     <!-- Section Header -->
     <div class="text-center mb-12 md:mb-16 animate-on-scroll">
@@ -309,12 +309,12 @@ const steps = mockProcessSteps;
   .process-step-item.stagger-5 { transition-delay: 0.4s; }
   .process-step-item.stagger-6 { transition-delay: 0.5s; }
 
-  /* Glassmorphic Card */
+  /* Glassmorphic Card - Dark theme */
   .glassmorphic-card {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(26, 26, 26, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 2px solid rgba(147, 51, 234, 0.1);
+    border: 2px solid rgba(147, 51, 234, 0.2);
     border-radius: 24px;
     padding: 2rem;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -388,7 +388,7 @@ const steps = mockProcessSteps;
     justify-content: center;
     color: white;
     box-shadow: 0 8px 24px rgba(147, 51, 234, 0.4);
-    border: 4px solid white;
+    border: 4px solid var(--color-bg-primary);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 

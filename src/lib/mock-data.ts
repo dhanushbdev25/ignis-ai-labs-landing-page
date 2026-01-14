@@ -260,7 +260,7 @@ export const mockProjects = [
     techStack: ['Next.js', 'Go', 'MySQL', 'GCP'],
     metrics: { label: '90% customs compliance', icon: 'globe' },
     gradient: 'from-teal-500 to-teal-600',
-    gridSize: 'large',
+    gridSize: 'wide',
     order: 5,
   },
   {
@@ -274,49 +274,6 @@ export const mockProjects = [
     gradient: 'from-pink-500 to-fuchsia-500',
     gridSize: 'regular',
     order: 6,
-  },
-];
-
-export const mockPricing = [
-  {
-    _id: '1',
-    name: 'Standard',
-    price: 2995,
-    billingPeriod: 'month',
-    tagline: 'Perfect for starters and small teams.',
-    highlighted: false,
-    features: [
-      { feature: 'Custom software development', included: true },
-      { feature: 'One active project at a time', included: true },
-      { feature: '2-week sprint cycles', included: true },
-      { feature: 'Unlimited revisions', included: true },
-      { feature: 'Code repository access', included: true },
-      { feature: 'Weekly progress calls', included: true },
-      { feature: 'Project dashboard access', included: true },
-      { feature: 'Technical documentation', included: true },
-    ],
-    ctaText: 'Get started',
-    order: 1,
-  },
-  {
-    _id: '2',
-    name: 'Premium',
-    price: 5995,
-    billingPeriod: 'month',
-    tagline: 'Exclusive and advanced features.',
-    highlighted: true,
-    features: [
-      { feature: 'Custom software development', included: true },
-      { feature: '2 active projects at a time', included: true },
-      { feature: '1-week sprint cycles', included: true },
-      { feature: 'Unlimited revisions', included: true },
-      { feature: 'Code repository access', included: true },
-      { feature: 'Daily progress updates', included: true },
-      { feature: 'Project dashboard access', included: true },
-      { feature: 'Priority support & maintenance', included: true },
-    ],
-    ctaText: 'Get started',
-    order: 2,
   },
 ];
 

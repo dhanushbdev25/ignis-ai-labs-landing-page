@@ -52,7 +52,7 @@ const navLinks = [
         
         <!-- Mobile Menu Button -->
         <button 
-          class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          class="md:hidden p-2 rounded-lg hover:bg-[var(--color-bg-tertiary)] transition-colors"
           id="mobile-menu-btn"
           aria-label="Toggle menu"
         >
@@ -66,13 +66,13 @@ const navLinks = [
     <!-- Mobile Menu -->
     <div 
       id="mobile-menu"
-      class="md:hidden hidden absolute top-full left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-xl"
+      class="md:hidden hidden absolute top-full left-0 right-0 bg-[var(--color-bg-secondary)]/95 backdrop-blur-lg border-t border-[var(--color-border)] shadow-xl"
     >
       <div class="container-custom py-6 space-y-2">
         {navLinks.map((link) => (
           <a 
             href={link.href}
-            class="block py-3 px-4 text-[var(--color-text-primary)] hover:text-purple-600 hover:bg-purple-50 rounded-xl font-medium transition-all duration-200"
+            class="block py-3 px-4 text-[var(--color-text-primary)] hover:text-purple-400 hover:bg-[var(--color-bg-tertiary)] rounded-xl font-medium transition-all duration-200"
           >
             {link.label}
           </a>
@@ -151,18 +151,18 @@ const navLinks = [
 </script>
 
 <style>
-  /* Default navbar - Subtle and classy */
+  /* Default navbar - Dark theme */
   #navbar {
-    background: rgba(255, 255, 255, 0.5);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(10, 10, 10, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
   
-  /* Glassmorphism effect on scroll */
+  /* Glassmorphism effect on scroll - Dark theme */
   #navbar.navbar-scrolled {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(26, 26, 26, 0.8);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   }
 </style>

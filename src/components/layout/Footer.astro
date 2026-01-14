@@ -64,7 +64,7 @@ const currentYear = new Date().getFullYear();
         {socialLinks.map((social) => (
           <a 
             href={social.href}
-            class="w-12 h-12 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--color-text-primary)] hover:shadow-md hover:text-purple-600 transition-all duration-300"
+            class="w-12 h-12 rounded-full bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow-sm flex items-center justify-center text-[var(--color-text-primary)] hover:shadow-md hover:text-purple-400 hover:border-purple-500/50 transition-all duration-300"
             aria-label={social.label}
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

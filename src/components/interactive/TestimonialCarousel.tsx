@@ -97,7 +97,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
   return (
     <section 
       id="testimonials" 
-      className="py-16 md:py-20 bg-white overflow-hidden"
+      className="py-16 md:py-20 bg-[var(--color-bg-primary)] overflow-hidden"
     >
       <div className="container-custom">
         {/* Section Header */}
@@ -113,7 +113,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
 
         {/* Testimonial Card */}
         <div className="max-w-4xl mx-auto">
-          <div className="relative bg-gradient-to-br from-purple-50/50 to-white rounded-2xl p-8 md:p-12 border border-purple-100/50 shadow-lg">
+          <div className="relative bg-gradient-to-br from-purple-900/20 to-[var(--color-bg-card)] rounded-2xl p-8 md:p-12 border border-[var(--color-border)] shadow-lg">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
                 key={currentIndex}
@@ -160,7 +160,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
                 <div className="flex flex-col items-center gap-3 mt-4">
                   {currentTestimonial.companyLogo && (
                     <div 
-                      className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-white shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-md group flex items-center justify-center"
+                      className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden bg-[var(--color-bg-card)] shadow-sm border border-[var(--color-border)] transition-all duration-300 hover:shadow-md group flex items-center justify-center"
                     >
                       <img 
                         src={currentTestimonial.companyLogo}
@@ -181,7 +181,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
             {/* Navigation Arrows */}
             <button
               onClick={handlePrev}
-              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-200 hover:border-purple-300 hover:shadow-md group"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow-sm flex items-center justify-center transition-all duration-200 hover:border-purple-500/50 hover:shadow-md group"
               aria-label="Previous testimonial"
             >
               <svg 
@@ -196,7 +196,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
 
             <button
               onClick={handleNext}
-              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white border border-gray-200 shadow-sm flex items-center justify-center transition-all duration-200 hover:border-purple-300 hover:shadow-md group"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow-sm flex items-center justify-center transition-all duration-200 hover:border-purple-500/50 hover:shadow-md group"
               aria-label="Next testimonial"
             >
               <svg 
@@ -224,7 +224,7 @@ export default function TestimonialCarousel({ testimonials }: TestimonialCarouse
                   h-1.5 rounded-full transition-all duration-300
                   ${index === currentIndex 
                     ? 'w-8 bg-purple-600' 
-                    : 'w-1.5 bg-gray-300 hover:bg-purple-300'
+                    : 'w-1.5 bg-[var(--color-border)] hover:bg-purple-500/50'
                   }
                 `}
                 aria-label={`Go to testimonial ${index + 1}`}

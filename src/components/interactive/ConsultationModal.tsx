@@ -83,11 +83,11 @@ export default function ConsultationModal({ initialPlan }: ConsultationModalProp
             transition={{ duration: 0.2 }}
             className="fixed left-1/2 top-1/2 z-50 w-[95vw] sm:w-[90vw] md:w-[85vw] lg:w-[75vw] max-w-2xl -translate-x-1/2 -translate-y-1/2"
           >
-            <div className="relative max-h-[90vh] sm:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-white border border-[var(--color-border)] shadow-2xl modal-content-scroll">
+            <div className="relative max-h-[90vh] sm:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-[var(--color-bg-card)] border border-[var(--color-border)] shadow-2xl modal-content-scroll">
               {/* Close Button */}
               <button
                 onClick={handleClose}
-                className="sticky top-4 right-4 float-right z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white border-2 border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-white hover:bg-[var(--color-accent-purple)] hover:border-[var(--color-accent-purple)] transition-all duration-300 shadow-md hover:shadow-lg"
+                className="sticky top-4 right-4 float-right z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[var(--color-bg-card)] border-2 border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-secondary)] hover:text-white hover:bg-[var(--color-accent-purple)] hover:border-[var(--color-accent-purple)] transition-all duration-300 shadow-md hover:shadow-lg"
                 aria-label="Close modal"
               >
                 <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -40,7 +40,7 @@ export default function FAQAccordion({ faqs }: FAQAccordionProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="bg-white rounded-2xl border border-[var(--color-border)] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="bg-[var(--color-bg-card)] rounded-2xl border border-[var(--color-border)] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <button
                 onClick={() => toggleItem(index)}
@@ -52,7 +52,7 @@ export default function FAQAccordion({ faqs }: FAQAccordionProps) {
                 <motion.div
                   animate={{ rotate: openIndex === index ? 45 : 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center group-hover:bg-purple-100 transition-colors duration-300"
+                  className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-900/30 flex items-center justify-center group-hover:bg-purple-900/50 transition-colors duration-300"
                 >
                   <svg 
                     className="w-4 h-4 text-purple-600" 
@@ -100,7 +100,7 @@ export default function FAQAccordion({ faqs }: FAQAccordionProps) {
           </p>
           <button className="inline-flex items-center gap-0 bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold text-base rounded-full pl-6 pr-1.5 py-1.5 shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 hover:scale-105 consultation-trigger">
             <span className="mr-3">Book a call</span>
-            <span className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+            <span className="w-10 h-10 bg-[var(--color-bg-card)] border border-[var(--color-border)] rounded-full flex items-center justify-center">
               <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>

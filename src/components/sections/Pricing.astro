@@ -4,7 +4,7 @@ import { mockPricing } from '../../lib/mock-data';
 const plans = mockPricing;
 ---
 
-<section id="pricing" class="section-padding bg-white">
+<section id="pricing" class="section-padding bg-[var(--color-bg-primary)]">
   <div class="container-custom">
     <!-- Section Header -->
     <div class="text-center mb-16 md:mb-20 animate-on-scroll">
@@ -36,7 +36,7 @@ const plans = mockPricing;
             class={`h-full card ${
               plan.featured 
                 ? 'bg-gradient-to-br from-purple-600 to-purple-700 border-purple-500 text-white shadow-2xl shadow-purple-500/30 scale-105' 
-                : 'bg-white'
+                : 'bg-[var(--color-bg-card)]'
             }`}
           >
             <!-- Plan Name -->
