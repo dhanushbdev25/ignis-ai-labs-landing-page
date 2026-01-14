@@ -2,7 +2,7 @@
   "name": "ignis-ai-labs-landing",
   "type": "module",
   "version": "1.0.0",
-  "description": "Ignis AI Labs - Unlimited Design Services Landing Page",
+  "description": "Ignis AI Labs - Software Development & Engineering Services Landing Page",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

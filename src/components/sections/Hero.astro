@@ -1,16 +1,13 @@
 ---
-import { mockStats } from '../../lib/mock-data';
+import { mockStats, mockTestimonials } from '../../lib/mock-data';
 
 const stats = mockStats;
 
-// Logo placeholders for trusted by section
-const trustedLogos = [
-  { name: 'logoipsum', svg: '<svg viewBox="0 0 120 40" fill="currentColor"><text x="0" y="28" font-size="20" font-weight="bold">LOGO</text></svg>' },
-  { name: 'brand1', svg: '<svg viewBox="0 0 120 40" fill="currentColor"><circle cx="20" cy="20" r="15"/><text x="40" y="28" font-size="16" font-weight="bold">Brand</text></svg>' },
-  { name: 'company', svg: '<svg viewBox="0 0 120 40" fill="currentColor"><rect x="0" y="10" width="20" height="20" rx="4"/><text x="25" y="28" font-size="14" font-weight="bold">Company</text></svg>' },
-  { name: 'studio', svg: '<svg viewBox="0 0 120 40" fill="currentColor"><polygon points="15,5 25,35 5,35"/><text x="30" y="28" font-size="14" font-weight="bold">Studio</text></svg>' },
-  { name: 'agency', svg: '<svg viewBox="0 0 120 40" fill="currentColor"><text x="0" y="28" font-size="18" font-weight="bold" font-style="italic">Agency</text></svg>' },
-];
+// Use companies from testimonials for trusted by section
+const trustedLogos = mockTestimonials.map(testimonial => ({
+  name: testimonial.company,
+  logo: testimonial.companyLogo,
+}));
 ---
 
 <section class="relative bg-white overflow-hidden">
@@ -25,17 +22,17 @@ const trustedLogos = [
       
         <h1 class="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight animate-fade-in-up">
           <span class="text-gradient italic">Endless</span>
-          <span class="text-[var(--color-text-primary)]"> Design</span>
+          <span class="text-[var(--color-text-primary)]"> Software</span>
         </h1>
         <h1 class="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-[0.95] tracking-tight animate-fade-in-up delay-100">
-          <span class="text-[var(--color-text-primary)]">possibilities </span>
+          <span class="text-[var(--color-text-primary)]">solutions </span>
           <span class="text-gradient italic">for everyone</span>
         </h1>
       
       
       <!-- Subtitle - Refined -->
       <p class="max-w-2xl mx-auto text-lg md:text-xl text-[var(--color-text-secondary)] mb-10 md:mb-12 animate-fade-in-up delay-200 leading-relaxed">
-        Ready for top-tier design services at an unbeatable value? With one subscription, unlock unlimited design requests and elevate your brand to new heights.
+        Ready for world-class software development services? We build scalable, high-performance solutions that drive real business impact and transform your digital operations.
       </p>
       
       <!-- CTA Button - Enhanced with micro-interactions -->
@@ -81,7 +78,7 @@ const trustedLogos = [
     </div>
     
     <!-- Trusted By Section - Infinite Carousel -->
-    <div class="py-12 md:py-16 border-t border-[var(--color-border)]">
+    <div class="pt-12 md:pt-16 pb-6 md:pb-8 border-t border-[var(--color-border)]">
       <p class="text-center text-[var(--color-text-muted)] mb-10 text-xs uppercase tracking-[0.2em] font-medium">Trusted by</p>
       
       <!-- Infinite Carousel Wrapper -->
@@ -93,12 +90,14 @@ const trustedLogos = [
             trustedLogos.map((logo, logoIndex) => (
               <div 
                 key={`${setIndex}-${logoIndex}`}
-                class="h-8 md:h-10 opacity-30 hover:opacity-80 transition-all duration-500 grayscale hover:grayscale-0 flex-shrink-0"
+                class="h-12 md:h-16 flex items-center justify-center opacity-30 hover:opacity-80 transition-all duration-500 grayscale hover:grayscale-0 flex-shrink-0"
+                style="max-width: 150px;"
               >
                 <img 
-                  src={`https://via.placeholder.com/120x40/f8f8f8/b0b0b0?text=${logo.name}`}
+                  src={logo.logo}
                   alt={logo.name}
-                  class="h-full w-auto object-contain filter blur-[0.5px] hover:blur-0 transition-all duration-500"
+                  class="max-h-full max-w-full w-auto h-auto object-contain filter blur-[0.5px] hover:blur-0 transition-all duration-500"
+                  style="aspect-ratio: auto;"
                 />
               </div>
             ))
