@@ -32,6 +32,7 @@ import LifeCycleVisualization from '../interactive/LifeCycleVisualization';
 </section>
 
 <style>
+  /* Section Container */
   .lifecycle-evolution-section {
     position: relative;
     width: 100%;
@@ -95,7 +96,19 @@ import LifeCycleVisualization from '../interactive/LifeCycleVisualization';
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    min-height: 600px;
+    min-height: 500px;
+  }
+
+  @media (min-width: 480px) {
+    .visualization-container {
+      min-height: 550px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .visualization-container {
+      min-height: 650px;
+    }
   }
 
   @media (min-width: 1024px) {
@@ -104,77 +117,7 @@ import LifeCycleVisualization from '../interactive/LifeCycleVisualization';
     }
   }
 
-  /* Phase Descriptions */
-  .phase-descriptions {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .phase-description {
-    z-index: 10;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
-  }
-
-  /* Desktop: Better spacing for descriptions */
-  @media (min-width: 1024px) {
-    .phase-description {
-      /* Max-width handled inline in component */
-      padding: 0.75rem;
-    }
-  }
-
-  /* Mobile: Center all descriptions */
-  @media (max-width: 1023px) {
-    .phase-description {
-      max-width: 320px;
-      text-align: center;
-      transform: translate(-50%, -50%);
-    }
-  }
-
-  .phase-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    color: var(--color-text-primary);
-    margin-bottom: 0.75rem;
-    transition: color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    line-height: 1.3;
-  }
-
-  .phase-description.active .phase-title {
-    color: var(--color-accent-purple);
-  }
-
-  .phase-text {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    font-weight: 300;
-    line-height: 1.8;
-    letter-spacing: 0.01em;
-    color: var(--color-text-secondary);
-    margin: 0;
-    word-spacing: 0.1em;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
-  }
-
-  .phase-description.active .phase-text {
-    color: var(--color-text-primary);
-  }
-
-  /* CTA */
+  /* CTA Section */
   .section-cta {
     text-align: center;
     margin-top: 4rem;
@@ -234,49 +177,8 @@ import LifeCycleVisualization from '../interactive/LifeCycleVisualization';
     transform: translateX(4px);
   }
 
-  /* Lifecycle SVG Styles */
-  .lifecycle-visualization-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 600px;
-  }
-
-  @media (min-width: 1024px) {
-    .lifecycle-visualization-container {
-      min-height: 800px;
-    }
-  }
-
-  .lifecycle-svg-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    aspect-ratio: 1 / 1;
-    min-height: 600px;
-  }
-
-  @media (min-width: 1024px) {
-    .lifecycle-svg-wrapper {
-      min-height: 800px;
-    }
-  }
-
-  .lifecycle-svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-
-  /* Phase Marker Styles */
-  .phase-marker-group {
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
   /* Reduced Motion Support */
   @media (prefers-reduced-motion: reduce) {
-    .phase-description,
     .cta-link,
     .cta-arrow {
       transition: none;
