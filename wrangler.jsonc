@@ -1,8 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/wrangler.json",
-  "name": "ignis-ai-labs-landing",
+  "name": "ignis-ai-labs-landing-page",
   "compatibility_date": "2024-12-01",
   "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist"
+  },
   
   // Environment variables (non-secret)
   "vars": {
