@@ -67,6 +67,9 @@
   height: 100%;
   display: block;
   overflow: visible;
+  /* Prevent flash of incorrect layout */
+  opacity: 1;
+  transition: opacity 0.1s ease-in;
 }
 
 @media (max-width: 767px) {

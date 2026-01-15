@@ -161,11 +161,32 @@ function generateVerticalPath(centerX: number, svgHeight: number, phasePositions
 export default function LifeCycleVisualization({
   phases,
 }: LifeCycleVisualizationProps) {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 1024
-  );
+  // Initialize state correctly on first render to prevent flash
+  const getInitialViewportWidth = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth;
+    }
+    return 1024; // Default to desktop for SSR
+  };
+
+  const getInitialIsMobile = () => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false; // Default to desktop for SSR
+  };
+
+  const getInitialIsTablet = () => {
+    if (typeof window !== 'undefined') {
+      const width = window.innerWidth;
+      return width >= 768 && width < 1024;
+    }
+    return false; // Default to desktop for SSR
+  };
+
+  const [isMobile, setIsMobile] = useState(getInitialIsMobile);
+  const [isTablet, setIsTablet] = useState(getInitialIsTablet);
+  const [viewportWidth, setViewportWidth] = useState(getInitialViewportWidth);
 
   // Responsive breakpoint check
   useEffect(() => {
@@ -176,6 +197,7 @@ export default function LifeCycleVisualization({
       setIsTablet(width >= 768 && width < 1024);
     };
 
+    // Only update if the initial values were wrong (SSR case)
     checkResponsive();
     window.addEventListener('resize', checkResponsive);
     return () => window.removeEventListener('resize', checkResponsive);
