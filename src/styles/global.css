@@ -960,8 +960,8 @@ a {
 .testimonial-block {
   flex: 0 0 auto;
   width: calc((100vw - 9rem) / 3);
-  max-width: 400px;
-  min-width: 300px;
+  max-width: 450px;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
   opacity: 0.4;
@@ -977,7 +977,15 @@ a {
 @media (min-width: 1200px) {
   .testimonial-block {
     width: calc((1200px - 6rem) / 3);
+    max-width: 450px;
     padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .testimonial-block {
+    width: calc((1400px - 6rem) / 3);
+    max-width: 500px;
   }
 }
 
@@ -1031,27 +1039,34 @@ a {
   object-fit: contain;
 }
 
-/* Mobile: Vertical stacking */
+/* Mobile: Horizontal carousel (one testimonial at a time) */
 @media (max-width: 767px) {
   .testimonials-horizontal-container {
-    overflow-x: visible;
+    overflow-x: auto;
+    padding-left: 0;
     padding-right: 0;
+    scroll-snap-type: x mandatory;
   }
 
   .testimonials-track {
-    flex-direction: column;
-    gap: 3rem;
-    width: 100%;
-    padding-left: 0;
+    flex-direction: row;
+    gap: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .testimonial-block {
-    width: 100%;
-    opacity: 1;
-    transform: scale(1);
+    width: calc(100vw - 4rem);
+    min-width: calc(100vw - 4rem);
+    max-width: calc(100vw - 4rem);
+    opacity: 0.4;
+    transform: scale(0.95);
+    padding: 0 1.5rem;
+    scroll-snap-align: center;
   }
 
   .testimonial-block.active {
+    opacity: 1;
     transform: scale(1);
   }
 
@@ -1317,12 +1332,21 @@ a {
   }
   
   .btn-hero-primary {
-    padding: 0.875rem 1.75rem;
-    font-size: 0.9375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
   }
   
   .system-text-item {
     opacity: 0.04;
+  }
+}
+
+/* Extra small mobile adjustments */
+@media (max-width: 480px) {
+  .btn-hero-primary {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
   }
 }
 

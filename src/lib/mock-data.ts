@@ -45,7 +45,17 @@ export const mockTestimonials = [
     companyLogoColor: '#8b5cf6',
     order: 4,
   },
-  
+  {
+    _id: '5',
+    title: 'Outstanding partnership',
+    quote: 'Ignis AI Labs has been an outstanding partner in our digital transformation journey. Their expertise and dedication to excellence have made a significant impact on our business operations.',
+    author: 'David Chen',
+    role: 'CTO',
+    company: 'NIP',
+    companyLogo: '/images/testimonials/NIP.svg',
+    companyLogoColor: '#10b981',
+    order: 5,
+  },
 ];
 
 export const mockStats = {
@@ -302,7 +312,7 @@ export const mockFAQs = [
   {
     _id: '6',
     question: 'How can I contact your team?',
-    answer: 'You can reach our team through multiple channels: email at support@ignisailabs.com, through our contact form, or by booking a consultation call. We typically respond within 24 hours and are available for urgent matters.',
+    answer: 'You can reach our team through multiple channels: email at contact@ignisailabs.com, through our contact form, or by booking a consultation call. We typically respond within 24 hours and are available for urgent matters.',
     order: 6,
   },
 ];

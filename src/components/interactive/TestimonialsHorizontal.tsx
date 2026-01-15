@@ -66,12 +66,25 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
     const scrollPosition = blockLeft - (containerWidth / 2) + (blockWidth / 2);
     
     isScrollingRef.current = true;
+    currentInfiniteIndexRef.current = infiniteIndex;
+    
     container.scrollTo({
       left: Math.max(0, scrollPosition),
       behavior: smooth ? 'smooth' : 'auto',
     });
     
-    const realIndex = getRealIndex(infiniteIndex);
+    // Calculate real index inline
+    const realIndex = (() => {
+      if (testimonials.length === 0) return 0;
+      const realIdx = infiniteIndex - 2;
+      if (realIdx < 0) {
+        return testimonials.length + realIdx;
+      }
+      if (realIdx >= testimonials.length) {
+        return realIdx - testimonials.length;
+      }
+      return realIdx;
+    })();
     setActiveIndex(realIndex);
     
     // Reset scrolling flag after animation
@@ -82,19 +95,17 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
     } else {
       isScrollingRef.current = false;
     }
-  }, [infiniteTestimonials.length]);
+  }, [infiniteTestimonials.length, testimonials.length]);
 
   // Center first testimonial on mount (start at index 2, which is the first original testimonial)
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container || testimonials.length === 0) return;
 
-    // Only center on desktop
-    if (window.innerWidth < 768) return;
-
     // Small delay to ensure DOM is ready
     const timeoutId = setTimeout(() => {
       centerTestimonial(2, false); // Start at index 2 (first original testimonial)
+      currentInfiniteIndexRef.current = 2;
     }, 100);
 
     return () => clearTimeout(timeoutId);
@@ -105,9 +116,6 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
     const container = scrollContainerRef.current;
     if (!container || testimonials.length === 0) return;
 
-    // Only handle on desktop
-    if (window.innerWidth < 768) return;
-
     const handleScroll = () => {
       if (isScrollingRef.current) return;
 
@@ -117,26 +125,10 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
       const testimonialBlocks = container.querySelectorAll('.testimonial-block');
       
       if (testimonialBlocks.length === 0) return;
-
-      const firstBlock = testimonialBlocks[0] as HTMLElement;
-      const lastBlock = testimonialBlocks[testimonialBlocks.length - 1] as HTMLElement;
       
-      // If scrolled to the end duplicates, jump to original end
-      if (scrollLeft + containerWidth >= scrollWidth - 10) {
-        const jumpToIndex = testimonials.length + 1; // Second to last original
-        const jumpBlock = testimonialBlocks[jumpToIndex] as HTMLElement;
-        if (jumpBlock) {
-          const blockWidth = jumpBlock.offsetWidth;
-          const blockLeft = jumpBlock.offsetLeft;
-          const scrollPosition = blockLeft - (containerWidth / 2) + (blockWidth / 2);
-          container.scrollTo({
-            left: scrollPosition,
-            behavior: 'auto',
-          });
-        }
-      }
-      // If scrolled to the beginning duplicates, jump to original beginning
-      else if (scrollLeft <= 10) {
+      // If scrolled to the end duplicates, jump to original start
+      if (scrollLeft + containerWidth >= scrollWidth - 50) {
+        isScrollingRef.current = true;
         const jumpToIndex = 2; // First original testimonial
         const jumpBlock = testimonialBlocks[jumpToIndex] as HTMLElement;
         if (jumpBlock) {
@@ -147,45 +139,83 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
             left: scrollPosition,
             behavior: 'auto',
           });
+          currentInfiniteIndexRef.current = 2;
+          setTimeout(() => {
+            isScrollingRef.current = false;
+          }, 100);
+        }
+      }
+      // If scrolled to the beginning duplicates, jump to original end
+      else if (scrollLeft <= 50) {
+        isScrollingRef.current = true;
+        const jumpToIndex = testimonials.length + 1; // Last original testimonial
+        const jumpBlock = testimonialBlocks[jumpToIndex] as HTMLElement;
+        if (jumpBlock) {
+          const blockWidth = jumpBlock.offsetWidth;
+          const blockLeft = jumpBlock.offsetLeft;
+          const scrollPosition = blockLeft - (containerWidth / 2) + (blockWidth / 2);
+          container.scrollTo({
+            left: scrollPosition,
+            behavior: 'auto',
+          });
+          currentInfiniteIndexRef.current = jumpToIndex;
+          setTimeout(() => {
+            isScrollingRef.current = false;
+          }, 100);
         }
       }
     };
 
-    container.addEventListener('scroll', handleScroll);
+    container.addEventListener('scroll', handleScroll, { passive: true });
     return () => container.removeEventListener('scroll', handleScroll);
   }, [testimonials.length]);
 
-  // Auto-scroll carousel
+  // Track current infinite index
+  const currentInfiniteIndexRef = useRef(2); // Start at first original testimonial
+
+  // Auto-scroll carousel with infinite loop
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container || testimonials.length === 0) return;
-
-    // Only autoplay on desktop
-    if (window.innerWidth < 768) return;
 
     const scrollToNext = () => {
       const testimonialBlocks = container.querySelectorAll('.testimonial-block');
       if (testimonialBlocks.length === 0) return;
 
-      // Find current centered block
-      const containerWidth = container.clientWidth;
-      let currentInfiniteIndex = 2; // Default to first original
+      // Get current index and move to next
+      let nextInfiniteIndex = currentInfiniteIndexRef.current + 1;
       
-      testimonialBlocks.forEach((block, index) => {
-        const blockElement = block as HTMLElement;
-        const blockLeft = blockElement.offsetLeft;
-        const blockWidth = blockElement.offsetWidth;
-        const blockCenter = blockLeft + blockWidth / 2;
-        const containerCenter = container.scrollLeft + containerWidth / 2;
+      // If we've reached the end duplicates, jump to the original start seamlessly
+      if (nextInfiniteIndex >= testimonials.length + 2) {
+        // We're at the end duplicates, jump to original start (index 2)
+        nextInfiniteIndex = 2;
+        isScrollingRef.current = true;
         
-        if (Math.abs(blockCenter - containerCenter) < blockWidth / 2) {
-          currentInfiniteIndex = index;
+        // Jump without animation
+        const jumpBlock = testimonialBlocks[2] as HTMLElement;
+        if (jumpBlock) {
+          const containerWidth = container.clientWidth;
+          const blockWidth = jumpBlock.offsetWidth;
+          const blockLeft = jumpBlock.offsetLeft;
+          const scrollPosition = blockLeft - (containerWidth / 2) + (blockWidth / 2);
+          
+          container.scrollTo({
+            left: scrollPosition,
+            behavior: 'auto',
+          });
+          
+          setTimeout(() => {
+            isScrollingRef.current = false;
+            currentInfiniteIndexRef.current = 2;
+            const realIndex = getRealIndex(2);
+            setActiveIndex(realIndex);
+          }, 50);
         }
-      });
-
-      // Move to next
-      const nextInfiniteIndex = (currentInfiniteIndex + 1) % infiniteTestimonials.length;
-      centerTestimonial(nextInfiniteIndex, true);
+      } else {
+        // Normal scroll to next
+        currentInfiniteIndexRef.current = nextInfiniteIndex;
+        centerTestimonial(nextInfiniteIndex, true);
+      }
     };
 
     // Auto-scroll every 5 seconds
@@ -202,9 +232,6 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
-
-    // Only use observer on desktop
-    if (window.innerWidth < 768) return;
 
     const testimonialBlocks = container.querySelectorAll('.testimonial-block');
     if (testimonialBlocks.length === 0) return;

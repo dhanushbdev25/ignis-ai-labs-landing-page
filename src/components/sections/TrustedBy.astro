@@ -20,9 +20,8 @@ const trustedLogos = mockTestimonials.map(testimonial => ({
         {[...Array(4)].map((_, setIndex) => (
           trustedLogos.map((logo, logoIndex) => (
             <div 
-              key={`${setIndex}-${logoIndex}`}
-              class="h-12 md:h-16 flex items-center justify-center opacity-60 flex-shrink-0"
-              style="max-width: 150px;"
+              class="h-16 md:h-20 flex items-center justify-center opacity-80 flex-shrink-0"
+              style="max-width: 200px;"
             >
               <img 
                 src={logo.logo}
