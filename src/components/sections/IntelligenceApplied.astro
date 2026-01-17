@@ -1,28 +1,44 @@
 ---
 // Intelligence, Applied section
-// Product-level capabilities in a clean, grid-based layout
+// Enterprise capability categories in a clean, grid-based layout
 
 const offerings = [
   {
-    title: 'AI Platforms',
-    description: 'Systems that learn, adapt, and operate at scale — built to evolve with your business.',
+    title: 'Software & Platforms',
+    items: [
+      'Full-stack web + mobile',
+      'Platforms, portals, products',
+      'Cloud + DevOps + modernization',
+    ],
   },
   {
-    title: 'Intelligent Products',
-    description: 'User-facing software infused with decision-making intelligence, not just features.',
+    title: 'Enterprise Systems & Integrations',
+    items: [
+      'ERP workflows',
+      'Finance & compliance',
+      'SAP + 3rd-party integrations',
+    ],
   },
   {
-    title: 'Data & Intelligence Engineering',
-    description: 'Pipelines, models, and infrastructure that turn data into real leverage.',
+    title: 'Analytics & AI',
+    items: [
+      'Data pipelines & AI automation',
+      'Dashboards + insights',
+      'Forecasting + decision support',
+    ],
   },
   {
-    title: 'Enterprise Systems',
-    description: 'Reliable, scalable foundations engineered for long-term performance and growth.',
+    title: 'Consulting offerings',
+    items: [
+      'Architecture & solution design',
+      'Integration consulting',
+      'Fractional leadership (CTO/Tech Lead)',
+    ],
   },
 ];
 ---
 
-<section id="intelligence-applied" class="pt-16 md:pt-20 lg:pt-24 pb-16 md:pb-20 lg:pb-24 bg-[var(--color-bg-primary)]">
+<section id="intelligence-applied" class="pt-8 md:pt-20 lg:pt-24 pb-16 md:pb-20 lg:pb-24 bg-[var(--color-bg-primary)]">
   <div class="container-custom">
     <!-- Section Header -->
     <div class="text-center mb-12 md:mb-16 lg:mb-20 animate-on-scroll">
@@ -30,7 +46,7 @@ const offerings = [
         Intelligence, Applied.
       </h2>
       <p class="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto leading-relaxed">
-        We design and engineer intelligent systems that solve real problems — and hold up in production.
+        This matches how enterprise buyers categorize capability.
       </p>
     </div>
     
@@ -46,10 +62,12 @@ const offerings = [
             {offering.title}
           </h3>
           
-          <!-- Description -->
-          <p class="intelligence-description text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed">
-            {offering.description}
-          </p>
+          <!-- Items List -->
+          <ul class="intelligence-items text-base md:text-lg text-[var(--color-text-secondary)] leading-relaxed">
+            {offering.items.map((item) => (
+              <li class="intelligence-item-list">{item}</li>
+            ))}
+          </ul>
         </div>
       ))}
     </div>
@@ -122,8 +140,21 @@ const offerings = [
     transition: color 0.3s var(--ease-smooth);
   }
 
-  .intelligence-description {
-    transition: transform 0.3s var(--ease-smooth);
+  .intelligence-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .intelligence-item-list {
+    position: relative;
+    padding-left: 0;
+    margin-bottom: 0.75rem;
+    transition: transform 0.3s var(--ease-smooth), color 0.3s var(--ease-smooth);
+  }
+
+  .intelligence-item-list:last-child {
+    margin-bottom: 0;
   }
 
   /* ===== HOVER EFFECTS ===== */
@@ -133,9 +164,11 @@ const offerings = [
     filter: brightness(1.1);
   }
 
-  .intelligence-item:hover .intelligence-description {
-    transform: translateY(-2px);
+  .intelligence-item:hover .intelligence-item-list {
+    transform: translateX(4px);
+    color: var(--color-text-primary);
   }
+
 
   /* Subtle brightness increase on hover */
   .intelligence-item:hover {
@@ -159,7 +192,8 @@ const offerings = [
   @media (prefers-reduced-motion: reduce) {
     .intelligence-item,
     .intelligence-title,
-    .intelligence-description {
+    .intelligence-items,
+    .intelligence-item-list {
       transition: none;
       animation: none;
     }
@@ -174,14 +208,20 @@ const offerings = [
   @media (max-width: 767px) {
     .intelligence-item {
       padding: 2rem 1rem;
+      text-align: center;
     }
 
     .intelligence-title {
       font-size: 1.5rem;
     }
 
-    .intelligence-description {
+    .intelligence-items {
       font-size: 0.9375rem;
+    }
+
+    .intelligence-item-list {
+      padding-left: 0;
+      margin-bottom: 0.5rem;
     }
   }
 </style>

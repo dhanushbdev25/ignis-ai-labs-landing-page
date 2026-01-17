@@ -1,68 +1,63 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-interface MorphPair {
-  from: string;
-  to: string;
-}
-
-const morphPairs: MorphPair[] = [
-  { from: 'Software', to: 'Intelligence' },
-  { from: 'Code', to: 'Capability' },
-  { from: 'Data', to: 'Decisions' },
+const textItems: string[] = [
+  'Digital transformation',
+  'ERP modernization',
+  'Financial systems',
+  'Analytics insights',
+  'Integrations',
 ];
 
 export default function TypeMorph() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [phase, setPhase] = useState<'showing' | 'morphing' | 'paused'>('showing');
+  const [isVisible, setIsVisible] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const showDuration = 3000; // 3 seconds showing "from"
-    const morphDuration = 3500; // 3.5 seconds morphing
-    const pauseDuration = 2000; // 2 seconds pause after morph
+    const displayDuration = 3000; // 3 seconds showing text
+    const transitionDuration = 600; // 0.6 seconds for fade transition
 
     const cycle = () => {
-      // Show "from" text
-      setPhase('showing');
+      // Clear any existing timeout
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      // Fade out current text
+      setIsVisible(false);
       
-      // Start morphing
-      setTimeout(() => {
-        setPhase('morphing');
-        
-        // Complete morph and pause
-        setTimeout(() => {
-          setPhase('paused');
-          
-          // Move to next pair
-          setTimeout(() => {
-            setCurrentIndex((prev) => (prev + 1) % morphPairs.length);
-          }, pauseDuration);
-        }, morphDuration);
-      }, showDuration);
+      // After fade out completes, change text and fade in
+      timeoutRef.current = setTimeout(() => {
+        setCurrentIndex((prev) => (prev + 1) % textItems.length);
+        setIsVisible(true);
+      }, transitionDuration);
     };
 
-    // Initial delay
-    const initialTimeout = setTimeout(cycle, 1000);
+    // Start cycling after initial display duration
+    timeoutRef.current = setTimeout(cycle, displayDuration);
 
     // Set up interval for continuous cycling
-    const totalCycle = showDuration + morphDuration + pauseDuration;
-    const interval = setInterval(cycle, totalCycle);
+    const totalCycle = displayDuration + transitionDuration;
+    intervalRef.current = setInterval(cycle, totalCycle);
 
     return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
     };
   }, []);
 
-  const currentPair = morphPairs[currentIndex];
+  const currentText = textItems[currentIndex];
 
   return (
     <div className="type-morph-container">
       <span className="type-morph-text">
-        <span className={`type-morph-from ${phase === 'morphing' ? 'morphing' : phase === 'showing' ? 'visible' : 'hidden'}`}>
-          {currentPair.from}
-        </span>
-        <span className={`type-morph-to ${phase === 'morphing' ? 'morphing' : phase === 'paused' ? 'visible' : 'hidden'}`}>
-          {currentPair.to}
+        <span className={`type-morph-item ${isVisible ? 'visible' : 'hidden'}`}>
+          {currentText}
         </span>
       </span>
     </div>

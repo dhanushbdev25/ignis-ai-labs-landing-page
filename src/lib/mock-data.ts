@@ -19,7 +19,7 @@ export const mockTestimonials = [
     author: 'Mark Thompson',
     role: 'Director',
     company: 'Muphile Labs',
-    companyLogo: '/images/testimonials/muphileLabs.jpg',
+    companyLogo: '/images/testimonials/muphileLabs.png',
     companyLogoColor: '#6366f1',
     order: 2,
   },
@@ -52,9 +52,31 @@ export const mockTestimonials = [
     author: 'David Chen',
     role: 'CTO',
     company: 'NIP',
-    companyLogo: '/images/testimonials/NIP.svg',
+    companyLogo: '/images/testimonials/NIP.png',
     companyLogoColor: '#10b981',
     order: 5,
+  },
+  {
+    _id: '6',
+    title: 'Exceptional service delivery',
+    quote: 'Ignis AI Labs delivers exceptional service with attention to detail and commitment to quality. Their solutions have significantly improved our operational efficiency.',
+    author: 'Emily Rodriguez',
+    role: 'Operations Manager',
+    company: 'Alaya Bakery',
+    companyLogo: '/images/testimonials/alayabakery.png',
+    companyLogoColor: '#f59e0b',
+    order: 6,
+  },
+  {
+    _id: '7',
+    title: 'Innovative solutions',
+    quote: 'The innovative solutions from Ignis AI Labs have transformed how we operate. Their technical expertise and creative problem-solving approach are truly impressive.',
+    author: 'Robert Kim',
+    role: 'Founder',
+    company: 'Slizzo',
+    companyLogo: '/images/testimonials/Slizzo.png',
+    companyLogoColor: '#3b82f6',
+    order: 7,
   },
 ];
 
@@ -317,10 +339,44 @@ export const mockFAQs = [
   },
 ];
 
-export const mockTrustedByLogos = [
-  { name: 'TechCorp', logo: '' },
-  { name: 'InnovateLab', logo: '' },
-  { name: 'DevSolutions', logo: '' },
-  { name: 'CodeStudio', logo: '' },
-  { name: 'DigitalFirst', logo: '' },
+export const mockEnterpriseSystems = [
+  {
+    name: 'SAP & Oracle',
+    logo: '/images/systems/sap.png',
+    category: 'Enterprise & ERP',
+  },
+  {
+    name: 'MS Dynamics',
+    logo: '/images/systems/ms-dynamics.png',
+    category: 'Enterprise & ERP',
+  },
+  {
+    name: 'O365',
+    logo: '/images/systems/o365.png',
+    category: 'Enterprise & ERP',
+  },
+  {
+    name: 'Zoho',
+    logo: '/images/systems/zoho.png',
+    category: 'Enterprise & ERP',
+  },
+  {
+    name: 'Banking APIs',
+    logo: '/images/systems/banking-apis.png',
+    category: 'Finance & Payments',
+  },
+  {
+    name: 'Payment Systems',
+    logo: '/images/systems/payment-systems.png',
+    category: 'Finance & Payments',
+  },
 ];
+
+export const translatorMicroLabels = [
+  'Data normalization',
+  'Workflow orchestration',
+  'Decision enrichment',
+  'Compliance translation',
+];
+
+

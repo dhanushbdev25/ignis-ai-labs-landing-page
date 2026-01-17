@@ -5,6 +5,7 @@ import LifeCycleEvolution from '../components/sections/LifeCycleEvolution.astro'
 import TrustedBy from '../components/sections/TrustedBy.astro';
 import Benefits from '../components/sections/Benefits.astro';
 import IntelligenceApplied from '../components/sections/IntelligenceApplied.astro';
+import IntelligenceAsTranslator from '../components/sections/IntelligenceAsTranslator.astro';
 import Projects from '../components/sections/Projects.astro';
 
 // React interactive components
@@ -18,11 +19,12 @@ import { mockTestimonials, mockFAQs } from '../lib/mock-data';
 
 <Layout>
   <Hero />
+  <IntelligenceApplied />
+  <IntelligenceAsTranslator />
+  <Projects />
+  <TrustedBy />
   <LifeCycleEvolution />
   <Benefits />
-  <IntelligenceApplied />
-  <TrustedBy />
-  <Projects />
   
   <!-- React Islands for interactive components -->
   <TestimonialsHorizontal 

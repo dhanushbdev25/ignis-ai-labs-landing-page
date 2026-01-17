@@ -8,12 +8,11 @@ const projects = mockProjects;
   <div class="container-custom relative z-10">
     <!-- Section Header -->
     <div class="text-center mb-12 md:mb-20 animate-on-scroll">
-      <span class="section-label mb-4 inline-block">Projects</span>
       <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-[var(--color-text-primary)]">
-        Recent Projects
+        Intelligence, Deployed.
       </h2>
       <p class="text-lg text-[var(--color-text-secondary)] max-w-2xl mx-auto">
-        Proof of intelligence in the real world
+        Recent proof of intelligence in the real world
       </p>
     </div>
     
@@ -88,11 +87,6 @@ const projects = mockProjects;
             
             <!-- Impact Statement -->
             <p class="case-impact">{project.impact}</p>
-            
-            <!-- CTA (Minimal, hover-only) -->
-            <a href="#" class="case-cta">
-              View Case →
-            </a>
           </div>
         </article>
       ))}
@@ -483,38 +477,6 @@ const projects = mockProjects;
     }
   }
 
-  /* CTA (Minimal, hover-only) */
-  .case-cta {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-accent-purple);
-    text-decoration: none;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    width: fit-content;
-    margin-top: 0.5rem;
-  }
-
-  .case-study-item:hover .case-cta,
-  .case-study-item:focus-within .case-cta {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .case-cta:hover {
-    color: var(--color-accent-purple-dark);
-  }
-
-  @media (min-width: 1024px) {
-    .case-content.align-right .case-cta {
-      margin-left: auto;
-    }
-  }
-
   /* ===== SCROLL ANIMATIONS ===== */
   .animate-on-scroll {
     opacity: 0;
@@ -534,8 +496,7 @@ const projects = mockProjects;
     .grid-item,
     .flow-document,
     .flow-arrow,
-    .template-layer,
-    .case-cta {
+    .template-layer {
       animation: none !important;
       transition: none !important;
     }
@@ -543,11 +504,6 @@ const projects = mockProjects;
     .case-study-item {
       opacity: 1;
       filter: blur(0px);
-    }
-
-    .case-cta {
-      opacity: 1;
-      transform: translateY(0);
     }
   }
 </style>
