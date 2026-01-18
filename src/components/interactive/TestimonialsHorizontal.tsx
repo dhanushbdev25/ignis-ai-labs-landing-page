@@ -21,6 +21,8 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
   const activeIndexRef = useRef(0);
   const isScrollingRef = useRef(false);
   const trackRef = useRef<HTMLDivElement>(null);
+  const userInteractedRef = useRef(false);
+  const autoScrollResumeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Create infinite loop array: [last-1, last, ...original..., first, second]
   const infiniteTestimonials = testimonials.length > 0 ? [
@@ -173,12 +175,20 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
   // Track current infinite index
   const currentInfiniteIndexRef = useRef(2); // Start at first original testimonial
 
-  // Auto-scroll carousel with infinite loop
-  useEffect(() => {
+  // Function to start auto-scroll
+  const startAutoScroll = useCallback(() => {
     const container = scrollContainerRef.current;
     if (!container || testimonials.length === 0) return;
 
+    // Clear any existing interval
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+    }
+
     const scrollToNext = () => {
+      // Don't scroll if user has interacted
+      if (userInteractedRef.current) return;
+
       const testimonialBlocks = container.querySelectorAll('.testimonial-block');
       if (testimonialBlocks.length === 0) return;
 
@@ -220,13 +230,54 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
 
     // Auto-scroll every 5 seconds
     autoScrollIntervalRef.current = setInterval(scrollToNext, 5000);
+  }, [testimonials.length, centerTestimonial]);
+
+  // Handle testimonial click
+  const handleTestimonialClick = useCallback((infiniteIndex: number) => {
+    // Prevent click during programmatic scrolling
+    if (isScrollingRef.current) return;
+
+    // Mark user interaction
+    userInteractedRef.current = true;
+
+    // Clear any existing auto-scroll resume timeout
+    if (autoScrollResumeTimeoutRef.current) {
+      clearTimeout(autoScrollResumeTimeoutRef.current);
+      autoScrollResumeTimeoutRef.current = null;
+    }
+
+    // Pause auto-scroll
+    if (autoScrollIntervalRef.current) {
+      clearInterval(autoScrollIntervalRef.current);
+      autoScrollIntervalRef.current = null;
+    }
+
+    // Center the clicked testimonial
+    centerTestimonial(infiniteIndex, true);
+
+    // Restart auto-scroll after 10 seconds of no interaction
+    autoScrollResumeTimeoutRef.current = setTimeout(() => {
+      userInteractedRef.current = false;
+      startAutoScroll();
+    }, 10000);
+  }, [centerTestimonial, startAutoScroll]);
+
+  // Auto-scroll carousel with infinite loop
+  useEffect(() => {
+    // Don't start auto-scroll if user has interacted
+    if (userInteractedRef.current) return;
+
+    startAutoScroll();
 
     return () => {
       if (autoScrollIntervalRef.current) {
         clearInterval(autoScrollIntervalRef.current);
       }
+      if (autoScrollResumeTimeoutRef.current) {
+        clearTimeout(autoScrollResumeTimeoutRef.current);
+      }
     };
-  }, [testimonials.length, infiniteTestimonials.length, centerTestimonial]);
+  }, [testimonials.length, startAutoScroll]);
 
   // Track active testimonial using Intersection Observer (center detection)
   useEffect(() => {
@@ -286,7 +337,8 @@ export default function TestimonialsHorizontal({ testimonials }: TestimonialsHor
               return (
                 <div
                   key={`${testimonial._id}-${infiniteIndex}`}
-                  className={`testimonial-block ${isActive ? 'active' : ''}`}
+                  className={`testimonial-block ${isActive ? 'active' : ''} cursor-pointer`}
+                  onClick={() => handleTestimonialClick(infiniteIndex)}
                 >
                   {/* Quote */}
                   <blockquote className="testimonial-quote">

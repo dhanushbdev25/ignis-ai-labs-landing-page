@@ -972,6 +972,7 @@ a {
   box-sizing: border-box;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  cursor: pointer;
 }
 
 @media (min-width: 1200px) {
