@@ -12,6 +12,8 @@ const {
   title = 'Ignis AI Labs',
   description = 'Software development and engineering services. We build scalable, high-performance solutions that drive real business impact and transform your digital operations.'
 } = Astro.props;
+
+const siteUrl = Astro.site || 'https://ignisailabs.com';
 ---
 
 <!DOCTYPE html>
@@ -22,8 +24,13 @@ const {
     <meta name="description" content={description} />
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/images/systems/Ignis Fav Icon.svg" />
-    <link rel="alternate icon" type="image/svg+xml" href="/images/systems/Ignis Fav Icon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
     
     <!-- Fonts - Space Grotesk + Inter (including italic variants) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,14 +44,19 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://ignisailabs.com" />
-    <meta property="og:image" content="https://ignisailabs.com/images/og-image.png" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content="Ignis AI Labs" />
+    <meta property="og:image" content={`${siteUrl}/images/og-image.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ignis AI Labs - Software development and engineering services. We build scalable, high-performance solutions that drive real business impact." />
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://ignisailabs.com/images/og-image.png" />
+    <meta name="twitter:image" content={`${siteUrl}/images/og-image.png`} />
+    <meta name="twitter:image:alt" content="Ignis AI Labs - Software development and engineering services. We build scalable, high-performance solutions that drive real business impact." />
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#0a0a0a" />
