@@ -17,6 +17,15 @@ const siteUrl = Astro.site || 'https://ignisailabs.com';
 const fbAppId = import.meta.env.PUBLIC_FB_APP_ID || '';
 const twitterHandle = import.meta.env.PUBLIC_TWITTER_HANDLE || '';
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
+
+// Helper function to construct absolute URLs without double slashes
+const getAbsoluteUrl = (path: string) => {
+  const baseUrl = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl;
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${baseUrl}${cleanPath}`;
+};
+
+const ogImageUrl = getAbsoluteUrl('og-image.png');
 ---
 
 <!DOCTYPE html>
@@ -60,7 +69,7 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
     <meta property="og:url" content={currentUrl} />
     <meta property="og:site_name" content="Ignis AI Labs" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content={`${siteUrl}/images/og-image.png`} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -73,7 +82,7 @@ const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={`${siteUrl}/images/og-image.png`} />
+    <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content="Ignis AI Labs - Software development and engineering services. We build scalable, high-performance solutions that drive real business impact." />
     {twitterHandle && (
       <meta name="twitter:site" content={twitterHandle} />
