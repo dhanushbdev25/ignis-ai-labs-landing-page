@@ -1,28 +1,18 @@
 import type { APIRoute } from 'astro';
-import { Resend } from 'resend';
 
 interface ConsultationData {
-  name: string;
+  fullName: string;
   email: string;
-  phone?: string;
+  mobile: string;
   company?: string;
-  projectType: string;
-  budget?: string;
-  message: string;
-  preferredPlan?: string;
+  primaryInterest: string;
+  background: string;
+  goals: string;
   submittedAt: string;
 }
 
 // Email template for admin notification
 function generateAdminEmail(data: ConsultationData): string {
-  const budgetLabels: Record<string, string> = {
-    'under-5k': 'Under $5,000',
-    '5k-10k': '$5,000 - $10,000',
-    '10k-25k': '$10,000 - $25,000',
-    '25k-50k': '$25,000 - $50,000',
-    '50k-plus': '$50,000+',
-  };
-
   return `
     <!DOCTYPE html>
     <html>
@@ -37,7 +27,7 @@ function generateAdminEmail(data: ConsultationData): string {
         .label { color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
         .value { color: #fff; font-size: 16px; }
         .badge { display: inline-block; background: rgba(124, 58, 237, 0.2); color: #7c3aed; padding: 4px 12px; border-radius: 20px; font-size: 14px; }
-        .message-box { background: #0a0a0a; padding: 16px; border-radius: 12px; border: 1px solid #27272a; }
+        .message-box { background: #0a0a0a; padding: 16px; border-radius: 12px; border: 1px solid #27272a; white-space: pre-wrap; }
         a { color: #7c3aed; }
       </style>
     </head>
@@ -48,12 +38,16 @@ function generateAdminEmail(data: ConsultationData): string {
         </div>
         <div class="content">
           <div class="field">
-            <div class="label">Name</div>
-            <div class="value">${data.name}</div>
+            <div class="label">Full Name</div>
+            <div class="value">${data.fullName}</div>
           </div>
           <div class="field">
             <div class="label">Email</div>
             <div class="value"><a href="mailto:${data.email}">${data.email}</a></div>
+          </div>
+          <div class="field">
+            <div class="label">Mobile Number</div>
+            <div class="value">${data.mobile}</div>
           </div>
           ${data.company ? `
           <div class="field">
@@ -61,31 +55,17 @@ function generateAdminEmail(data: ConsultationData): string {
             <div class="value">${data.company}</div>
           </div>
           ` : ''}
-          ${data.phone ? `
           <div class="field">
-            <div class="label">Phone</div>
-            <div class="value">${data.phone}</div>
+            <div class="label">Primary Interest</div>
+            <div class="value"><span class="badge">${data.primaryInterest}</span></div>
           </div>
-          ` : ''}
           <div class="field">
-            <div class="label">Project Type</div>
-            <div class="value"><span class="badge">${data.projectType.replace('-', ' ')}</span></div>
+            <div class="label">Background</div>
+            <div class="value"><span class="badge">${data.background}</span></div>
           </div>
-          ${data.budget ? `
           <div class="field">
-            <div class="label">Budget</div>
-            <div class="value">${budgetLabels[data.budget] || data.budget}</div>
-          </div>
-          ` : ''}
-          ${data.preferredPlan ? `
-          <div class="field">
-            <div class="label">Preferred Plan</div>
-            <div class="value" style="text-transform: capitalize;">${data.preferredPlan}</div>
-          </div>
-          ` : ''}
-          <div class="field">
-            <div class="label">Message</div>
-            <div class="message-box">${data.message}</div>
+            <div class="label">What are you looking to achieve?</div>
+            <div class="message-box">${data.goals}</div>
           </div>
           <div class="field">
             <div class="label">Submitted At</div>
@@ -129,21 +109,21 @@ function generateUserEmail(data: ConsultationData): string {
           <div class="logo">Ignis AI Labs<span>.</span></div>
         </div>
         <div class="content">
-          <h1>Thanks for reaching out, ${data.name.split(' ')[0]}! 🎉</h1>
-          <p>We've received your consultation request and our team is excited to learn more about your project.</p>
+          <h1>Thanks for reaching out, ${data.fullName.split(' ')[0]}! 🎉</h1>
+          <p>We've received your consultation request and our team is excited to learn more about your goals with Ignis AI Labs.</p>
           
           <div class="steps">
             <div class="step">
               <div class="step-number">1</div>
-              <div class="step-text"><strong>Review</strong> — Our team will review your project details within 24 hours.</div>
+              <div class="step-text"><strong>Review</strong> — Our team will review your request within 24 hours.</div>
             </div>
             <div class="step">
               <div class="step-number">2</div>
-              <div class="step-text"><strong>Connect</strong> — We'll reach out to schedule a discovery call.</div>
+              <div class="step-text"><strong>Connect</strong> — We'll reach out to discuss how we can help you achieve your goals.</div>
             </div>
             <div class="step">
               <div class="step-number">3</div>
-              <div class="step-text"><strong>Create</strong> — Once aligned, we'll start bringing your vision to life!</div>
+              <div class="step-text"><strong>Explore</strong> — Together, we'll explore how Ignis AI Labs can support your journey!</div>
             </div>
           </div>
           
@@ -159,60 +139,129 @@ function generateUserEmail(data: ConsultationData): string {
   `;
 }
 
-export const POST: APIRoute = async ({ request, locals }) => {
+// Send email via MailChannels API
+async function sendEmailViaMailChannels(
+  to: string,
+  subject: string,
+  html: string,
+  request: Request,
+  replyTo?: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const payload = {
+      personalizations: [
+        {
+          to: [{ email: to }],
+        },
+      ],
+      from: {
+        email: 'noreply@ignisailabs.com',
+        name: 'Ignis AI Labs',
+      },
+      subject,
+      content: [
+        {
+          type: 'text/html',
+          value: html,
+        },
+      ],
+      ...(replyTo && {
+        reply_to: {
+          email: replyTo,
+        },
+      }),
+    };
+
+    const response = await fetch('https://api.mailchannels.net/tx/v1/send', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('MailChannels API error:', response.status, errorText);
+      
+      // Provide helpful error message for 401
+      if (response.status === 401) {
+        return {
+          success: false,
+          error: 'MailChannels authentication failed. Please ensure DNS records (SPF, DKIM, Domain Lockdown) are configured for ignisailabs.com domain. See MailChannels documentation for Cloudflare Workers setup.',
+        };
+      }
+      
+      return {
+        success: false,
+        error: `Failed to send email: ${response.status} - ${errorText.substring(0, 200)}`,
+      };
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('MailChannels send error:', error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
+export const POST: APIRoute = async ({ request }) => {
   try {
     const data: ConsultationData = await request.json();
 
     // Validate required fields
-    if (!data.name || !data.email || !data.message) {
+    if (!data.fullName || !data.email || !data.mobile || !data.primaryInterest || !data.background || !data.goals) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    // Get Resend API key from environment
-    // @ts-ignore - Cloudflare runtime environment
-    const env = locals.runtime?.env || import.meta.env;
-    const resendApiKey = env.RESEND_API_KEY;
-
-    if (!resendApiKey) {
-      console.log('Consultation submission (no email configured):', data);
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
       return new Response(
-        JSON.stringify({ success: true, message: 'Submission received (email not configured)' }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: 'Invalid email address' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const resend = new Resend(resendApiKey);
+    // Send notification to admin (contact@ignisailabs.com)
+    const adminEmailResult = await sendEmailViaMailChannels(
+      'contact@ignisailabs.com',
+      `🔥 New Consultation Request: ${data.fullName} - ${data.primaryInterest}`,
+      generateAdminEmail(data),
+      request,
+      data.email
+    );
 
-    // Send notification to admin
-    const adminEmail = await resend.emails.send({
-      from: 'Ignis AI Labs <notifications@ignisailabs.com>',
-      to: ['team@ignisailabs.com'],
-      replyTo: data.email,
-      subject: `🔥 New Consultation: ${data.name} - ${data.projectType.replace('-', ' ')}`,
-      html: generateAdminEmail(data),
-    });
-
-    if (adminEmail.error) {
-      console.error('Failed to send admin email:', adminEmail.error);
+    if (!adminEmailResult.success) {
+      console.error('Failed to send admin email:', adminEmailResult.error);
+      // Continue even if admin email fails, but log it
     }
 
     // Send confirmation to user
-    const userEmail = await resend.emails.send({
-      from: 'Ignis AI Labs <hello@ignisailabs.com>',
-      to: [data.email],
-      subject: "We've received your request! 🎉",
-      html: generateUserEmail(data),
-    });
+    const userEmailResult = await sendEmailViaMailChannels(
+      data.email,
+      "We've received your request! 🎉",
+      generateUserEmail(data),
+      request
+    );
 
-    if (userEmail.error) {
-      console.error('Failed to send user email:', userEmail.error);
+    if (!userEmailResult.success) {
+      console.error('Failed to send user email:', userEmailResult.error);
+      // Continue even if user email fails, but log it
     }
 
+    // Return success even if emails fail (form submission is recorded)
     return new Response(
-      JSON.stringify({ success: true, messageId: adminEmail.data?.id }),
+      JSON.stringify({ 
+        success: true, 
+        message: 'Consultation request submitted successfully' 
+      }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error) {

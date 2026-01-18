@@ -1,16 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface FormData {
-  name: string;
+  fullName: string;
   email: string;
-  company: string;
-  phone: string;
-  projectType: string;
-  budget: string;
-  message: string;
-  preferredPlan: string;
+  mobile: string;
+  company?: string;
+  primaryInterest: string;
+  background: string;
+  goals: string;
 }
 
 interface ConsultationFormProps {
@@ -18,32 +17,26 @@ interface ConsultationFormProps {
   preselectedPlan?: string;
 }
 
-const PROJECT_TYPES = [
-  { value: 'website-design', label: 'Website Design' },
-  { value: 'logo-design', label: 'Logo Design' },
-  { value: 'branding', label: 'Branding' },
-  { value: 'ui-ux', label: 'UI/UX Design' },
-  { value: 'mobile-design', label: 'Mobile Design' },
-  { value: 'illustration', label: 'Illustration' },
-  { value: 'other', label: 'Other' },
+const PRIMARY_INTEREST_OPTIONS = [
+  { value: 'Software Development Services', label: 'Software Development Services' },
+  { value: 'AI & ML Solutions', label: 'AI & ML Solutions' },
+  { value: 'Enterprise System Integration', label: 'Enterprise System Integration' },
+  { value: 'Analytics & Business Intelligence', label: 'Analytics & Business Intelligence' },
+  { value: 'Consulting & Architecture', label: 'Consulting & Architecture' },
+  { value: 'Umbrae / Product Access', label: 'Umbrae / Product Access' },
+  { value: 'Partnership / Collaboration', label: 'Partnership / Collaboration' },
 ];
 
-const BUDGET_RANGES = [
-  { value: 'under-5k', label: 'Under $5,000' },
-  { value: '5k-10k', label: '$5,000 - $10,000' },
-  { value: '10k-25k', label: '$10,000 - $25,000' },
-  { value: '25k-50k', label: '$25,000 - $50,000' },
-  { value: '50k-plus', label: '$50,000+' },
+const BACKGROUND_OPTIONS = [
+  { value: 'Business Owner / Executive', label: 'Business Owner / Executive' },
+  { value: 'Developer / Builder', label: 'Developer / Builder' },
+  { value: 'Data Analyst / Researcher', label: 'Data Analyst / Researcher' },
+  { value: 'IT Manager / Technical Lead', label: 'IT Manager / Technical Lead' },
+  { value: 'Investor / Trader', label: 'Investor / Trader' },
+  { value: 'Product Manager', label: 'Product Manager' },
 ];
 
-const STEPS = [
-  { id: 1, title: 'Contact Info' },
-  { id: 2, title: 'Project Details' },
-  { id: 3, title: 'Message' },
-];
-
-export default function ConsultationForm({ onClose, preselectedPlan }: ConsultationFormProps) {
-  const [currentStep, setCurrentStep] = useState(1);
+export default function ConsultationForm({ onClose }: ConsultationFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -52,41 +45,7 @@ export default function ConsultationForm({ onClose, preselectedPlan }: Consultat
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
-    watch,
-  } = useForm<FormData>({
-    defaultValues: {
-      preferredPlan: preselectedPlan || '',
-    },
-  });
-
-  const watchedFields = watch();
-
-  const validateStep = async (step: number): Promise<boolean> => {
-    switch (step) {
-      case 1:
-        return await trigger(['name', 'email']);
-      case 2:
-        return await trigger(['projectType']);
-      case 3:
-        return await trigger(['message']);
-      default:
-        return true;
-    }
-  };
-
-  const nextStep = async () => {
-    const isValid = await validateStep(currentStep);
-    if (isValid && currentStep < 3) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
-    }
-  };
+  } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -103,16 +62,27 @@ export default function ConsultationForm({ onClose, preselectedPlan }: Consultat
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to submit');
       }
 
       setSubmitSuccess(true);
     } catch (error) {
-      setSubmitError('Something went wrong. Please try again.');
+      setSubmitError(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Auto-close modal after 3 seconds on success
+  useEffect(() => {
+    if (submitSuccess) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitSuccess, onClose]);
 
   if (submitSuccess) {
     return (
@@ -130,197 +100,155 @@ export default function ConsultationForm({ onClose, preselectedPlan }: Consultat
         <p className="text-sm sm:text-base text-[var(--color-text-secondary)] mb-6">
           We've received your request and will get back to you within 24 hours.
         </p>
-        <button 
-          onClick={onClose} 
-          className="btn-primary inline-flex items-center justify-center gap-2 px-6 sm:px-8"
-        >
-          <span>Close</span>
-        </button>
+        <div className="flex justify-center items-center">
+          <button 
+            onClick={onClose} 
+            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 rounded-full bg-gradient-to-r from-[var(--color-accent-purple)] to-[var(--color-accent-purple-dark)] text-white font-semibold hover:shadow-lg transition-all duration-300 relative z-10"
+          >
+            Close
+          </button>
+        </div>
       </motion.div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Progress Steps */}
-      <div className="flex items-center justify-between mb-6 sm:mb-8">
-        {STEPS.map((step, index) => (
-          <div key={step.id} className="flex items-center flex-1 last:flex-none">
-            <div className="flex flex-col items-center gap-2">
-              <div
-                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 shadow-sm ${
-                  currentStep >= step.id
-                    ? 'bg-gradient-to-br from-[var(--color-accent-purple)] to-[var(--color-accent-purple-dark)] text-white shadow-purple-subtle'
-                    : 'bg-[var(--color-bg-tertiary)] text-[var(--color-text-muted)] border border-[var(--color-border)]'
-                }`}
-              >
-                {currentStep > step.id ? (
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                ) : (
-                  step.id
-                )}
-              </div>
-              <span className={`text-xs sm:text-sm font-medium hidden sm:block ${
-                currentStep >= step.id ? 'text-[var(--color-accent-purple)]' : 'text-[var(--color-text-muted)]'
-              }`}>
-                {step.title}
-              </span>
-            </div>
-            {index < STEPS.length - 1 && (
-              <div
-                className={`h-0.5 flex-1 mx-2 sm:mx-3 transition-all duration-300 ${
-                  currentStep > step.id ? 'bg-[var(--color-accent-purple)]' : 'bg-[var(--color-border)]'
-                }`}
-              />
-            )}
-          </div>
-        ))}
+      <div className="space-y-4">
+        {/* Full Name */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            Full Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            {...register('fullName', { required: 'Full name is required' })}
+            type="text"
+            placeholder="John Doe"
+            className={`w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors ${errors.fullName ? 'border-red-500' : ''}`}
+          />
+          {errors.fullName && (
+            <p className="mt-1 text-sm text-red-500">{errors.fullName.message}</p>
+          )}
+        </div>
+
+        {/* Email Address */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            Email Address <span className="text-red-500">*</span>
+          </label>
+          <input
+            {...register('email', {
+              required: 'Email address is required',
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: 'Invalid email address',
+              },
+            })}
+            type="email"
+            placeholder="john@example.com"
+            className={`w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors ${errors.email ? 'border-red-500' : ''}`}
+          />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+          )}
+        </div>
+
+        {/* Mobile Number */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            Mobile Number <span className="text-red-500">*</span>
+          </label>
+          <input
+            {...register('mobile', {
+              required: 'Mobile number is required',
+              pattern: {
+                value: /^[\d\s\-\+\(\)]+$/,
+                message: 'Invalid mobile number format',
+              },
+            })}
+            type="tel"
+            placeholder="+1 234 567 890"
+            className={`w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors ${errors.mobile ? 'border-red-500' : ''}`}
+          />
+          {errors.mobile && (
+            <p className="mt-1 text-sm text-red-500">{errors.mobile.message}</p>
+          )}
+        </div>
+
+        {/* Company Name (Optional) */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            Company Name
+          </label>
+          <input
+            {...register('company')}
+            type="text"
+            placeholder="Company Inc (Optional)"
+            className="w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors"
+          />
+        </div>
+
+        {/* Primary Interest */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            Your Primary Interest <span className="text-red-500">*</span>
+          </label>
+          <select
+            {...register('primaryInterest', { required: 'Please select your primary interest' })}
+            className={`w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors ${errors.primaryInterest ? 'border-red-500' : ''}`}
+          >
+            <option value="">Select your primary interest</option>
+            {PRIMARY_INTEREST_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {errors.primaryInterest && (
+            <p className="mt-1 text-sm text-red-500">{errors.primaryInterest.message}</p>
+          )}
+        </div>
+
+        {/* Background */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            Your Background <span className="text-red-500">*</span>
+          </label>
+          <select
+            {...register('background', { required: 'Please select your background' })}
+            className={`w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors ${errors.background ? 'border-red-500' : ''}`}
+          >
+            <option value="">Select your background</option>
+            {BACKGROUND_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {errors.background && (
+            <p className="mt-1 text-sm text-red-500">{errors.background.message}</p>
+          )}
+        </div>
+
+        {/* Goals */}
+        <div>
+          <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
+            What are you looking to achieve with Ignis AI Labs? <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            {...register('goals', {
+              required: 'Please tell us what you are looking to achieve',
+              minLength: { value: 10, message: 'Please provide more details (at least 10 characters)' },
+            })}
+            rows={6}
+            className={`w-full px-4 py-3 rounded-xl border-2 bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] border-[var(--color-border)] focus:border-[var(--color-accent-purple)] focus:outline-none transition-colors min-h-[140px] sm:min-h-[160px] resize-y ${errors.goals ? 'border-red-500' : ''}`}
+            placeholder="Tell us about your goals and what you hope to achieve..."
+          />
+          {errors.goals && (
+            <p className="mt-1 text-sm text-red-500">{errors.goals.message}</p>
+          )}
+        </div>
       </div>
-
-      {/* Step Content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentStep}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.2 }}
-          className="space-y-4"
-        >
-          {currentStep === 1 && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
-                  Full Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  {...register('name', { required: 'Name is required' })}
-                  type="text"
-                  placeholder="John Doe"
-                  className={errors.name ? 'border-red-500' : ''}
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  {...register('email', {
-                    required: 'Email is required',
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: 'Invalid email address',
-                    },
-                  })}
-                  type="email"
-                  placeholder="john@company.com"
-                  className={errors.email ? 'border-red-500' : ''}
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">Company</label>
-                  <input {...register('company')} type="text" placeholder="Company Inc" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">Phone</label>
-                  <input {...register('phone')} type="tel" placeholder="+1 234 567 890" />
-                </div>
-              </div>
-            </>
-          )}
-
-          {currentStep === 2 && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
-                  Project Type <span className="text-red-500">*</span>
-                </label>
-                <select
-                  {...register('projectType', { required: 'Please select a project type' })}
-                  className={errors.projectType ? 'border-red-500' : ''}
-                >
-                  <option value="">Select a project type</option>
-                  {PROJECT_TYPES.map((type) => (
-                    <option key={type.value} value={type.value}>
-                      {type.label}
-                    </option>
-                  ))}
-                </select>
-                {errors.projectType && (
-                  <p className="mt-1 text-sm text-red-500">{errors.projectType.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">Budget Range</label>
-                <select {...register('budget')}>
-                  <option value="">Select a budget range</option>
-                  {BUDGET_RANGES.map((range) => (
-                    <option key={range.value} value={range.value}>
-                      {range.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">Preferred Plan</label>
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  {['standard', 'premium'].map((plan) => (
-                    <label
-                      key={plan}
-                      className={`flex items-center justify-center p-3 sm:p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
-                        watchedFields.preferredPlan === plan
-                          ? 'border-[var(--color-accent-purple)] bg-[var(--color-accent-purple)]/10 shadow-md'
-                          : 'border-[var(--color-border)] hover:border-[var(--color-border-hover)] hover:bg-[var(--color-bg-secondary)]'
-                      }`}
-                    >
-                      <input
-                        {...register('preferredPlan')}
-                        type="radio"
-                        value={plan}
-                        className="sr-only"
-                      />
-                      <span className="capitalize font-medium text-sm sm:text-base text-[var(--color-text-primary)]">{plan}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
-
-          {currentStep === 3 && (
-            <div>
-              <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
-                Tell us about your project <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                {...register('message', {
-                  required: 'Please provide some details about your project',
-                  minLength: { value: 20, message: 'Please provide more details (at least 20 characters)' },
-                })}
-                rows={6}
-                className={`min-h-[140px] sm:min-h-[160px] ${errors.message ? 'border-red-500' : ''}`}
-                placeholder="Describe your project, goals, and any specific requirements..."
-              />
-              {errors.message && (
-                <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
-              )}
-            </div>
-          )}
-        </motion.div>
-      </AnimatePresence>
 
       {/* Error Message */}
       {submitError && (
@@ -336,58 +264,30 @@ export default function ConsultationForm({ onClose, preselectedPlan }: Consultat
         </motion.div>
       )}
 
-      {/* Navigation Buttons */}
-      <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 pt-4 sm:pt-6">
-        {currentStep > 1 ? (
-          <button 
-            type="button" 
-            onClick={prevStep} 
-            className="btn-secondary flex-1 order-2 sm:order-1"
-          >
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </button>
-        ) : (
-          <div className="hidden sm:block flex-1" />
-        )}
-
-        {currentStep < 3 ? (
-          <button 
-            type="button" 
-            onClick={nextStep} 
-            className="btn-primary inline-flex items-center justify-center gap-2 flex-1 order-1 sm:order-2"
-          >
-            Continue
-            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        ) : (
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn-primary inline-flex items-center justify-center gap-2 flex-1 order-1 sm:order-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? (
-              <>
-                <svg className="animate-spin w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                <span>Submitting...</span>
-              </>
-            ) : (
-              <>
-                <span>Submit Request</span>
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </>
-            )}
-          </button>
-        )}
+      {/* Submit Button */}
+      <div className="pt-4 sm:pt-6">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="btn-primary w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? (
+            <>
+              <svg className="animate-spin w-4 h-4 sm:w-5 sm:h-5 relative z-10" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              <span className="relative z-10">Submitting...</span>
+            </>
+          ) : (
+            <>
+              <span className="relative z-10">Submit Request</span>
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </>
+          )}
+        </button>
       </div>
     </form>
   );

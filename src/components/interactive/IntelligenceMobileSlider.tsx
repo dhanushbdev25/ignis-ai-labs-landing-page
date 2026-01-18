@@ -113,17 +113,25 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
     };
   }, [updateActiveIndex]);
 
-  // Programmatic scroll snap on touch end for better mobile experience
+  // Programmatic scroll snap on touch end for smooth, bounce-free transitions
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
+
+    let touchStartX = 0;
+    let touchStartTime = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartTime = Date.now();
+    };
 
     const handleTouchEnd = () => {
       if (touchEndTimeoutRef.current) {
         clearTimeout(touchEndTimeoutRef.current);
       }
 
-      // Small delay to let native scroll settle
+      // Immediate snap without delay for smoother experience
       touchEndTimeoutRef.current = setTimeout(() => {
         if (!container) return;
 
@@ -132,8 +140,8 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
         const slideIndex = Math.round(scrollLeft / containerWidth);
         const targetScroll = slideIndex * containerWidth;
 
-        // Smooth snap to nearest slide
-        if (Math.abs(scrollLeft - targetScroll) > 10) {
+        // Snap to nearest slide immediately for smooth, bounce-free transition
+        if (Math.abs(scrollLeft - targetScroll) > 5) {
           isScrollingRef.current = true;
           container.scrollTo({
             left: targetScroll,
@@ -142,14 +150,16 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
 
           setTimeout(() => {
             isScrollingRef.current = false;
-          }, 300);
+          }, 250);
         }
-      }, 100);
+      }, 50); // Reduced delay for more responsive snapping
     };
 
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
     container.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
       container.removeEventListener('touchend', handleTouchEnd);
       if (touchEndTimeoutRef.current) {
         clearTimeout(touchEndTimeoutRef.current);
@@ -238,9 +248,9 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
           -ms-overflow-style: none;
-          overscroll-behavior-x: contain;
+          overscroll-behavior-x: none;
           overscroll-behavior-y: auto;
-          touch-action: pan-x pan-y;
+          touch-action: pan-x;
           contain: layout style;
         }
 
@@ -262,6 +272,7 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           min-height: 450px;
           position: relative;
           contain: layout style paint;
+          scroll-margin: 0;
         }
 
         /* Material layer - only on active slide */

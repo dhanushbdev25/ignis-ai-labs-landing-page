@@ -103,14 +103,13 @@ export default function ConsultationModal({ initialPlan }: ConsultationModalProp
                     Book a Consultation
                   </h2>
                   <p className="text-sm sm:text-base text-[var(--color-text-secondary)]">
-                    Tell us about your project and we'll get back to you within 24 hours.
+                    Tell us about your goals and we'll get back to you within 24 hours.
                   </p>
                 </div>
 
                 {/* Form */}
                 <ConsultationForm 
                   onClose={handleClose}
-                  preselectedPlan={selectedPlan}
                 />
               </div>
             </div>
