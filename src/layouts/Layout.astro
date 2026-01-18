@@ -13,14 +13,15 @@ const {
   description = 'Software development and engineering services. We build scalable, high-performance solutions that drive real business impact and transform your digital operations.'
 } = Astro.props;
 
-const siteUrl = Astro.site || 'https://ignisailabs.com';
+const siteUrl = String(Astro.site || 'https://ignisailabs.com');
 const fbAppId = import.meta.env.PUBLIC_FB_APP_ID || '';
 const twitterHandle = import.meta.env.PUBLIC_TWITTER_HANDLE || '';
 const currentUrl = new URL(Astro.url.pathname, siteUrl).href;
 
 // Helper function to construct absolute URLs without double slashes
 const getAbsoluteUrl = (path: string) => {
-  const baseUrl = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl;
+  const baseUrlStr = String(siteUrl);
+  const baseUrl = baseUrlStr.endsWith('/') ? baseUrlStr.slice(0, -1) : baseUrlStr;
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${baseUrl}${cleanPath}`;
 };
