@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface MobileSliderSystem {
   name: string;
@@ -14,155 +14,47 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
   const [showTrace, setShowTrace] = useState(false);
   const [showLogoHalo, setShowLogoHalo] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const activeIndexRef = useRef(0);
-  const rafIdRef = useRef<number | null>(null);
-  const isScrollingRef = useRef(false);
-  const touchEndTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Update ref when activeIndex changes
-  useEffect(() => {
-    activeIndexRef.current = activeIndex;
-  }, [activeIndex]);
-
-  // Smooth scroll detection using requestAnimationFrame
-  const updateActiveIndex = useCallback((newIndex: number) => {
-    const clampedIndex = Math.max(0, Math.min(newIndex, systems.length - 1));
-    if (clampedIndex !== activeIndexRef.current) {
-      activeIndexRef.current = clampedIndex;
-      setActiveIndex(clampedIndex);
-    }
-  }, [systems.length]);
-
-  // Use IntersectionObserver for reliable active slide detection
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const observerOptions = {
-      root: container,
-      rootMargin: '0px',
-      threshold: [0.5, 0.6, 0.7], // Consider active when 50-70% visible
-    };
-
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      // Find the entry with highest intersection ratio
-      let maxRatio = 0;
-      let activeEntry: IntersectionObserverEntry | null = null;
-
-      entries.forEach((entry) => {
-        if (entry.intersectionRatio > maxRatio) {
-          maxRatio = entry.intersectionRatio;
-          activeEntry = entry;
-        }
-      });
-
-      if (activeEntry && activeEntry.intersectionRatio >= 0.5) {
-        const slideIndex = parseInt(activeEntry.target.getAttribute('data-slide-index') || '0', 10);
-        updateActiveIndex(slideIndex);
-      }
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, observerOptions);
-
-    // Observe all slides
-    slideRefs.current.forEach((slide, index) => {
-      if (slide) {
-        slide.setAttribute('data-slide-index', index.toString());
-        observer.observe(slide);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [systems.length, updateActiveIndex]);
-
-  // Fallback scroll handler using requestAnimationFrame for smooth updates
+  // Simple scroll handler to track active slide
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
     const handleScroll = () => {
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current);
+      // Clear any pending timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
 
-      rafIdRef.current = requestAnimationFrame(() => {
+      // Debounce the index update to avoid jank
+      scrollTimeoutRef.current = setTimeout(() => {
         if (!container) return;
-
+        
         const containerWidth = container.offsetWidth;
         const scrollLeft = container.scrollLeft;
-        const slideIndex = Math.round(scrollLeft / containerWidth);
-        updateActiveIndex(slideIndex);
-        rafIdRef.current = null;
-      });
+        const newIndex = Math.round(scrollLeft / containerWidth);
+        
+        // Only update if index actually changed
+        setActiveIndex((prevIndex) => {
+          if (prevIndex !== newIndex) {
+            return newIndex;
+          }
+          return prevIndex;
+        });
+      }, 50);
     };
 
     container.addEventListener('scroll', handleScroll, { passive: true });
 
     // Initial check
     const initialIndex = Math.round(container.scrollLeft / container.offsetWidth);
-    updateActiveIndex(initialIndex);
+    setActiveIndex(initialIndex);
 
     return () => {
       container.removeEventListener('scroll', handleScroll);
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
-    };
-  }, [updateActiveIndex]);
-
-  // Programmatic scroll snap on touch end for smooth, bounce-free transitions
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    let touchStartX = 0;
-    let touchStartTime = 0;
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartX = e.touches[0].clientX;
-      touchStartTime = Date.now();
-    };
-
-    const handleTouchEnd = () => {
-      if (touchEndTimeoutRef.current) {
-        clearTimeout(touchEndTimeoutRef.current);
-      }
-
-      // Immediate snap without delay for smoother experience
-      touchEndTimeoutRef.current = setTimeout(() => {
-        if (!container) return;
-
-        const containerWidth = container.offsetWidth;
-        const scrollLeft = container.scrollLeft;
-        const slideIndex = Math.round(scrollLeft / containerWidth);
-        const targetScroll = slideIndex * containerWidth;
-
-        // Snap to nearest slide immediately for smooth, bounce-free transition
-        if (Math.abs(scrollLeft - targetScroll) > 5) {
-          isScrollingRef.current = true;
-          container.scrollTo({
-            left: targetScroll,
-            behavior: 'smooth',
-          });
-
-          setTimeout(() => {
-            isScrollingRef.current = false;
-          }, 250);
-        }
-      }, 50); // Reduced delay for more responsive snapping
-    };
-
-    container.addEventListener('touchstart', handleTouchStart, { passive: true });
-    container.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-    return () => {
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchend', handleTouchEnd);
-      if (touchEndTimeoutRef.current) {
-        clearTimeout(touchEndTimeoutRef.current);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
       }
     };
   }, []);
@@ -194,7 +86,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           return (
             <div
               key={index}
-              ref={(el) => (slideRefs.current[index] = el)}
               className={`mobile-slider-slide ${isActive ? 'active' : ''}`}
             >
               {/* Material layer */}
@@ -236,7 +127,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           padding: 4rem 0;
           position: relative;
           background-color: var(--color-bg-primary);
-          contain: layout style paint;
         }
 
         .mobile-slider-scroll {
@@ -248,10 +138,9 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
           -ms-overflow-style: none;
-          overscroll-behavior-x: none;
+          overscroll-behavior-x: contain;
           overscroll-behavior-y: auto;
-          touch-action: pan-x;
-          contain: layout style;
+          touch-action: pan-x pan-y;
         }
 
         .mobile-slider-scroll::-webkit-scrollbar {
@@ -271,8 +160,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           padding: 3rem 1.5rem;
           min-height: 450px;
           position: relative;
-          contain: layout style paint;
-          scroll-margin: 0;
         }
 
         /* Material layer - only on active slide */
@@ -346,10 +233,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           letter-spacing: -0.02em;
           position: relative;
           z-index: 2;
-          background: transparent;
-          border: none;
-          padding: 0;
-          box-shadow: none;
         }
 
         .mobile-slider-logo.active {
@@ -358,7 +241,7 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           color: var(--color-text-primary);
         }
 
-        /* Logo acknowledgment - scale and opacity only, no box-shadow */
+        /* Logo acknowledgment - scale and opacity only */
         .mobile-slider-logo.acknowledging {
           animation: logoAcknowledge 0.3s ease-out;
         }
@@ -393,8 +276,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           font-weight: 400;
           position: relative;
           z-index: 2;
-          will-change: opacity, transform;
-          letter-spacing: 0;
         }
 
         .mobile-slider-outcome.active {

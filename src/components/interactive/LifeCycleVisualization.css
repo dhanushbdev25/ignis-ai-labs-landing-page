@@ -38,6 +38,11 @@
   max-width: 900px;
   margin: 0 auto;
   cursor: default;
+  transition: opacity 0.1s ease-in;
+}
+
+.lifecycle-svg-wrapper.mounted {
+  opacity: 1;
 }
 
 @media (max-width: 767px) {
@@ -70,6 +75,25 @@
   /* Prevent flash of incorrect layout */
   opacity: 1;
   transition: opacity 0.1s ease-in;
+}
+
+/* Prevent flash: Hide circle on mobile, hide line on desktop */
+@media (max-width: 767px) {
+  .desktop-circle-container {
+    /* Hide circle container on mobile */
+    display: none !important;
+  }
+  
+  .mobile-vertical-line {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-vertical-line {
+    /* Hide vertical line on desktop/tablet */
+    display: none !important;
+  }
 }
 
 @media (max-width: 767px) {

@@ -187,8 +187,9 @@ export default function LifeCycleVisualization({
   const [isMobile, setIsMobile] = useState(getInitialIsMobile);
   const [isTablet, setIsTablet] = useState(getInitialIsTablet);
   const [viewportWidth, setViewportWidth] = useState(getInitialViewportWidth);
+  const [isMounted, setIsMounted] = useState(false);
 
-  // Responsive breakpoint check
+  // Responsive breakpoint check - ensure correct layout on mount
   useEffect(() => {
     const checkResponsive = () => {
       const width = window.innerWidth;
@@ -197,8 +198,10 @@ export default function LifeCycleVisualization({
       setIsTablet(width >= 768 && width < 1024);
     };
 
-    // Only update if the initial values were wrong (SSR case)
+    // Set mounted state and check responsive immediately
     checkResponsive();
+    setIsMounted(true);
+    
     window.addEventListener('resize', checkResponsive);
     return () => window.removeEventListener('resize', checkResponsive);
   }, []);
@@ -254,7 +257,7 @@ export default function LifeCycleVisualization({
 
   return (
     <div className="lifecycle-visualization-container">
-      <div className="lifecycle-svg-wrapper">
+      <div className={`lifecycle-svg-wrapper ${isMounted ? 'mounted' : ''}`}>
         <svg
           width={svgWidth}
           height={svgHeight}
@@ -287,19 +290,20 @@ export default function LifeCycleVisualization({
           </defs>
 
           {/* Mobile: Vertical line */}
-          {isMobile && (
+          {isMobile && isMounted && (
             <path
               d={mobilePath}
               fill="none"
               stroke="rgba(168, 85, 247, 0.4)"
               strokeWidth={viewportWidth < 480 ? 1.5 : 2}
               strokeLinecap="round"
+              className="mobile-vertical-line"
             />
           )}
 
           {/* Desktop & Tablet: Minimalist circle with continuous rotation */}
-          {!isMobile && (
-            <g transform={`translate(${centerX}, ${centerY})`}>
+          {!isMobile && isMounted && (
+            <g transform={`translate(${centerX}, ${centerY})`} className="desktop-circle-container">
               <g>
                 {/* Continuous rotation animation */}
                 <animateTransform
