@@ -13,44 +13,57 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
   const [activeIndex, setActiveIndex] = useState(0);
   const [showTrace, setShowTrace] = useState(false);
   const [showLogoHalo, setShowLogoHalo] = useState(false);
-  const [isSettling, setIsSettling] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const logoRefs = useRef<(HTMLDivElement | null)[]>([]);
   const outcomeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const activeIndexRef = useRef(0);
 
-  // Detect active slide using Intersection Observer
+  // Update ref when activeIndex changes
+  useEffect(() => {
+    activeIndexRef.current = activeIndex;
+  }, [activeIndex]);
+
+  // Detect active slide using scroll event (more reliable than Intersection Observer)
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-            const index = slideRefs.current.indexOf(entry.target as HTMLDivElement);
-            if (index !== -1 && index !== activeIndex) {
-              setActiveIndex(index);
-            }
-          }
-        });
-      },
-      {
-        root: container,
-        threshold: 0.5,
-      }
-    );
+    let scrollTimeout: NodeJS.Timeout;
+    
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (!container) return;
+        
+        const containerWidth = container.offsetWidth;
+        const scrollLeft = container.scrollLeft;
+        
+        // Calculate which slide is centered
+        const slideIndex = Math.round(scrollLeft / containerWidth);
+        const clampedIndex = Math.max(0, Math.min(slideIndex, systems.length - 1));
+        
+        // Only update if different from current
+        if (clampedIndex !== activeIndexRef.current) {
+          setActiveIndex(clampedIndex);
+        }
+      }, 150);
+    };
 
-    slideRefs.current.forEach((slide) => {
-      if (slide) observer.observe(slide);
-    });
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    const initialIndex = Math.round(container.scrollLeft / container.offsetWidth);
+    const clampedInitial = Math.max(0, Math.min(initialIndex, systems.length - 1));
+    if (clampedInitial !== activeIndexRef.current) {
+      setActiveIndex(clampedInitial);
+    }
 
     return () => {
-      slideRefs.current.forEach((slide) => {
-        if (slide) observer.unobserve(slide);
-      });
+      container.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
     };
-  }, [systems, activeIndex]);
+  }, [systems.length]);
 
   // Trigger intelligence trace and logo acknowledgment on slide change
   useEffect(() => {
@@ -71,91 +84,14 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
     };
   }, [activeIndex]);
 
-  // Touch swipe handling - improved for smoother scrolling
-  const touchStartX = useRef<number | null>(null);
-  const touchStartY = useRef<number | null>(null);
-  const touchEndX = useRef<number | null>(null);
-  const isScrolling = useRef(false);
-
-  const minSwipeDistance = 30;
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchEndX.current = null;
-    touchStartX.current = e.targetTouches[0].clientX;
-    touchStartY.current = e.targetTouches[0].clientY;
-    isScrolling.current = false;
-  };
-
-  const onTouchMove = (e: React.TouchEvent) => {
-    if (!touchStartX.current || !touchStartY.current) return;
-    
-    const currentX = e.targetTouches[0].clientX;
-    const currentY = e.targetTouches[0].clientY;
-    const deltaX = Math.abs(currentX - touchStartX.current);
-    const deltaY = Math.abs(currentY - touchStartY.current);
-    
-    // Detect if user is scrolling vertically or horizontally
-    if (deltaY > deltaX) {
-      isScrolling.current = true;
-    }
-    
-    touchEndX.current = currentX;
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current || isScrolling.current) {
-      touchStartX.current = null;
-      touchEndX.current = null;
-      return;
-    }
-    
-    const distance = touchStartX.current - touchEndX.current;
-    const isLeftSwipe = distance > minSwipeDistance;
-    const isRightSwipe = distance < -minSwipeDistance;
-
-    if (isLeftSwipe && activeIndex < systems.length - 1) {
-      scrollToSlide(activeIndex + 1);
-      triggerHapticFeedback();
-    } else if (isRightSwipe && activeIndex > 0) {
-      scrollToSlide(activeIndex - 1);
-      triggerHapticFeedback();
-    }
-    
-    touchStartX.current = null;
-    touchEndX.current = null;
-  };
-
-  const triggerHapticFeedback = () => {
-    setIsSettling(true);
-    setTimeout(() => {
-      setIsSettling(false);
-    }, 100);
-  };
-
-  const scrollToSlide = (index: number) => {
-    const slide = slideRefs.current[index];
-    if (slide && scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      const slideLeft = slide.offsetLeft;
-      const slideWidth = slide.offsetWidth;
-      const containerWidth = container.offsetWidth;
-      const scrollPosition = slideLeft - (containerWidth / 2) + (slideWidth / 2);
-      
-      container.scrollTo({
-        left: scrollPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
+  // Remove manual touch handlers - let native scrolling handle it
+  // This prevents interference with vertical page scrolling
 
   return (
     <div className="mobile-slider-container">
       <div
         ref={scrollContainerRef}
         className="mobile-slider-scroll"
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
       >
         {systems.map((system, index) => {
           const isActive = index === activeIndex;
@@ -163,30 +99,30 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
             <div
               key={index}
               ref={(el) => (slideRefs.current[index] = el)}
-              className={`mobile-slider-slide ${isActive ? 'active' : ''} ${isSettling && isActive ? 'settling' : ''}`}
+              className={`mobile-slider-slide ${isActive ? 'active' : ''}`}
             >
               {/* Material layer */}
               {isActive && <div className="mobile-slider-material-layer" />}
 
               {/* Intelligence trace */}
               {isActive && showTrace && (
-                <svg className="mobile-slider-trace" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <line
-                    x1="50"
-                    y1="30"
-                    x2="50"
-                    y2="70"
-                    stroke="url(#traceGradient)"
-                    strokeWidth="0.5"
-                    className="trace-line"
-                  />
+                <svg className="mobile-slider-trace" viewBox="0 0 2 120" preserveAspectRatio="none">
                   <defs>
-                    <linearGradient id="traceGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient id={`traceGradient-${index}`} x1="0%" y1="0%" x2="0%" y2="100%">
                       <stop offset="0%" stopColor="rgba(168, 85, 247, 0)" />
                       <stop offset="50%" stopColor="rgba(168, 85, 247, 0.6)" />
                       <stop offset="100%" stopColor="rgba(168, 85, 247, 0)" />
                     </linearGradient>
                   </defs>
+                  <line
+                    x1="1"
+                    y1="0"
+                    x2="1"
+                    y2="120"
+                    stroke={`url(#traceGradient-${index})`}
+                    strokeWidth="0.5"
+                    className="trace-line"
+                  />
                 </svg>
               )}
 
@@ -235,7 +171,8 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           scrollbar-width: none;
           -ms-overflow-style: none;
           overscroll-behavior-x: contain;
-          touch-action: pan-x;
+          overscroll-behavior-y: auto;
+          touch-action: pan-x pan-y;
         }
 
         .mobile-slider-scroll::-webkit-scrollbar {
@@ -256,9 +193,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           transition: transform 0.1s ease-out;
         }
 
-        .mobile-slider-slide.settling {
-          transform: scale(0.99);
-        }
 
         /* Material layer - only on active slide */
         .mobile-slider-material-layer {
@@ -275,33 +209,34 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
         /* Intelligence trace - connects logo to outcome */
         .mobile-slider-trace {
           position: absolute;
-          top: calc(50% - 60px);
+          top: 50%;
           left: 50%;
-          transform: translateX(-50%);
-          width: 1px;
+          transform: translate(-50%, -50%);
+          width: 2px;
           height: 120px;
           z-index: 1;
           pointer-events: none;
           opacity: 0;
           animation: traceAppear 0.5s ease-out forwards;
+          overflow: visible;
         }
 
         @keyframes traceAppear {
           0% {
             opacity: 0;
-            transform: translateX(-50%) scaleY(0);
+            transform: translate(-50%, -50%) scaleY(0);
           }
           30% {
             opacity: 1;
-            transform: translateX(-50%) scaleY(1);
+            transform: translate(-50%, -50%) scaleY(1);
           }
           70% {
             opacity: 1;
-            transform: translateX(-50%) scaleY(1);
+            transform: translate(-50%, -50%) scaleY(1);
           }
           100% {
             opacity: 0;
-            transform: translateX(-50%) scaleY(1);
+            transform: translate(-50%, -50%) scaleY(1);
           }
         }
 
