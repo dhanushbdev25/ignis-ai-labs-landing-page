@@ -1,297 +1,136 @@
 ---
-import { mockEnterpriseSystems } from '../../lib/mock-data';
-
-// Group systems by category
-const systemsByCategory = mockEnterpriseSystems.reduce((acc, system) => {
-  if (!acc[system.category]) {
-    acc[system.category] = [];
-  }
-  acc[system.category].push(system);
-  return acc;
-}, {} as Record<string, typeof mockEnterpriseSystems>);
-
-const categories = Object.keys(systemsByCategory);
+import { dialSystems, mobileSliderSystems } from "../../lib/mock-data";
+import IntelligenceDial from "../interactive/IntelligenceDial";
+import IntelligenceMobileSlider from "../interactive/IntelligenceMobileSlider";
 ---
 
-<section id="intelligence-translator" class="translator-section pt-16 md:pt-20 lg:pt-24 pb-16 md:pb-20 lg:pb-24 bg-[var(--color-bg-primary)]">
+<section
+  id="intelligence-translator"
+  class="translator-section pt-12 md:pt-16 lg:pt-18 pb-12 md:pb-16 lg:pb-18 bg-[var(--color-bg-primary)]"
+>
   <div class="container-custom">
     <!-- Section Header -->
-    <div class="text-center mb-12 md:mb-16 lg:mb-20 animate-on-scroll">
-      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-[var(--color-text-primary)] tracking-tight">
-        Intelligence, Translated.
+    <div class="text-center mb-8 md:mb-10 lg:mb-12 animate-on-scroll">
+      <h2
+        id="one-intelligence-many-systems"
+        class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-[var(--color-text-primary)] tracking-tight"
+      >
+        <a
+          href="#one-intelligence-many-systems"
+          class="hover:opacity-80 transition-opacity"
+          >Intelligence, Translated.
+        </a>
       </h2>
-      <p class="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto leading-relaxed">
-        We translate data, workflows, and decisions across your existing platforms.
+      <p
+        class="text-lg md:text-xl text-[var(--color-text-secondary)] max-w-3xl mx-auto leading-relaxed"
+      >
+        Our intelligence adapts to your existing platforms — no replacements, no
+        disruption.
       </p>
     </div>
 
-    <!-- Three-Column Layout (Desktop) / Vertical Stack (Mobile) -->
-    <div class="translator-layout">
-      <!-- LEFT COLUMN - Existing Systems -->
-      <div class="translator-column translator-column-left animate-on-scroll">
-        <h3 class="translator-column-title">Your Existing Systems</h3>
-        
-        <div class="systems-groups">
-          {categories.map((category) => (
-            <div class="system-group">
-              <h4 class="system-group-title">{category}</h4>
-              <div class="system-logos">
-                {systemsByCategory[category].map((system, index) => (
-                  <div 
-                    class="system-logo-wrapper"
-                    data-system-name={system.name}
-                    data-system-index={index}
-                  >
-                    <span class="system-name-text">{system.name}</span>
-                    <div class="connection-line"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+    <!-- Mobile Slider (mobile/tablet) -->
+    <div class="mobile-slider-wrapper">
+      <IntelligenceMobileSlider client:load systems={mobileSliderSystems} />
+    </div>
 
-      <!-- CENTER COLUMN - Ignis Intelligence Translator -->
-      <div class="translator-column translator-column-center animate-on-scroll">
-        <div class="translator-core">
-          <div class="translator-core-glow"></div>
-          <div class="translator-core-inner">
-            <div class="translator-core-label">Ignis Intelligence Translator</div>
-            <div class="translator-core-microcopy">Normalizes. Connects. Orchestrates.</div>
-            
-            <!-- Signal transformation visualization -->
-            <div class="signal-container">
-              <div class="signal-pulse signal-incoming"></div>
-              <div class="signal-pulse signal-transforming"></div>
-              <div class="signal-pulse signal-outgoing"></div>
-            </div>
-
-            <!-- Micro-label (shown on logo hover) -->
-            <div class="translator-micro-label"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT COLUMN - Unified Intelligence -->
-      <div class="translator-column translator-column-right animate-on-scroll">
-        <h3 class="translator-column-title">Unified Intelligence</h3>
-        
-        <ul class="unified-outcomes">
-          <li class="outcome-item">Real-time decisioning</li>
-          <li class="outcome-item">Automated workflows</li>
-          <li class="outcome-item">Consistent data signals</li>
-          <li class="outcome-item">Scalable digital operations</li>
-        </ul>
-      </div>
+    <!-- Dial Container (desktop) -->
+    <div class="dial-wrapper">
+      <IntelligenceDial client:load systems={dialSystems} />
     </div>
   </div>
 </section>
 
-<style>
+<style is:global>
   /* ===== SECTION BASE ===== */
   .translator-section {
     position: relative;
-    overflow-x: visible;
-    overflow-y: hidden;
-  }
-
-  /* ===== LAYOUT ===== */
-  .translator-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    align-items: stretch;
-    position: relative;
-  }
-
-  @media (min-width: 1024px) {
-    .translator-layout {
-      flex-direction: row;
-      gap: 4rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-  }
-
-  /* ===== COLUMNS ===== */
-  .translator-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .translator-column-left {
-    order: 1;
-    align-items: flex-start;
     overflow: visible;
   }
 
-  .translator-column-center {
-    order: 2;
+  /* ===== MOBILE SLIDER WRAPPER ===== */
+  .mobile-slider-wrapper {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile-slider-wrapper {
+      display: none;
+    }
+  }
+
+  /* ===== DIAL WRAPPER ===== */
+  .dial-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 500px;
+    display: none;
     align-items: center;
     justify-content: center;
-    min-height: 400px;
-  }
-
-  .translator-column-right {
-    order: 3;
-    align-items: flex-end;
-    justify-content: center;
+    padding: 1.5rem 0;
   }
 
   @media (min-width: 1024px) {
-    .translator-column-left {
-      flex: 0 0 30%;
-      max-width: 30%;
-    }
-
-    .translator-column-center {
-      flex: 0 0 40%;
-      max-width: 40%;
-      min-height: 500px;
-    }
-
-    .translator-column-right {
-      flex: 0 0 30%;
-      max-width: 30%;
-      justify-content: center;
+    .dial-wrapper {
+      display: flex;
+      min-height: 700px;
+      padding: 2.5rem 0;
     }
   }
 
-  /* ===== COLUMN TITLES ===== */
-  .translator-column-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 2rem;
-    width: 100%;
-  }
-
-  .translator-column-left .translator-column-title {
-    text-align: left;
-  }
-
-  @media (max-width: 1023px) {
-    .translator-column-left .translator-column-title {
-      text-align: center;
-    }
-  }
-
-  .translator-column-right .translator-column-title {
-    text-align: center;
-  }
-
-  /* ===== LEFT COLUMN - SYSTEMS ===== */
-  .systems-groups {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    width: 100%;
-    align-items: flex-start;
-  }
-
-  .system-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    align-items: flex-start;
-    overflow: visible;
-  }
-
-  .system-group-title {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    opacity: 0.7;
-    margin-bottom: 0.5rem;
-    text-align: left;
-    width: 100%;
-  }
-
-  .system-logos {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    align-items: center;
-    width: 100%;
-    justify-items: start;
-    overflow: visible;
-  }
-
-  @media (min-width: 768px) {
-    .system-logos {
-      gap: 1.5rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .system-logos {
-      gap: 2rem;
-    }
-  }
-
-  .system-logo-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 1rem;
-    width: 100%;
-    transition: all 0.3s var(--ease-smooth);
-    overflow: visible;
-  }
-
-  .system-name-text {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    opacity: 0.7;
-    transition: all 0.3s var(--ease-smooth);
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  /* Connection line (hidden by default, shown on hover) */
-  .connection-line {
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    width: 0;
-    height: 2px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    z-index: 10;
-    background: linear-gradient(
-      90deg,
-      var(--color-accent-purple) 0%,
-      transparent 100%
-    );
-    opacity: 0;
-    transition: width 0.4s var(--ease-smooth), opacity 0.4s var(--ease-smooth);
-  }
-
-  /* ===== CENTER COLUMN - TRANSLATOR CORE ===== */
-  .translator-core {
+  /* ===== DIAL CONTAINER ===== */
+  .dial-container {
     position: relative;
     width: 100%;
-    max-width: 300px;
-    aspect-ratio: 1;
+    max-width: 900px;
+    height: 600px;
     margin: 0 auto;
   }
 
-  @media (min-width: 1024px) {
-    .translator-core {
-      max-width: 400px;
+  @media (min-width: 768px) {
+    .dial-container {
+      height: 650px;
     }
   }
 
-  .translator-core-glow {
+  @media (min-width: 1024px) {
+    .dial-container {
+      height: 700px;
+      max-width: 1000px;
+    }
+  }
+
+
+  /* ===== STATIC CORE ===== */
+  .dial-core {
     position: absolute;
-    inset: -20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px;
+    height: 260px;
+    z-index: 10;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (min-width: 768px) {
+    .dial-core {
+      width: 340px;
+      height: 340px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dial-core {
+      width: 400px;
+      height: 400px;
+    }
+  }
+
+
+  .core-glow {
+    position: absolute;
+    inset: -35px;
     background: radial-gradient(
       circle,
       rgba(168, 85, 247, 0.15) 0%,
@@ -299,366 +138,213 @@ const categories = Object.keys(systemsByCategory);
       transparent 100%
     );
     border-radius: 50%;
-    animation: coreGlow 4s ease-in-out infinite;
+    animation: breathingGlow 4s ease-in-out infinite;
     pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  @keyframes coreGlow {
-    0%, 100% {
+  @media (min-width: 768px) {
+    .core-glow {
+      inset: -45px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .core-glow {
+      inset: -50px;
+    }
+  }
+
+  @keyframes breathingGlow {
+    0%,
+    100% {
       opacity: 0.6;
       transform: scale(1);
     }
     50% {
       opacity: 1;
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
   }
 
-  .translator-core-inner {
+  /* Hover glow effect */
+  .dial-core.core-hovered .core-glow {
+    background: radial-gradient(
+      circle,
+      rgba(168, 85, 247, 0.35) 0%,
+      rgba(168, 85, 247, 0.15) 40%,
+      rgba(168, 85, 247, 0.05) 70%,
+      transparent 100%
+    );
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  .dial-core.core-hovered .core-inner {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.3);
+  }
+
+  .core-inner {
     position: relative;
     width: 100%;
     height: 100%;
     background: linear-gradient(
       135deg,
-      rgba(168, 85, 247, 0.1) 0%,
-      rgba(168, 85, 247, 0.05) 100%
+      rgba(168, 85, 247, 0.15) 0%,
+      rgba(168, 85, 247, 0.08) 100%
     );
-    border: 2px solid rgba(168, 85, 247, 0.2);
+    border: 2px solid rgba(168, 85, 247, 0.3);
     border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    box-shadow: 0 0 40px rgba(168, 85, 247, 0.1);
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .translator-core-label {
-    font-size: 1.125rem;
+  @media (min-width: 768px) {
+    .core-inner {
+      padding: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .core-inner {
+      padding: 3rem;
+    }
+  }
+
+  .core-label {
+    font-size: 1rem;
     font-weight: 600;
     color: var(--color-text-primary);
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.875rem;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
   }
 
-  @media (min-width: 1024px) {
-    .translator-core-label {
-      font-size: 1.25rem;
-    }
-  }
-
-  .translator-core-microcopy {
-    font-size: 0.75rem;
-    color: var(--color-text-secondary);
-    text-align: center;
-    opacity: 0.8;
-  }
-
-  /* Signal visualization */
-  .signal-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    border-radius: 50%;
-  }
-
-  .signal-pulse {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--color-accent-purple);
-    border-radius: 50%;
-    opacity: 0;
-  }
-
-  .signal-incoming {
-    left: -20px;
-    top: 50%;
-    animation: signalIncoming 3s ease-in-out infinite;
-  }
-
-  .signal-transforming {
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    animation: signalTransforming 3s ease-in-out infinite 1s;
-    width: 12px;
-    height: 12px;
-    background: radial-gradient(circle, var(--color-accent-purple) 0%, transparent 70%);
-  }
-
-  .signal-outgoing {
-    right: -20px;
-    top: 50%;
-    animation: signalOutgoing 3s ease-in-out infinite 2s;
-  }
-
-  @keyframes signalIncoming {
-    0% {
-      opacity: 0;
-      transform: translateX(0) translateY(-50%);
-    }
-    20% {
-      opacity: 1;
-    }
-    40% {
-      opacity: 1;
-      transform: translateX(150px) translateY(-50%);
-    }
-    60%, 100% {
-      opacity: 0;
-      transform: translateX(150px) translateY(-50%);
-    }
-  }
-
-  @keyframes signalTransforming {
-    0%, 40% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.5);
-    }
-    50% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1.2);
-    }
-    60% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-    80%, 100% {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.8);
-    }
-  }
-
-  @keyframes signalOutgoing {
-    0%, 60% {
-      opacity: 0;
-      transform: translateX(0) translateY(-50%);
-    }
-    70% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-      transform: translateX(-150px) translateY(-50%);
-    }
-    100% {
-      opacity: 0;
-      transform: translateX(-150px) translateY(-50%);
-    }
-  }
-
-  /* Micro-label (shown on hover) */
-  .translator-micro-label {
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.75rem;
-    color: var(--color-accent-purple);
-    opacity: 0;
-    transition: opacity 0.3s var(--ease-smooth);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .translator-micro-label.is-visible {
-    opacity: 1;
-  }
-
-  /* ===== RIGHT COLUMN - UNIFIED INTELLIGENCE ===== */
-  .unified-outcomes {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    align-items: center;
-  }
-
-  @media (max-width: 1023px) {
-    .unified-outcomes {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      align-items: start;
-    }
-  }
-
-  .outcome-item {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
-    text-align: center;
-    width: 100%;
-  }
-
-  @media (max-width: 1023px) {
-    .outcome-item {
-      font-size: 0.9375rem;
-      text-align: left;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .outcome-item {
+  @media (min-width: 768px) {
+    .core-label {
       font-size: 1.125rem;
+      margin-bottom: 1rem;
     }
   }
 
-  /* ===== SCROLL ANIMATIONS ===== */
-  .animate-on-scroll {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s var(--ease-out-expo),
-                transform 0.8s var(--ease-out-expo);
-  }
-
-  .animate-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .translator-column-left.animate-on-scroll {
-    transition-delay: 0ms;
-  }
-
-  .translator-column-center.animate-on-scroll {
-    transition-delay: 200ms;
-  }
-
-  .translator-column-right.animate-on-scroll {
-    transition-delay: 400ms;
-  }
-
-  /* ===== HOVER INTERACTIONS (Desktop Only) ===== */
   @media (min-width: 1024px) {
-    .system-logo-wrapper:hover .system-name-text {
-      opacity: 1;
-      color: var(--color-text-primary);
+    .core-label {
+      font-size: 1.25rem;
+      margin-bottom: 1.125rem;
     }
+  }
 
-    /* Show micro-label on system name hover */
-    .system-logo-wrapper {
-      cursor: pointer;
+  .core-micro-text {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    min-height: 1.5em;
+    line-height: 1.6;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .core-micro-text {
+      font-size: 0.9375rem;
+      padding: 0 1.5rem;
     }
+  }
+
+  @media (min-width: 1024px) {
+    .core-micro-text {
+      font-size: 1rem;
+      padding: 0 2rem;
+    }
+  }
+
+  .core-micro-text.visible {
+    opacity: 1;
+  }
+
+  /* ===== DIAL RING - LOGOS ===== */
+  .dial-ring {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dial-logo {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 5;
+  }
+
+  .logo-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    opacity: 0.6;
+    white-space: nowrap;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: grayscale(100%);
+    padding: 0.5rem 0.75rem;
+    display: inline-block;
+  }
+
+  @media (min-width: 768px) {
+    .logo-text {
+      font-size: 0.9375rem;
+      padding: 0.625rem 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .logo-text {
+      font-size: 1rem;
+      padding: 0.75rem 1.25rem;
+    }
+  }
+
+  .dial-logo.active .logo-text {
+    opacity: 1;
+    color: var(--color-text-primary);
+    filter: grayscale(0%);
+    transform: scale(1.1);
+  }
+
+  .dial-logo:hover .logo-text {
+    opacity: 0.7;
+  }
+
+  .dial-logo:focus {
+    outline: 2px solid rgba(168, 85, 247, 0.5);
+    outline-offset: 4px;
+    border-radius: 4px;
   }
 
   /* ===== ACCESSIBILITY ===== */
   @media (prefers-reduced-motion: reduce) {
-    .signal-pulse,
-    .translator-core-glow,
-    .animate-on-scroll {
+    .core-glow {
       animation: none !important;
+    }
+
+    .core-glow {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+
+    .dial-logo,
+    .logo-text,
+    .core-micro-text,
+    .dial-core {
       transition: none !important;
     }
-
-    .animate-on-scroll {
-      opacity: 1;
-      transform: none;
-    }
   }
 
-  /* ===== MOBILE SIMPLIFICATIONS ===== */
-  @media (max-width: 1023px) {
-    .signal-pulse {
-      display: none;
-    }
-
-    .translator-core {
-      margin-bottom: 2rem;
-    }
-
-    .system-logos {
-      justify-items: center;
-    }
-  }
 </style>
-
-<script>
-  // Scroll-triggered animations
-  if (typeof window !== 'undefined') {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    if (!prefersReducedMotion) {
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.translator-section .animate-on-scroll').forEach(item => {
-        observer.observe(item);
-      });
-    } else {
-      // Show all immediately if reduced motion
-      document.querySelectorAll('.translator-section .animate-on-scroll').forEach(item => {
-        item.classList.add('is-visible');
-      });
-    }
-
-    // System name hover interactions (desktop only)
-    const setupHoverInteractions = () => {
-      if (window.innerWidth >= 1024) {
-        const microLabels = ['Data normalization', 'Workflow orchestration', 'Decision enrichment', 'Compliance translation'];
-        const logoWrappers = document.querySelectorAll('.system-logo-wrapper');
-        const microLabel = document.querySelector('.translator-micro-label');
-        const translatorCore = document.querySelector('.translator-core');
-
-        logoWrappers.forEach((wrapper, index) => {
-          const connectionLineEl = wrapper.querySelector('.connection-line');
-          const connectionLine = connectionLineEl instanceof HTMLElement ? connectionLineEl : null;
-          const wrapperEl = wrapper instanceof HTMLElement ? wrapper : null;
-          const coreEl = translatorCore instanceof HTMLElement ? translatorCore : null;
-          
-          wrapper.addEventListener('mouseenter', () => {
-            if (microLabel instanceof HTMLElement) {
-              const labelIndex = index % microLabels.length;
-              microLabel.textContent = microLabels[labelIndex];
-              microLabel.classList.add('is-visible');
-            }
-            if (connectionLine && coreEl && wrapperEl) {
-              const wrapperRect = wrapperEl.getBoundingClientRect();
-              const coreRect = coreEl.getBoundingClientRect();
-              const distance = coreRect.left - wrapperRect.right;
-              
-              connectionLine.style.width = `${Math.max(0, distance)}px`;
-              connectionLine.style.opacity = '0.4';
-            }
-          });
-
-          wrapper.addEventListener('mouseleave', () => {
-            if (microLabel instanceof HTMLElement) {
-              microLabel.classList.remove('is-visible');
-            }
-            if (connectionLine) {
-              connectionLine.style.opacity = '0';
-              setTimeout(() => {
-                if (connectionLine.style.opacity === '0') {
-                  connectionLine.style.width = '0';
-                }
-              }, 400);
-            }
-          });
-        });
-      }
-    };
-
-    // Setup after DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setupHoverInteractions);
-    } else {
-      setupHoverInteractions();
-    }
-  }
-</script>

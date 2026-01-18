@@ -41,3 +41,16 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## 📝 Notes
+
+### Social Sharing Image
+A social sharing thumbnail image (Open Graph image) is required for proper social media previews. 
+
+**Requirements:**
+- Size: 1200x630px (1.91:1 aspect ratio)
+- Format: PNG or JPG
+- Location: `/public/images/og-image.png`
+- Should include company logo and tagline
+
+The meta tags are already configured in `src/layouts/Layout.astro` and will automatically use the image once it's placed in the correct location.

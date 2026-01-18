@@ -1,11 +1,5 @@
 ---
-import { mockTestimonials } from '../../lib/mock-data';
-
-// Use companies from testimonials for trusted by section
-const trustedLogos = mockTestimonials.map(testimonial => ({
-  name: testimonial.company,
-  logo: testimonial.companyLogo,
-}));
+import { mockTrustedBy } from '../../lib/mock-data';
 ---
 
 <section class="trusted-by-section pt-12 md:pt-16 pb-12 md:pb-16 bg-[var(--color-bg-primary)]">
@@ -18,7 +12,7 @@ const trustedLogos = mockTestimonials.map(testimonial => ({
       <div class="carousel-track flex items-center gap-10 md:gap-16">
         {/* Repeat logos 4 times to ensure no gaps at any screen size */}
         {[...Array(4)].map((_, setIndex) => (
-          trustedLogos.map((logo, logoIndex) => (
+          mockTrustedBy.map((logo, logoIndex) => (
             <div 
               class="h-16 md:h-20 flex items-center justify-center flex-shrink-0"
               style="max-width: 200px;"

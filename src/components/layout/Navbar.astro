@@ -11,18 +11,13 @@ const navLinks = [
   <nav class="container-custom">
     <div class="flex items-center justify-between h-16 sm:h-20 md:h-24">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 sm:gap-3 group flex-shrink-0 min-w-0">
-        <!-- Hamburger Icon -->
-        <div class="flex flex-col gap-1.5 flex-shrink-0">
-          <span class="w-5 h-0.5 sm:w-6 bg-[var(--color-text-primary)] rounded-full transition-colors duration-300"></span>
-          <span class="w-5 h-0.5 sm:w-6 bg-[var(--color-text-primary)] rounded-full transition-colors duration-300"></span>
-          <span class="w-3 h-0.5 sm:w-4 bg-[var(--color-text-primary)] rounded-full transition-colors duration-300"></span>
-        </div>
-        <span class="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-[var(--color-text-primary)] transition-colors duration-300 whitespace-nowrap">
-          <span class="hidden min-[400px]:inline">Ignis AI Labs</span>
-          <span class="min-[400px]:hidden">Ignis AI</span>
-          <span class="text-gradient">.</span>
-        </span>
+      <a href="/" class="flex items-center justify-center group flex-shrink-0 min-w-0 h-full">
+        <img 
+          src="/images/systems/Ignis logo Dark Theme.svg" 
+          alt="Ignis AI Labs" 
+          style="height: 30px; width: auto; max-width: 100px;"
+          class="transition-opacity duration-300 group-hover:opacity-80 object-contain"
+        />
       </a>
       
       <!-- Desktop Navigation -->
@@ -166,18 +161,17 @@ const navLinks = [
     }
   }
 
-  /* Extra small screens */
-  @media (max-width: 375px) {
-    #navbar a[href="/"] span {
-      font-size: 0.875rem;
-    }
-    
-    #navbar .flex.flex-col.gap-1\.5 span {
-      width: 0.875rem;
-    }
-    
-    #navbar .flex.flex-col.gap-1\.5 span:last-child {
-      width: 0.625rem;
-    }
+  /* Ensure logo is perfectly centered vertically */
+  #navbar a[href="/"] {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  /* Fixed logo dimensions for consistency */
+  #navbar a[href="/"] img {
+    height: 40px !important;
+    width: auto;
+    max-width: 150px;
   }
 </style>
