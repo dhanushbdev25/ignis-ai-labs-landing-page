@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface MobileSliderSystem {
   name: string;
@@ -15,61 +15,153 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
   const [showLogoHalo, setShowLogoHalo] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const logoRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const outcomeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const activeIndexRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
+  const isScrollingRef = useRef(false);
+  const touchEndTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Update ref when activeIndex changes
   useEffect(() => {
     activeIndexRef.current = activeIndex;
   }, [activeIndex]);
 
-  // Detect active slide using scroll event (more reliable than Intersection Observer)
+  // Smooth scroll detection using requestAnimationFrame
+  const updateActiveIndex = useCallback((newIndex: number) => {
+    const clampedIndex = Math.max(0, Math.min(newIndex, systems.length - 1));
+    if (clampedIndex !== activeIndexRef.current) {
+      activeIndexRef.current = clampedIndex;
+      setActiveIndex(clampedIndex);
+    }
+  }, [systems.length]);
+
+  // Use IntersectionObserver for reliable active slide detection
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    let scrollTimeout: NodeJS.Timeout;
-    
+    const observerOptions = {
+      root: container,
+      rootMargin: '0px',
+      threshold: [0.5, 0.6, 0.7], // Consider active when 50-70% visible
+    };
+
+    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
+      // Find the entry with highest intersection ratio
+      let maxRatio = 0;
+      let activeEntry: IntersectionObserverEntry | null = null;
+
+      entries.forEach((entry) => {
+        if (entry.intersectionRatio > maxRatio) {
+          maxRatio = entry.intersectionRatio;
+          activeEntry = entry;
+        }
+      });
+
+      if (activeEntry && activeEntry.intersectionRatio >= 0.5) {
+        const slideIndex = parseInt(activeEntry.target.getAttribute('data-slide-index') || '0', 10);
+        updateActiveIndex(slideIndex);
+      }
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+
+    // Observe all slides
+    slideRefs.current.forEach((slide, index) => {
+      if (slide) {
+        slide.setAttribute('data-slide-index', index.toString());
+        observer.observe(slide);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [systems.length, updateActiveIndex]);
+
+  // Fallback scroll handler using requestAnimationFrame for smooth updates
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
     const handleScroll = () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+
+      rafIdRef.current = requestAnimationFrame(() => {
         if (!container) return;
-        
+
         const containerWidth = container.offsetWidth;
         const scrollLeft = container.scrollLeft;
-        
-        // Calculate which slide is centered
         const slideIndex = Math.round(scrollLeft / containerWidth);
-        const clampedIndex = Math.max(0, Math.min(slideIndex, systems.length - 1));
-        
-        // Only update if different from current
-        if (clampedIndex !== activeIndexRef.current) {
-          setActiveIndex(clampedIndex);
-        }
-      }, 150);
+        updateActiveIndex(slideIndex);
+        rafIdRef.current = null;
+      });
     };
 
     container.addEventListener('scroll', handleScroll, { passive: true });
-    
+
     // Initial check
     const initialIndex = Math.round(container.scrollLeft / container.offsetWidth);
-    const clampedInitial = Math.max(0, Math.min(initialIndex, systems.length - 1));
-    if (clampedInitial !== activeIndexRef.current) {
-      setActiveIndex(clampedInitial);
-    }
+    updateActiveIndex(initialIndex);
 
     return () => {
       container.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
     };
-  }, [systems.length]);
+  }, [updateActiveIndex]);
+
+  // Programmatic scroll snap on touch end for better mobile experience
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleTouchEnd = () => {
+      if (touchEndTimeoutRef.current) {
+        clearTimeout(touchEndTimeoutRef.current);
+      }
+
+      // Small delay to let native scroll settle
+      touchEndTimeoutRef.current = setTimeout(() => {
+        if (!container) return;
+
+        const containerWidth = container.offsetWidth;
+        const scrollLeft = container.scrollLeft;
+        const slideIndex = Math.round(scrollLeft / containerWidth);
+        const targetScroll = slideIndex * containerWidth;
+
+        // Smooth snap to nearest slide
+        if (Math.abs(scrollLeft - targetScroll) > 10) {
+          isScrollingRef.current = true;
+          container.scrollTo({
+            left: targetScroll,
+            behavior: 'smooth',
+          });
+
+          setTimeout(() => {
+            isScrollingRef.current = false;
+          }, 300);
+        }
+      }, 100);
+    };
+
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener('touchend', handleTouchEnd);
+      if (touchEndTimeoutRef.current) {
+        clearTimeout(touchEndTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Trigger intelligence trace and logo acknowledgment on slide change
   useEffect(() => {
     setShowTrace(true);
     setShowLogoHalo(true);
-    
+
     const traceTimeout = setTimeout(() => {
       setShowTrace(false);
     }, 500);
@@ -84,15 +176,9 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
     };
   }, [activeIndex]);
 
-  // Remove manual touch handlers - let native scrolling handle it
-  // This prevents interference with vertical page scrolling
-
   return (
     <div className="mobile-slider-container">
-      <div
-        ref={scrollContainerRef}
-        className="mobile-slider-scroll"
-      >
+      <div ref={scrollContainerRef} className="mobile-slider-scroll">
         {systems.map((system, index) => {
           const isActive = index === activeIndex;
           return (
@@ -106,39 +192,20 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
 
               {/* Intelligence trace */}
               {isActive && showTrace && (
-                <svg className="mobile-slider-trace" viewBox="0 0 2 120" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id={`traceGradient-${index}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgba(168, 85, 247, 0)" />
-                      <stop offset="50%" stopColor="rgba(168, 85, 247, 0.6)" />
-                      <stop offset="100%" stopColor="rgba(168, 85, 247, 0)" />
-                    </linearGradient>
-                  </defs>
-                  <line
-                    x1="1"
-                    y1="0"
-                    x2="1"
-                    y2="120"
-                    stroke={`url(#traceGradient-${index})`}
-                    strokeWidth="0.5"
-                    className="trace-line"
-                  />
-                </svg>
+                <div className="mobile-slider-trace">
+                  <div className="trace-line" />
+                </div>
               )}
 
               {/* Logo */}
               <div
-                ref={(el) => (logoRefs.current[index] = el)}
                 className={`mobile-slider-logo ${isActive ? 'active' : ''} ${showLogoHalo && isActive ? 'acknowledging' : ''}`}
               >
                 {system.name}
               </div>
 
               {/* Outcome text */}
-              <div
-                ref={(el) => (outcomeRefs.current[index] = el)}
-                className={`mobile-slider-outcome ${isActive ? 'active' : ''}`}
-              >
+              <div className={`mobile-slider-outcome ${isActive ? 'active' : ''}`}>
                 {system.outcome}
               </div>
             </div>
@@ -159,6 +226,7 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           padding: 4rem 0;
           position: relative;
           background-color: var(--color-bg-primary);
+          contain: layout style paint;
         }
 
         .mobile-slider-scroll {
@@ -173,6 +241,7 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           overscroll-behavior-x: contain;
           overscroll-behavior-y: auto;
           touch-action: pan-x pan-y;
+          contain: layout style;
         }
 
         .mobile-slider-scroll::-webkit-scrollbar {
@@ -182,7 +251,9 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
         .mobile-slider-slide {
           flex: 0 0 100%;
           width: 100%;
+          min-width: 0;
           scroll-snap-align: center;
+          scroll-snap-stop: always;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -190,9 +261,8 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           padding: 3rem 1.5rem;
           min-height: 450px;
           position: relative;
-          transition: transform 0.1s ease-out;
+          contain: layout style paint;
         }
-
 
         /* Material layer - only on active slide */
         .mobile-slider-material-layer {
@@ -212,13 +282,25 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 2px;
+          width: 1px;
           height: 120px;
           z-index: 1;
           pointer-events: none;
           opacity: 0;
           animation: traceAppear 0.5s ease-out forwards;
-          overflow: visible;
+          overflow: hidden;
+        }
+
+        .trace-line {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            to bottom,
+            transparent 0%,
+            rgba(168, 85, 247, 0.6) 50%,
+            transparent 100%
+          );
+          box-shadow: 0 0 4px rgba(168, 85, 247, 0.4);
         }
 
         @keyframes traceAppear {
@@ -240,10 +322,6 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           }
         }
 
-        .trace-line {
-          filter: drop-shadow(0 0 3px rgba(168, 85, 247, 0.8));
-        }
-
         .mobile-slider-logo {
           font-size: 2.25rem;
           font-weight: 700;
@@ -252,11 +330,15 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           opacity: 0.5;
           text-align: center;
           margin-bottom: 2.5rem;
-          transition: filter 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+          transition: filter 0.3s ease, opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
           white-space: nowrap;
           letter-spacing: -0.02em;
           position: relative;
           z-index: 2;
+          background: transparent;
+          border: none;
+          padding: 0;
+          box-shadow: none;
         }
 
         .mobile-slider-logo.active {
@@ -265,20 +347,23 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           color: var(--color-text-primary);
         }
 
-        /* Logo acknowledgment halo */
+        /* Logo acknowledgment - scale and opacity only, no box-shadow */
         .mobile-slider-logo.acknowledging {
           animation: logoAcknowledge 0.3s ease-out;
         }
 
         @keyframes logoAcknowledge {
           0% {
-            box-shadow: 0 0 0 rgba(168, 85, 247, 0);
+            transform: scale(1);
+            opacity: 0.5;
           }
           50% {
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+            transform: scale(1.05);
+            opacity: 1;
           }
           100% {
-            box-shadow: 0 0 0 rgba(168, 85, 247, 0);
+            transform: scale(1);
+            opacity: 1;
           }
         }
 
@@ -288,35 +373,22 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           color: var(--color-text-secondary);
           text-align: center;
           opacity: 0;
-          filter: blur(2px);
-          letter-spacing: 0.02em;
-          transition: opacity 0.15s ease-out, filter 0.15s ease-out, letter-spacing 0.15s ease-out;
+          transform: translateY(10px);
+          transition: opacity 0.4s ease-out, transform 0.4s ease-out;
           max-width: 85%;
           white-space: normal;
           word-wrap: break-word;
+          overflow-wrap: break-word;
           font-weight: 400;
           position: relative;
           z-index: 2;
+          will-change: opacity, transform;
+          letter-spacing: 0;
         }
 
         .mobile-slider-outcome.active {
           opacity: 1;
-          filter: blur(0);
-          letter-spacing: 0;
-          animation: textResolve 0.15s ease-out;
-        }
-
-        @keyframes textResolve {
-          0% {
-            opacity: 0;
-            filter: blur(2px);
-            letter-spacing: 0.02em;
-          }
-          100% {
-            opacity: 1;
-            filter: blur(0);
-            letter-spacing: 0;
-          }
+          transform: translateY(0);
         }
 
         .mobile-slider-progress {
@@ -344,11 +416,15 @@ export default function IntelligenceMobileSlider({ systems }: IntelligenceMobile
           .mobile-slider-slide {
             transition: none;
           }
-          
+
           .mobile-slider-trace,
           .mobile-slider-logo.acknowledging,
           .mobile-slider-outcome.active {
             animation: none;
+          }
+
+          .mobile-slider-outcome {
+            transform: translateY(0);
           }
         }
       `}</style>
