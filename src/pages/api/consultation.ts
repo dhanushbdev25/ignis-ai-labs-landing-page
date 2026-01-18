@@ -208,6 +208,22 @@ async function sendEmailViaMailChannels(
   }
 }
 
+// CORS headers helper
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Content-Type': 'application/json',
+};
+
+// Handle OPTIONS preflight request
+export const OPTIONS: APIRoute = async () => {
+  return new Response(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
+};
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const data: ConsultationData = await request.json();
@@ -216,7 +232,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (!data.fullName || !data.email || !data.mobile || !data.primaryInterest || !data.background || !data.goals) {
       return new Response(
         JSON.stringify({ error: 'Missing required fields' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -225,7 +241,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (!emailRegex.test(data.email)) {
       return new Response(
         JSON.stringify({ error: 'Invalid email address' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: corsHeaders }
       );
     }
 
@@ -262,13 +278,13 @@ export const POST: APIRoute = async ({ request }) => {
         success: true, 
         message: 'Consultation request submitted successfully' 
       }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+      { status: 200, headers: corsHeaders }
     );
   } catch (error) {
     console.error('Consultation API error:', error);
     return new Response(
       JSON.stringify({ error: 'Failed to process request' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: corsHeaders }
     );
   }
 };
