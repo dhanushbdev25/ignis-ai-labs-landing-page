@@ -1,0 +1,117 @@
+---
+import Logo from '../ui/Logo.astro';
+import { navLinks } from '../../content/site';
+---
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50">
+  <div class="header-bar relative">
+    <div class="wrap flex h-[var(--header-h)] items-center justify-between transition-[height] duration-400">
+      <a href="#top" class="flex items-center gap-3" aria-label="Ignis AI Labs — home">
+        <Logo variant="mark" class="h-5 w-5" />
+        <span class="font-mono text-[12px] font-medium uppercase tracking-[0.22em] text-ivory">Ignis AI Labs</span>
+        <span id="nav-gauge" class="hidden font-mono text-[11px] tracking-[0.18em] text-ember-amber/60 transition-opacity duration-300 md:inline" aria-hidden="true"></span>
+      </a>
+
+      <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
+        {navLinks.map((link) => (
+          <a href={link.href} class="nav-link text-sm font-medium text-ivory/70 transition-colors duration-300 hover:text-ivory">
+            {link.label}
+          </a>
+        ))}
+        <button type="button" class="consultation-trigger btn-ghost">Start a Consultation</button>
+      </nav>
+
+      <button
+        id="nav-toggle"
+        type="button"
+        class="relative flex h-10 w-10 items-center justify-center lg:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="nav-toggle-line absolute h-px w-5 -translate-y-[4px] bg-ivory transition-all duration-300"></span>
+        <span class="nav-toggle-line absolute h-px w-5 translate-y-[4px] bg-ivory transition-all duration-300"></span>
+      </button>
+    </div>
+    <span class="header-hairline absolute inset-x-0 bottom-0 h-px bg-hairline opacity-0 transition-opacity duration-400" aria-hidden="true"></span>
+  </div>
+
+  <!-- mobile menu — full-screen coal panel -->
+  <div id="mobile-menu" class="fixed inset-0 z-40 hidden flex-col justify-between bg-coal pt-28 pb-10" aria-hidden="true">
+    <nav class="wrap flex flex-col gap-2" aria-label="Mobile">
+      {navLinks.map((link) => (
+        <a href={link.href} class="mobile-link group flex items-baseline gap-4 border-b border-hairline py-4">
+          <span class="font-mono text-[11px] tracking-[0.18em] text-ember-amber/60">{link.index}</span>
+          <span class="font-display text-h2 text-ivory transition-colors group-hover:text-ember-amber">{link.label}</span>
+        </a>
+      ))}
+      <button type="button" class="consultation-trigger btn-molten mt-8 w-full justify-center">Start a Consultation</button>
+    </nav>
+    <p class="wrap font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/30">
+      IGNIS — LATIN, “FIRE”
+    </p>
+  </div>
+</header>
+
+<style>
+  #site-header {
+    --header-h: 72px;
+  }
+  /* condensed glass state — toggled by the motion layer past 120px */
+  #site-header.is-scrolled {
+    --header-h: 56px;
+  }
+  #site-header.is-scrolled .header-bar {
+    background: rgba(26, 16, 9, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  #site-header.is-scrolled .header-hairline {
+    opacity: 1;
+  }
+  .header-bar {
+    transition: background 0.4s var(--ease-out-expo);
+  }
+  /* hide-on-scroll-down */
+  #site-header {
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  #site-header.is-hidden {
+    transform: translateY(-100%);
+  }
+  #site-header.menu-open .nav-toggle-line:first-child {
+    transform: translateY(0) rotate(45deg);
+    background: var(--color-ember-core);
+  }
+  #site-header.menu-open .nav-toggle-line:last-child {
+    transform: translateY(0) rotate(-45deg);
+    background: var(--color-ember-core);
+  }
+  #site-header.menu-open #mobile-menu {
+    display: flex;
+  }
+</style>
+
+<script>
+  // Mobile menu toggle — self-contained so navigation works even if the
+  // motion layer is skipped (reduced motion, old devices).
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  function setMenu(open: boolean) {
+    if (!header || !toggle || !menu) return;
+    header.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.setAttribute('aria-hidden', String(!open));
+    document.documentElement.classList.toggle('modal-open', open);
+  }
+
+  toggle?.addEventListener('click', () => {
+    setMenu(!header?.classList.contains('menu-open'));
+  });
+  menu?.querySelectorAll('a, button').forEach((el) => {
+    el.addEventListener('click', () => setMenu(false));
+  });
+</script>

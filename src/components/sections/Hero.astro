@@ -1,47 +1,63 @@
 ---
-import TypeMorph from '../interactive/TypeMorph';
+import { hero } from '../../content/site';
 ---
 
-<section class="hero-living-interface relative bg-[var(--color-bg-primary)] overflow-hidden min-h-[90vh] flex items-center">
-  <!-- System Text Background - Very subtle -->
-  <div class="system-text-background absolute inset-0 pointer-events-none z-0">
-    <div class="system-text-item">Building systems…</div>
-    <div class="system-text-item">Integrating workflows…</div>
-    <div class="system-text-item">Unlocking insights…</div>
-  </div>
-  
-  <div class="container-custom relative z-10">
-    <!-- Main Hero Content -->
-    <div class="pt-16 md:pt-24 lg:pt-32 pb-16 md:pb-24 text-center">
-      
-      <!-- Primary Headline - Static, Bold -->
-      <h1 class="hero-primary-headline text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6 md:mb-8">
-        We Don't Build Software.<br />
-        We Grow Intelligence.
-      </h1>
-      
-      <!-- Secondary Line - Type Morph Effect -->
-      <div class="hero-secondary-line text-3xl md:text-4xl lg:text-5xl font-light text-[var(--color-text-secondary)] mb-6 md:mb-8 min-h-[1.2em]">
-        <TypeMorph client:load />
-      </div>
-      
-      <!-- Micro Descriptor - Subtle -->
-      <p class="hero-micro-descriptor text-sm md:text-base text-[var(--color-text-muted)] opacity-70 mb-10 md:mb-12 font-light">
-        End-to-end enterprise systems, integrations, and analytics.
+<section id="top" data-scene="hero" class="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-void">
+  <!-- CSS atmosphere — always present; the WebGL ember field fades in above it -->
+  <div class="heat-floor" aria-hidden="true"></div>
+  <div class="heat-glow left-[55%] top-[60%] h-[60vh] w-[60vw]" aria-hidden="true"></div>
+
+  <!-- WebGL mount point (lazy) -->
+  <div id="ember-field" class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700" aria-hidden="true"></div>
+
+  <div class="wrap relative w-full pt-28 pb-20">
+    <div class="max-w-[58rem]" data-hero-parallax>
+      <p class="eyebrow flex items-center gap-3" data-hero-reveal>
+        <span aria-hidden="true" class="inline-block h-px w-8 bg-ember-amber/40"></span>
+        <span>{hero.eyebrow} — EST. MMXXIV</span>
       </p>
-      
-      <!-- CTA Buttons -->
-      <div class="hero-cta-container flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
-        <!-- Primary CTA - Glassmorphism -->
-        <button class="btn-hero-primary consultation-trigger">
-          <span class="btn-hero-text">Explore the Intelligence</span>
+
+      <h1 class="mt-8 font-display text-hero font-[340] text-ivory">
+        <span class="hero-line block" data-hero-line>We Don&rsquo;t Build</span>
+        <span class="hero-line block" data-hero-line>Software.</span>
+        <span class="hero-line block" data-hero-line>
+          {hero.headlineB} <em class="text-gradient-molten pr-1">{hero.headlineEm}</em> {hero.headlineC}
+        </span>
+      </h1>
+
+      <p class="mt-8 flex flex-wrap items-baseline gap-x-2 font-mono text-[13px] uppercase tracking-[0.18em] text-ivory/50" data-hero-reveal>
+        <span>Intelligence for</span>
+        <span id="hero-rotator" class="relative inline-block overflow-hidden align-baseline text-ember-amber" data-words={JSON.stringify(hero.rotatingWords)}>
+          <span class="hero-word inline-block">{hero.rotatingWords[0]}</span>
+        </span>
+      </p>
+
+      <p class="mt-4 max-w-md text-body-lg text-ivory/60" data-hero-reveal>
+        {hero.subline}
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-8" data-hero-reveal>
+        <button type="button" class="consultation-trigger btn-molten">
+          <span>{hero.ctaPrimary}</span>
+          <svg viewBox="0 0 14 14" class="h-3 w-3" fill="none" aria-hidden="true">
+            <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
+          </svg>
         </button>
-        
-        <!-- Secondary CTA - Desktop Only -->
-        <a href="#projects" class="btn-hero-secondary hidden md:inline-flex">
-          See Our Work →
+        <a href="#work" class="link-filament">
+          <span>{hero.ctaSecondary}</span>
+          <svg viewBox="0 0 14 14" class="link-arrow h-3 w-3" fill="none" aria-hidden="true">
+            <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
+          </svg>
         </a>
       </div>
     </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div class="absolute bottom-8 left-[clamp(20px,5vw,96px)] hidden items-center gap-4 md:flex" data-hero-reveal aria-hidden="true">
+    <span class="font-mono text-[10px] uppercase tracking-[0.25em] text-ivory/35">{hero.scrollCue}</span>
+    <span class="relative block h-14 w-px overflow-hidden bg-ivory/10">
+      <span class="animate-dot-travel absolute left-1/2 top-0 h-1.5 w-[3px] -translate-x-1/2 rounded-full bg-ember-core shadow-[0_0_6px_1px_rgba(255,92,26,0.6)]"></span>
+    </span>
   </div>
 </section>

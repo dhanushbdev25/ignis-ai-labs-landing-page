@@ -13,8 +13,11 @@ export default defineConfig({
   
   vite: {
     plugins: [tailwindcss()],
-    ssr: {
-      external: ['@sanity/client'],
+    resolve: {
+      // react-dom/server.browser needs MessageChannel, which workerd lacks —
+      // use the edge build in production (per Astro Cloudflare adapter docs)
+      // eslint-disable-next-line no-undef
+      alias: process.env.NODE_ENV === 'production' ? { 'react-dom/server': 'react-dom/server.edge' } : undefined,
     },
   },
   

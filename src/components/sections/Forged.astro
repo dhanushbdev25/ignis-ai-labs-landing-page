@@ -1,0 +1,301 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { sections } from '../../content/site';
+import { forgedIntro, phases } from '../../content/process';
+
+const s = sections.forged;
+
+/* ============================================================
+   ONE STEEL — billet morph keyframes.
+   One piece of metal worked from cold ingot to finished blade.
+   All five paths are generated from the same skeleton (M + 7 C + Z)
+   so plain GSAP attr tweens interpolate them — no MorphSVG.
+   Stage viewBox: 0 0 800 500; the anvil face sits at y = 330.
+   ============================================================ */
+const B = 330; // anvil face — the billet's resting line
+
+interface BilletSpec {
+  lx: number; // left x (tang end)
+  rx: number; // right x (working end)
+  hl: number; // height at the left end
+  hc: number; // height mid-bar
+  hr: number; // height at the right end
+  tip: number; // 0 = square end → 1 = drawn to a point
+}
+
+const f = (n: number) => Math.round(n * 10) / 10;
+
+function billetPath({ lx, rx, hl, hc, hr, tip }: BilletSpec): string {
+  const w = rx - lx;
+  const start = { x: lx, y: B - hl };
+  const topA = { x: lx + w * 0.3, y: B - hc };
+  const topB = { x: lx + w * 0.65, y: B - (hc + hr) / 2 };
+  const tr = { x: rx, y: B - hr };
+  const br = { x: rx, y: B - hr * tip };
+  const botB = { x: lx + w * 0.65, y: B };
+  const botA = { x: lx + w * 0.3, y: B };
+  const bl = { x: lx, y: B };
+  const seg = (a: { x: number; y: number }, b: { x: number; y: number }) =>
+    `C ${f(a.x + (b.x - a.x) / 3)} ${f(a.y)} ${f(b.x - (b.x - a.x) / 3)} ${f(b.y)} ${f(b.x)} ${f(b.y)}`;
+  return [
+    `M ${f(start.x)} ${f(start.y)}`,
+    seg(start, topA),
+    seg(topA, topB),
+    seg(topB, tr),
+    seg(tr, br),
+    seg(br, botB),
+    seg(botB, botA),
+    seg(botA, bl),
+    'Z',
+  ].join(' ');
+}
+
+const billetSpecs: BilletSpec[] = [
+  { lx: 280, rx: 520, hl: 72, hc: 78, hr: 70, tip: 0.15 }, // I — cold ingot
+  { lx: 230, rx: 572, hl: 50, hc: 54, hr: 46, tip: 0.2 }, // first drawing-out
+  { lx: 195, rx: 615, hl: 40, hc: 38, hr: 26, tip: 0.45 }, // tapered bar
+  { lx: 160, rx: 655, hl: 30, hc: 27, hr: 13, tip: 0.85 }, // rough blade
+  { lx: 140, rx: 680, hl: 24, hc: 20, hr: 5, tip: 1 }, // finished blade
+];
+const billetKeyframes = billetSpecs.map(billetPath);
+const finishedBlade = billetKeyframes[4];
+
+/* mobile filmstrip — which shape each phase shows, and its heat color */
+const phaseShapes = [0, 1, 2, 3, 4, 4];
+const phaseColors = ['#33180c', '#7a2208', '#d63a10', '#ffb35c', '#ffe8c4', '#ff5c1a'];
+---
+
+<!-- overflow-x-clip (not hidden): a scroll container would break the sticky stage -->
+<section id={s.id} class="forge-section relative overflow-x-clip">
+  <!-- ====================== desktop: the live billet ====================== -->
+  <div class="hidden lg:block" data-scene="forge" data-billet-keyframes={JSON.stringify(billetKeyframes)}>
+    <!-- section header -->
+    <div class="wrap pt-[clamp(64px,9vh,120px)]">
+      <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+      <h2 class="section-title" data-anim="smolder">
+        Intelligence, <em class="text-gradient-molten">Forged</em>.
+      </h2>
+      <p class="mt-3 max-w-md text-sm text-ivory/50">{forgedIntro}</p>
+    </div>
+
+    <div class="forge-grid wrap grid grid-cols-[minmax(0,40%)_1fr] gap-x-10">
+      <!-- left: the six phases scroll past the stage -->
+      <div>
+        {phases.map((phase, i) => (
+          <article id={`forge-phase-${i + 1}`} class="forge-block flex min-h-screen items-center" data-block={i}>
+            <div class="max-w-md">
+              <p class="font-mono text-[12px] uppercase tracking-[0.2em] text-ember-amber/70">
+                {phase.numeral} — {phase.temperature}
+              </p>
+              <h3 class="mt-5 font-display text-display font-[340] text-ivory">{phase.title}</h3>
+              <p class="mt-5 max-w-sm text-body-lg text-ivory/55">{phase.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- right: the sticky forge stage -->
+      <div class="forge-stage sticky top-0 h-screen">
+        <div class="forge-shake relative h-full w-full">
+          <!-- ghost numerals — the phase counter behind the work -->
+          {phases.map((phase, i) => (
+            <span class={`forge-numeral pointer-events-none absolute right-[4%] top-[8%] select-none font-display text-[34vh] font-[300] leading-none text-ivory ${i === 0 ? 'opacity-[0.05]' : 'opacity-0'}`} data-numeral={i} aria-hidden="true">
+              {phase.numeral}.
+            </span>
+          ))}
+
+          <!-- heat bloom behind the billet — pre-blurred, opacity/scale track heat -->
+          <div class="forge-bloom pointer-events-none absolute left-1/2 top-[58%] h-[40vh] w-[34vw] -translate-x-1/2 -translate-y-1/2 rounded-full" aria-hidden="true"></div>
+          <!-- coal bed under the anvil -->
+          <div class="forge-coals pointer-events-none absolute bottom-[14%] left-1/2 h-[18vh] w-[30vw] -translate-x-1/2 rounded-full" aria-hidden="true"></div>
+
+          <!-- the work -->
+          <svg class="forge-svg absolute left-1/2 top-1/2 w-[min(46vw,820px)] -translate-x-1/2 -translate-y-[44%]" viewBox="0 0 800 500" fill="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="billet-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" class="billet-stop-edge" />
+                <stop offset="0.45" class="billet-stop-core" />
+                <stop offset="1" class="billet-stop-edge" />
+              </linearGradient>
+              <linearGradient id="gleam-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#ffe8c4" stop-opacity="0" />
+                <stop offset="0.5" stop-color="#ffe8c4" stop-opacity="0.9" />
+                <stop offset="1" stop-color="#ffe8c4" stop-opacity="0" />
+              </linearGradient>
+              <clipPath id="blade-clip">
+                <path d={finishedBlade} />
+              </clipPath>
+            </defs>
+
+            <!-- anvil — abstract london pattern, hairline face highlight -->
+            <g class="forge-anvil">
+              <path d="M 292 332 L 508 332 L 502 354 C 468 362 458 366 452 380 L 458 398 L 342 398 L 348 380 C 342 366 332 362 298 354 Z" fill="#1f130a" stroke="rgba(255,179,92,0.14)" stroke-width="1" />
+              <path d="M 318 398 L 482 398 L 488 418 L 312 418 Z" fill="#170e08" stroke="rgba(255,179,92,0.1)" stroke-width="1" />
+              <line x1="292" y1="331" x2="508" y2="331" stroke="rgba(255,179,92,0.55)" stroke-width="1" />
+            </g>
+
+            <!-- echo outlines (Amplify) — the steel exceeding its own scale -->
+            <g class="forge-echoes" opacity="0">
+              {[0, 1, 2].map(() => (
+                <path class="forge-echo" d={finishedBlade} stroke="rgba(255,92,26,0.5)" stroke-width="1" style="transform-origin: 400px 318px;" />
+              ))}
+            </g>
+
+            <!-- THE BILLET — one piece of steel, worked through five shapes -->
+            <path class="forge-billet" d={finishedBlade} fill="url(#billet-grad)" stroke="rgba(255,179,92,0.3)" stroke-width="1" />
+
+            <!-- strike flash — duplicate silhouette, white-hot, JS-flashed -->
+            <path class="forge-flash" d={finishedBlade} fill="#ffe8c4" opacity="0" />
+
+            <!-- specular gleam (Activate) — sweeps inside the blade silhouette -->
+            <g clip-path="url(#blade-clip)">
+              <rect class="forge-gleam" x="-160" y="240" width="130" height="120" fill="url(#gleam-grad)" opacity="0" transform="skewX(-18)" />
+            </g>
+
+            <!-- the ram — drops on strike beats -->
+            <g class="forge-ram" style="transform: translateY(-340px);">
+              <rect x="368" y="40" width="64" height="150" fill="#0d0805" />
+              <path d="M 348 190 L 452 190 L 444 246 L 356 246 Z" fill="#16100a" stroke="rgba(255,179,92,0.18)" stroke-width="1" />
+            </g>
+
+            <!-- blueprint overlay (Architect) -->
+            <g class="forge-bp font-mono" opacity="0.18">
+              <line class="bp-line" x1="180" y1="232" x2="640" y2="232" stroke="rgba(255,179,92,0.5)" stroke-width="1" stroke-dasharray="5 5" />
+              <line class="bp-line" x1="180" y1="224" x2="180" y2="240" stroke="rgba(255,179,92,0.5)" stroke-width="1" />
+              <line class="bp-line" x1="640" y1="224" x2="640" y2="240" stroke="rgba(255,179,92,0.5)" stroke-width="1" />
+              <text class="bp-note" x="396" y="222" text-anchor="middle" font-size="12" letter-spacing="2" fill="rgba(255,179,92,0.7)">L 412</text>
+              <line class="bp-line" x1="132" y1="258" x2="132" y2="330" stroke="rgba(255,179,92,0.5)" stroke-width="1" stroke-dasharray="5 5" />
+              <text class="bp-note" x="120" y="298" text-anchor="middle" font-size="12" letter-spacing="2" fill="rgba(255,179,92,0.7)" transform="rotate(-90 120 298)">W 36</text>
+              <line class="bp-line" x1="240" y1="368" x2="560" y2="368" stroke="rgba(255,92,26,0.45)" stroke-width="1" />
+              <text class="bp-note" x="400" y="388" text-anchor="middle" font-size="11" letter-spacing="3" fill="rgba(255,92,26,0.65)">GRAIN AXIS →</text>
+            </g>
+
+            <!-- tolerance gauges (Validate) -->
+            <g class="forge-gauges font-mono" opacity="0">
+              {[
+                { x: 220, label: '±0.02' },
+                { x: 400, label: '±0.01' },
+                { x: 560, label: '±0.01' },
+              ].map((gauge) => (
+                <g class="forge-gauge-unit">
+                  <path d={`M ${gauge.x - 22} 268 L ${gauge.x - 22} 256 L ${gauge.x + 22} 256 L ${gauge.x + 22} 268`} stroke="rgba(255,232,196,0.55)" stroke-width="1" />
+                  <path d={`M ${gauge.x - 22} 342 L ${gauge.x - 22} 354 L ${gauge.x + 22} 354 L ${gauge.x + 22} 342`} stroke="rgba(255,232,196,0.55)" stroke-width="1" />
+                  <text x={gauge.x} y="246" text-anchor="middle" font-size="11" letter-spacing="1.5" fill="rgba(255,232,196,0.75)">{gauge.label}</text>
+                  <text class="forge-gauge-pass" x={gauge.x} y="374" text-anchor="middle" font-size="10" letter-spacing="2" fill="var(--color-ember-amber)" opacity="0">PASS ✓</text>
+                </g>
+              ))}
+              <line class="forge-measure" x1="150" y1="300" x2="150" y2="300" stroke="rgba(255,232,196,0.4)" stroke-width="1" />
+            </g>
+          </svg>
+
+          <!-- spark pool container -->
+          <div class="forge-sparks pointer-events-none absolute inset-0" aria-hidden="true"></div>
+
+          <!-- CORE TEMP HUD -->
+          <div class="absolute right-[8%] top-14 z-10 flex items-start gap-4 text-right" aria-hidden="true">
+            <div>
+              <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-ember-amber/60">Core temp</p>
+              <p class="mt-1 font-display text-[clamp(1.75rem,2.4vw,2.5rem)] font-[340] leading-none text-ivory/90">
+                <span class="forge-temp tabular-nums">1538</span><span class="text-ember-amber/70">°C</span>
+              </p>
+              <span class="mt-2 inline-block h-px w-16 bg-gradient-to-l from-ember-core/60 to-transparent"></span>
+            </div>
+            <span class="forge-heat-bar relative mt-1 block h-20 w-[3px] overflow-hidden rounded-full bg-ivory/10">
+              <i class="forge-heat-fill absolute inset-x-0 bottom-0 block h-full origin-bottom bg-gradient-to-t from-ember-deep via-ember-core to-ember-white"></i>
+            </span>
+          </div>
+
+          <!-- phase tick rail — anchor links, work without JS -->
+          <nav class="absolute bottom-12 right-[8%] z-10 flex flex-col items-end gap-3" aria-label="Forge phases">
+            {phases.map((phase, i) => (
+              <a href={`#forge-phase-${i + 1}`} class="forge-tick font-mono text-[11px] tracking-[0.18em] text-ivory/30 transition-colors duration-300 hover:text-ivory/70" data-tick={i}>
+                {phase.numeral}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================== mobile / reduced-motion: the filmstrip ====================== -->
+  <div class="section-pad wrap relative lg:hidden">
+    <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+    <h2 class="section-title" data-anim="smolder">
+      Intelligence, <em class="text-gradient-molten">Forged</em>.
+    </h2>
+    <p class="mt-3 text-sm text-ivory/50">{forgedIntro}</p>
+
+    <div class="relative mt-14">
+      <!-- vertical filament, drawn downward on scroll -->
+      <span class="forge-filament-v absolute left-[3px] top-0 h-full w-px origin-top bg-gradient-to-b from-ember-deep via-ember-core to-ember-amber" data-draw-v aria-hidden="true"></span>
+
+      <ol class="space-y-16 pl-10">
+        {phases.map((phase, i) => (
+          <li class="relative" data-anim="fade-up">
+            <span class="absolute -left-10 top-1.5 ml-[-2px] h-2 w-2 rounded-full bg-ember-core shadow-[0_0_8px_1px_rgba(255,92,26,0.5)]" aria-hidden="true"></span>
+            <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-ember-amber/70">
+              {phase.numeral} · {phase.temperature}
+            </p>
+            <h3 class="mt-3 font-display text-h2 font-[340] text-ivory">{phase.title}</h3>
+            <p class="mt-3 max-w-md text-base text-ivory/55">{phase.description}</p>
+
+            <!-- the same steel, frame by frame -->
+            <svg class="mt-5 h-12 w-full max-w-[17rem]" viewBox="120 240 580 95" fill="none" aria-hidden="true" style={`filter: drop-shadow(0 0 8px ${phaseColors[i]}33);`}>
+              <path d={billetKeyframes[phaseShapes[i]]} fill={phaseColors[i]} fill-opacity={i === 0 ? 0.85 : 0.9} stroke="rgba(255,179,92,0.35)" stroke-width="1" />
+              {i === phases.length - 1 && (
+                <path d={billetKeyframes[4]} stroke="rgba(255,92,26,0.45)" stroke-width="1.5" style="transform: scale(1.12); transform-origin: 400px 318px;" />
+              )}
+            </svg>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .forge-section {
+    background: linear-gradient(180deg, var(--color-void) 0%, var(--color-forge) 40%, #20100a 100%);
+  }
+
+  /* heat plumbing — the scene writes --billet-heat (0..1) and the two
+     gradient colors on .forge-stage; everything below just reads them */
+  .forge-stage {
+    --billet-heat: 0.6; /* no-JS poster state: amber-warm finished blade */
+    --billet-edge: #d63a10;
+    --billet-core: #ffb35c;
+  }
+  .billet-stop-edge {
+    stop-color: var(--billet-edge);
+  }
+  .billet-stop-core {
+    stop-color: var(--billet-core);
+  }
+  .forge-bloom {
+    background: radial-gradient(closest-side, rgba(255, 92, 26, 0.4) 0%, rgba(122, 34, 8, 0.15) 55%, transparent 75%);
+    filter: blur(60px);
+    opacity: calc(var(--billet-heat) * 0.9);
+    transform: translate(-50%, -50%) scale(calc(0.75 + var(--billet-heat) * 0.45));
+  }
+  .forge-coals {
+    background: radial-gradient(closest-side, rgba(214, 58, 16, 0.5) 0%, rgba(122, 34, 8, 0.2) 55%, transparent 80%);
+    filter: blur(40px);
+    opacity: calc(0.15 + var(--billet-heat) * 0.7);
+  }
+  .forge-heat-fill {
+    transform: scaleY(var(--billet-heat));
+  }
+
+  /* spark — pooled spans, animated by the scene */
+  :global(.forge-spark-bit) {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-ember-amber);
+    box-shadow: 0 0 6px 1px rgba(255, 92, 26, 0.6);
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>

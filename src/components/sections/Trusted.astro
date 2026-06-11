@@ -1,0 +1,130 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { sections, stats, statsMicroline } from '../../content/site';
+import { testimonials } from '../../content/testimonials';
+
+const s = sections.trusted;
+---
+
+<section id={s.id} class="section-pad relative overflow-hidden bg-coal">
+  <div class="heat-glow right-[-15%] top-[30%] h-[50vh] w-[35vw]" data-parallax="0.85" aria-hidden="true"></div>
+
+  <div class="wrap relative">
+    <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+    <h2 class="section-title" data-anim="smolder">
+      Intelligence, <em class="text-gradient-molten">Trusted</em>.
+    </h2>
+
+    <!-- stats band -->
+    <div class="mt-12 border-y border-hairline">
+      <dl class="grid grid-cols-1 divide-y divide-[var(--color-hairline)] md:grid-cols-3 md:divide-x md:divide-y-0">
+        {stats.map((stat, i) => (
+          <div class={`py-8 ${i > 0 ? 'md:pl-12' : ''} ${i < stats.length - 1 ? 'md:pr-12' : ''}`} data-anim="fade-up" data-anim-delay={String(i * 0.08)}>
+            <dd class="font-display text-stat font-[340] text-ivory">
+              <span data-counter data-counter-target={String(stat.target)} data-counter-decimals={String(stat.decimals ?? 0)}>{stat.value.replace(stat.suffix, '')}</span><span class="text-gradient-molten">{stat.suffix}</span>
+            </dd>
+            <dt class="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ivory/40">{stat.label}</dt>
+          </div>
+        ))}
+      </dl>
+      <p class="border-t border-hairline py-4 text-center font-mono text-[10px] uppercase tracking-[0.25em] text-ember-amber/50">
+        {statsMicroline}
+      </p>
+    </div>
+
+    <!-- ================= field reports — desktop quote stage ================= -->
+    <div class="mt-16 hidden lg:block" data-scene="testimonials">
+      <p class="eyebrow mb-10">Field reports</p>
+
+      <div class="grid grid-cols-12 gap-10">
+        <div class="relative col-span-8">
+          <span class="pointer-events-none absolute -left-4 -top-12 select-none font-display text-[8rem] leading-none text-ember-amber opacity-[0.08]" aria-hidden="true">“</span>
+
+          <div class="quote-stage relative">
+            {testimonials.map((t, i) => (
+              <figure class="quote-slide max-w-2xl" data-slide={i}>
+                <blockquote>
+                  <p class="font-display text-[clamp(1.25rem,1rem+1.4vw,1.75rem)] font-[340] italic leading-[1.45] text-ivory/90">
+                    {t.quote}
+                  </p>
+                </blockquote>
+                <figcaption class="mt-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ivory/60">
+                  {t.author} — {t.role}, <span class="text-ember-amber/70">{t.company}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        <!-- client selector rail -->
+        <div class="quote-rail col-span-4 hidden flex-col justify-between border-l border-hairline pl-8">
+          <div class="space-y-1">
+            {testimonials.map((t, i) => (
+              <button
+                type="button"
+                class="quote-tab group relative block w-full px-4 py-4 text-left transition-colors duration-300 hover:bg-surface-1"
+                data-tab={i}
+              >
+                <span class="quote-tab-filament absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-gradient-to-b from-ember-core to-ember-amber/30 transition-transform duration-400" aria-hidden="true"></span>
+                <span class="block font-mono text-[10px] tracking-[0.18em] text-ember-amber/50">{String(i + 1).padStart(2, '0')} / {t.company.toUpperCase()}</span>
+                <span class="quote-tab-name mt-1 block text-[15px] font-medium text-ivory/50 transition-colors duration-300">{t.author}</span>
+                <span class="block text-[12px] text-ivory/40">{t.role}</span>
+              </button>
+            ))}
+          </div>
+
+          <div class="mt-8 px-4">
+            <div class="relative h-px w-full bg-hairline">
+              <span class="quote-progress absolute inset-y-0 left-0 w-full origin-left scale-x-0 bg-gradient-to-r from-ember-red to-ember-amber" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= field reports — mobile swipe carousel ================= -->
+    <div class="mt-14 lg:hidden">
+      <p class="eyebrow mb-6">Field reports</p>
+      <div class="-mx-[clamp(20px,5vw,96px)] flex snap-x snap-mandatory gap-4 overflow-x-auto px-[clamp(20px,5vw,96px)] pb-4 scrollbar-none">
+        {testimonials.map((t, i) => (
+          <figure class="card-frame w-[86%] min-w-[86%] snap-center p-6">
+            <span class="font-mono text-[10px] tracking-[0.18em] text-ember-amber/50">{String(i + 1).padStart(2, '0')} / {t.company.toUpperCase()}</span>
+            <blockquote class="mt-4">
+              <p class="font-display text-[1.0625rem] font-[360] italic leading-relaxed text-ivory/85">{t.quote}</p>
+            </blockquote>
+            <figcaption class="mt-5 font-mono text-[10px] uppercase tracking-[0.18em] text-ivory/45">
+              {t.author} — {t.role}
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+      <p class="mt-2 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-ivory/25" aria-hidden="true">
+        Swipe →
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* without JS the desktop quotes stack readably; the scene converts them
+     into a crossfade stage and reveals the selector rail */
+  [data-scene='testimonials'].is-enhanced .quote-slide {
+    position: absolute;
+    inset: 0;
+  }
+  [data-scene='testimonials'].is-enhanced .quote-rail {
+    display: flex;
+  }
+  [data-scene='testimonials']:not(.is-enhanced) .quote-slide + .quote-slide {
+    margin-top: 3rem;
+  }
+  .quote-tab.is-active {
+    background: var(--color-surface-1);
+  }
+  .quote-tab.is-active .quote-tab-filament {
+    transform: scaleY(1);
+  }
+  .quote-tab.is-active .quote-tab-name {
+    color: var(--color-ivory);
+  }
+</style>

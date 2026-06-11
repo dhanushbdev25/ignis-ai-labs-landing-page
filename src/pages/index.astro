@@ -1,45 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/sections/Hero.astro';
-import LifeCycleEvolution from '../components/sections/LifeCycleEvolution.astro';
 import TrustedBy from '../components/sections/TrustedBy.astro';
-import Benefits from '../components/sections/Benefits.astro';
-import IntelligenceApplied from '../components/sections/IntelligenceApplied.astro';
-import IntelligenceAsTranslator from '../components/sections/IntelligenceAsTranslator.astro';
-import Projects from '../components/sections/Projects.astro';
+import Applied from '../components/sections/Applied.astro';
+import Translated from '../components/sections/Translated.astro';
+import Forged from '../components/sections/Forged.astro';
+import Deployed from '../components/sections/Deployed.astro';
+import Trusted from '../components/sections/Trusted.astro';
+import Faq from '../components/sections/Faq.astro';
+import FinalCta from '../components/sections/FinalCta.astro';
 
-// React interactive components
-import TestimonialsHorizontal from '../components/interactive/TestimonialsHorizontal';
-import FAQAccordion from '../components/interactive/FAQAccordion';
-import ConsultationModal from '../components/interactive/ConsultationModal';
-
-// Mock data for now - will be replaced with Sanity data
-import { mockTestimonials, mockFAQs } from '../lib/mock-data';
-
-// Prerender this page as static HTML
 export const prerender = true;
 ---
 
 <Layout>
   <Hero />
-  <IntelligenceApplied />
-  <IntelligenceAsTranslator />
-  <Projects />
   <TrustedBy />
-  <LifeCycleEvolution />
-  <Benefits />
-  
-  <!-- React Islands for interactive components -->
-  <TestimonialsHorizontal 
-    client:load 
-    testimonials={mockTestimonials} 
-  />
-  
-  <FAQAccordion 
-    client:visible 
-    faqs={mockFAQs} 
-  />
-  
-  <!-- Consultation Modal - Always mounted for trigger handling -->
-  <ConsultationModal client:load />
+  <Applied />
+  <Translated />
+  <Forged />
+  <Deployed />
+  <Trusted />
+  <Faq />
+  <FinalCta />
 </Layout>

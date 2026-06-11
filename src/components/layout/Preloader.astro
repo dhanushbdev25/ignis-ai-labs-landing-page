@@ -1,0 +1,42 @@
+---
+/**
+ * Ignition preloader. Hidden by default — an inline head script adds
+ * `.preloading` to <html> (first visit + motion OK only), which reveals it.
+ * The motion layer runs the ignition sequence and removes the class.
+ */
+---
+
+<div id="preloader" class="fixed inset-0 z-[100] hidden items-center justify-center bg-void" aria-hidden="true">
+  <div class="relative flex flex-col items-center gap-8">
+    <!-- the spark, stroke-traced by the ignition timeline -->
+    <svg id="preloader-spark" viewBox="0 0 36 36" fill="none" class="h-14 w-14" aria-hidden="true">
+      <path
+        id="preloader-spark-path"
+        d="M18 1.5 C16 7.5, 12.5 12.5, 2 18 C12.5 23.5, 16 28.5, 18 34.5 C20 28.5, 23.5 23.5, 34 18 C23.5 12.5, 20 7.5, 18 1.5 Z"
+        stroke="#6F3FFF"
+        stroke-width="1"
+        fill="none"
+      />
+      <path
+        id="preloader-spark-fill"
+        d="M18 1.5 C16 7.5, 12.5 12.5, 2 18 C12.5 23.5, 16 28.5, 18 34.5 C20 28.5, 23.5 23.5, 34 18 C23.5 12.5, 20 7.5, 18 1.5 Z"
+        fill="#6F3FFF"
+        opacity="0"
+      />
+    </svg>
+
+    <p class="font-mono text-[11px] uppercase tracking-[0.25em] text-ember-amber/70">
+      IGNITION <span aria-hidden="true">·</span> <span id="preloader-temp">0000</span>°C
+    </p>
+  </div>
+</div>
+
+<style>
+  html.preloading #preloader {
+    display: flex;
+  }
+  /* lock scroll while igniting */
+  html.preloading {
+    overflow: hidden;
+  }
+</style>

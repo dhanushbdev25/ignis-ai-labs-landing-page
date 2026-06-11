@@ -1,0 +1,196 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { sections } from '../../content/site';
+import { deployedIntro, projects } from '../../content/projects';
+
+const s = sections.deployed;
+
+// isometric dot lattice for the warehouse vignette
+const iso = (c: number, r: number) => ({ x: 200 + (c - r) * 19, y: 70 + (c + r) * 12 });
+const isoDots: { x: number; y: number }[] = [];
+for (let r = 0; r < 6; r++) {
+  for (let c = 0; c < 9; c++) {
+    isoDots.push(iso(c, r));
+  }
+}
+// picking route through the lattice
+const route = [iso(0, 5), iso(2, 5), iso(2, 2), iso(5, 2), iso(5, 4), iso(8, 4), iso(8, 0)];
+const routePath = route.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x} ${p.y}`).join(' ');
+const routeStops = [iso(2, 2), iso(5, 4), iso(8, 0)];
+---
+
+<section id={s.id} class="section-pad relative overflow-hidden bg-void">
+  <div class="wrap">
+    <div class="max-w-2xl">
+      <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+      <h2 class="section-title" data-anim="smolder">
+        Intelligence, <em class="text-gradient-molten">Deployed</em>.
+      </h2>
+      <p class="mt-3 text-base text-ivory/55" data-anim="fade-up">{deployedIntro}</p>
+    </div>
+
+    <div class="mt-16 space-y-16 lg:space-y-24">
+      {projects.map((project, i) => (
+        <article class={`grid grid-cols-1 items-center gap-12 lg:grid-cols-12 ${i % 2 === 1 ? '' : ''}`}>
+          <div class={`lg:col-span-5 ${i % 2 === 1 ? 'lg:order-2 lg:col-start-8' : ''}`} data-anim="fade-up">
+            <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-ember-amber/60">{project.meta}</p>
+            <h3 class="mt-5 font-display text-h2 font-[360] text-ivory">{project.title}</h3>
+            <p class="mt-5 max-w-md text-body-lg text-ivory/55">{project.impact}</p>
+          </div>
+
+          <div class={`lg:col-span-6 ${i % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7'}`} data-anim="fade-up" data-anim-delay="0.1">
+            <div class="card-frame relative p-3" data-vignette>
+              <!-- corner registration marks — an engineering plate -->
+              {['left-2 top-2', 'right-2 top-2', 'left-2 bottom-2', 'right-2 bottom-2'].map((pos) => (
+                <svg class={`absolute ${pos} h-2.5 w-2.5 text-ember-amber/40`} viewBox="0 0 10 10" aria-hidden="true">
+                  <path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="0.8" />
+                </svg>
+              ))}
+
+              {project.visual === 'warehouse-grid' && (
+                <svg viewBox="0 0 400 300" class="block w-full" role="img" aria-label="Abstract visual: optimal picking routes traced across a warehouse grid">
+                  {isoDots.map((dot) => (
+                    <circle cx={dot.x} cy={dot.y} r="1.6" fill="rgba(245,239,230,0.32)" />
+                  ))}
+                  <path class="vg-route" d={routePath} fill="none" stroke="#ff5c1a" stroke-width="1.2" stroke-linejoin="round" />
+                  {routeStops.map((stop, j) => (
+                    <circle class="vg-stop" cx={stop.x} cy={stop.y} r="3.2" fill="none" stroke="#ffb35c" stroke-width="1" style={`animation-delay:${1.6 + j * 1.6}s`} />
+                  ))}
+                  <circle class="vg-runner" r="2.6" fill="#ffe8c4">
+                    <animateMotion dur="6s" repeatCount="indefinite" path={routePath} />
+                  </circle>
+                </svg>
+              )}
+
+              {project.visual === 'logistics-flow' && (
+                <svg viewBox="0 0 400 300" class="block w-full" role="img" aria-label="Abstract visual: shipping documents clearing a customs gate">
+                  <line x1="200" y1="40" x2="200" y2="260" stroke="rgba(255,179,92,0.4)" stroke-width="1" stroke-dasharray="3 5" />
+                  <text x="200" y="28" text-anchor="middle" fill="rgba(255,179,92,0.55)" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="2">CUSTOMS</text>
+                  {[0, 1, 2].map((doc) => (
+                    <g class="vg-doc" style={`animation-delay:${doc * 2.7}s`}>
+                      <g transform={`translate(0 ${86 + doc * 56})`}>
+                        <rect x="-34" y="-18" width="28" height="36" rx="1" fill="none" stroke="rgba(245,239,230,0.45)" stroke-width="1" />
+                        <line x1="-28" y1="-8" x2="-12" y2="-8" stroke="rgba(245,239,230,0.35)" stroke-width="1" />
+                        <line x1="-28" y1="0" x2="-12" y2="0" stroke="rgba(245,239,230,0.35)" stroke-width="1" />
+                        <line x1="-28" y1="8" x2="-18" y2="8" stroke="rgba(245,239,230,0.35)" stroke-width="1" />
+                        <circle class="vg-doc-seal" cx="-20" cy="0" r="9" fill="none" stroke="#ff5c1a" stroke-width="1" opacity="0" />
+                      </g>
+                    </g>
+                  ))}
+                </svg>
+              )}
+
+              {project.visual === 'document-assembly' && (
+                <svg viewBox="0 0 400 300" class="block w-full" role="img" aria-label="Abstract visual: document fragments assembling into a finished template">
+                  <rect x="140" y="48" width="120" height="204" rx="1" fill="none" stroke="rgba(245,239,230,0.3)" stroke-width="1" />
+                  {[
+                    { x: 152, y: 64, w: 60, h: 8, dx: -90, dy: -30, rot: -14 },
+                    { x: 152, y: 84, w: 96, h: 5, dx: 80, dy: -54, rot: 9 },
+                    { x: 152, y: 96, w: 96, h: 5, dx: -70, dy: 40, rot: -7 },
+                    { x: 152, y: 108, w: 76, h: 5, dx: 96, dy: 30, rot: 16 },
+                    { x: 152, y: 132, w: 96, h: 40, dx: -104, dy: 80, rot: -11 },
+                    { x: 152, y: 186, w: 96, h: 5, dx: 90, dy: 76, rot: 12 },
+                    { x: 152, y: 198, w: 64, h: 5, dx: -60, dy: -86, rot: 18 },
+                  ].map((frag, j) => (
+                    <rect
+                      class="vg-frag"
+                      x={frag.x}
+                      y={frag.y}
+                      width={frag.w}
+                      height={frag.h}
+                      fill={j === 4 ? 'rgba(255,92,26,0.12)' : 'rgba(245,239,230,0.28)'}
+                      stroke={j === 4 ? 'rgba(255,92,26,0.5)' : 'none'}
+                      stroke-width="0.8"
+                      style={`--dx:${frag.dx}px; --dy:${frag.dy}px; --rot:${frag.rot}deg; animation-delay:${j * 0.18}s`}
+                    />
+                  ))}
+                  <g class="vg-stamp" opacity="0">
+                    <circle cx="232" cy="222" r="14" fill="none" stroke="#ffb35c" stroke-width="1" />
+                    <path d="M226 222l4 4 8-8" fill="none" stroke="#ffb35c" stroke-width="1.2" />
+                  </g>
+                </svg>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---- warehouse route ---- */
+  .vg-route {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: vg-trace 6s linear infinite;
+    filter: drop-shadow(0 0 3px rgba(255, 92, 26, 0.5));
+  }
+  @keyframes vg-trace {
+    0% { stroke-dashoffset: 600; }
+    75% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 0; }
+  }
+  .vg-stop {
+    opacity: 0;
+    animation: vg-blink 6s linear infinite;
+  }
+  @keyframes vg-blink {
+    0%, 20% { opacity: 0; }
+    28%, 80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* ---- customs gate ---- */
+  .vg-doc {
+    animation: vg-cross 8s linear infinite;
+  }
+  @keyframes vg-cross {
+    0% { transform: translateX(-20px); }
+    100% { transform: translateX(440px); }
+  }
+  .vg-doc-seal {
+    animation: vg-seal 8s linear infinite;
+  }
+  @keyframes vg-seal {
+    0%, 48% { opacity: 0; transform: scale(1.6); }
+    53% { opacity: 1; transform: scale(1); }
+    70% { opacity: 1; }
+    80%, 100% { opacity: 0; }
+  }
+
+  /* ---- document assembly ---- */
+  .vg-frag {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: vg-assemble 7s var(--ease-inout-strong, ease-in-out) infinite;
+  }
+  @keyframes vg-assemble {
+    0%, 8% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0.25; }
+    34%, 78% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+    96%, 100% { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); opacity: 0.25; }
+  }
+  .vg-stamp {
+    animation: vg-stamp-in 7s ease infinite;
+  }
+  @keyframes vg-stamp-in {
+    0%, 38% { opacity: 0; transform: scale(1.5); transform-origin: 232px 222px; }
+    44%, 80% { opacity: 1; transform: scale(1); }
+    90%, 100% { opacity: 0; }
+  }
+
+  /* perf gate — the motion layer pauses vignettes while off-screen */
+  [data-vignette].is-paused :is(.vg-route, .vg-stop, .vg-doc, .vg-doc-seal, .vg-frag, .vg-stamp) {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vg-runner { display: none; } /* SMIL ignores reduced-motion — hide it */
+    .vg-route { animation: none; stroke-dashoffset: 0; }
+    .vg-stop { animation: none; opacity: 1; }
+    .vg-doc { animation: none; transform: translateX(160px); }
+    .vg-doc-seal { animation: none; opacity: 0; }
+    .vg-frag { animation: none; transform: none; opacity: 1; }
+    .vg-stamp { animation: none; opacity: 1; }
+  }
+</style>

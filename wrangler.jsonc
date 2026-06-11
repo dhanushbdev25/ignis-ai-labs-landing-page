@@ -5,14 +5,5 @@
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist"
-  },
-  
-  // Environment variables (non-secret)
-  "vars": {
-    "PUBLIC_SANITY_PROJECT_ID": "5moen2qt",
-    "PUBLIC_SANITY_DATASET": "production"
   }
-  
-  // Secrets (set via Cloudflare dashboard or wrangler secret put):
-  // - SANITY_API_WRITE_TOKEN
 }

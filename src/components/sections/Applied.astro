@@ -1,0 +1,209 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { sections } from '../../content/site';
+import { appliedIntro, pillars, services } from '../../content/capabilities';
+
+const s = sections.applied;
+---
+
+<!-- ============================================================
+     THE POUR — the casting floor.
+     Each pillar is an empty mold; scrolling pours molten metal
+     into the typography, which flashes, cools and sets. A sticky
+     MOLD SPEC plate reads out the active pillar's capabilities.
+     ============================================================ -->
+<!-- overflow-x-clip (not hidden): a scroll container would break the sticky plate -->
+<section id={s.id} class="section-pad relative overflow-x-clip bg-void">
+  <div class="heat-glow -left-[20%] top-[15%] h-[50vh] w-[40vw]" data-parallax="0.85" aria-hidden="true"></div>
+  <div class="cast-heat-floor heat-floor opacity-0" aria-hidden="true"></div>
+
+  <div class="wrap relative">
+    <!-- section header -->
+    <div class="grid grid-cols-1 items-end gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+        <h2 class="section-title" data-anim="smolder">
+          Intelligence, <em class="text-gradient-molten">Applied</em>.
+        </h2>
+      </div>
+      <p class="max-w-md text-base text-ivory/55 lg:col-span-5 lg:justify-self-end" data-anim="fade-up">
+        {appliedIntro}
+      </p>
+    </div>
+
+    <!-- the casting floor -->
+    <div class="relative mt-14 lg:grid lg:grid-cols-12 lg:gap-10" data-scene="applied">
+      <!-- runner rail — molten metal travels down this channel (desktop) -->
+      <div class="cast-rail pointer-events-none absolute -left-6 top-0 hidden h-full w-6 lg:block xl:-left-10" aria-hidden="true">
+        <span class="cast-runner absolute left-[11px] top-0 h-full w-px origin-top scale-y-0 bg-gradient-to-b from-ember-red via-ember-core to-ember-amber shadow-[0_0_8px_rgba(255,92,26,0.5)]"></span>
+        <span class="cast-rail-spark absolute left-[11px] top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ember-white opacity-0 shadow-[0_0_14px_4px_rgba(255,92,26,0.75)]"></span>
+      </div>
+
+      <!-- mobile runner — slim left filament drawn with scroll -->
+      <span class="cast-rail-mobile absolute -left-0.5 top-0 h-full w-px origin-top bg-gradient-to-b from-ember-red via-ember-core to-ember-amber/40 lg:hidden" data-cast-draw aria-hidden="true"></span>
+
+      <!-- mold rows -->
+      <div class="cast-rows pl-5 lg:col-span-7 lg:pl-0">
+        {pillars.map((pillar, i) => (
+          <div class="cast-row group relative border-b border-hairline py-7 first:border-t lg:py-9" data-row={i}>
+            <!-- pour gate — the channel branch that feeds this mold -->
+            <span class="cast-gate pointer-events-none absolute -left-11 top-[2.05em] hidden h-px w-9 origin-left scale-x-0 bg-gradient-to-r from-ember-core to-ember-amber/40 shadow-[0_0_6px_rgba(255,92,26,0.5)] lg:block xl:-left-[3.75rem] xl:w-[3.25rem]" aria-hidden="true"></span>
+
+            <div class="flex items-baseline gap-5 md:gap-8">
+              <span class="cast-index font-mono text-[11px] tracking-[0.18em] text-ember-amber/50 transition-colors duration-300">
+                {pillar.index}
+              </span>
+              <span class="cast-status ml-auto hidden font-mono text-[9px] uppercase tracking-[0.22em] text-ivory/25 lg:block" aria-hidden="true">
+                Mold {pillar.index}
+              </span>
+            </div>
+
+            <!-- the mold: three identical type layers stacked in one cell -->
+            <div class="cast-stack mt-2 grid pl-[2.1rem] md:pl-[3.1rem]">
+              <h3 class="cast-title cast-solid [grid-area:1/1] text-ivory/80">
+                {pillar.title}
+              </h3>
+              <span class="cast-title cast-ghost pointer-events-none select-none opacity-0 [grid-area:1/1]" aria-hidden="true">
+                {pillar.title}
+              </span>
+              <span class="cast-title cast-melt pointer-events-none relative select-none opacity-0 [grid-area:1/1]" aria-hidden="true">
+                <span class="cast-melt-text text-gradient-molten">{pillar.title}</span>
+                <i class="cast-meniscus absolute inset-x-0 top-0 block h-[2px] -translate-y-px bg-gradient-to-r from-ember-white via-ember-core to-transparent opacity-0 shadow-[0_0_12px_2px_rgba(255,92,26,0.8)]"></i>
+              </span>
+            </div>
+
+            <!-- capabilities — inline on mobile / no-JS; the plate owns them when enhanced -->
+            <ul class="cast-bullets mt-4 flex flex-wrap gap-x-5 gap-y-1.5 pl-[2.1rem] md:pl-[3.1rem]">
+              {pillar.items.map((item) => (
+                <li class="flex items-center gap-2.5 font-mono text-[11px] uppercase tracking-[0.12em] text-ivory/55">
+                  <span class="h-[3px] w-[3px] shrink-0 rounded-full bg-ember-core/70" aria-hidden="true"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <!-- MOLD SPEC — the foundry instrument plate (desktop, decorative duplicate) -->
+      <aside class="cast-plate card-frame relative hidden h-[21rem] self-start overflow-hidden p-6 opacity-0 lg:col-span-4 lg:col-start-9 lg:block lg:sticky lg:top-28" aria-hidden="true">
+        <span class="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(255,92,26,0.14)_0%,transparent_70%)]"></span>
+
+        {pillars.map((pillar, i) => (
+          <div class="plate-spec absolute inset-0 p-6 opacity-0" data-spec={i}>
+            <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember-amber/70">
+              Mold spec — {pillar.index} / 04
+            </p>
+            <span class="pointer-events-none absolute -bottom-6 right-2 select-none font-display text-[7.5rem] font-[300] leading-none text-ivory opacity-[0.05]">
+              {pillar.index}
+            </span>
+            <p class="cast-title mt-3 text-ivory/85">{pillar.title}</p>
+            <ul class="mt-5 space-y-3">
+              {pillar.items.map((item, j) => (
+                <li class="flex items-baseline gap-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ivory/70">
+                  <span class="h-[3px] w-[3px] shrink-0 translate-y-[-2px] rounded-full bg-ember-core" aria-hidden="true"></span>
+                  <span class="min-w-0">{item}</span>
+                  <span class="mx-1 h-px min-w-4 flex-1 self-center bg-ivory/10"></span>
+                  <span class="text-ember-amber/50">{String(i * 3 + j + 1).padStart(2, '0')}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="plate-status absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/35">
+              Cast: <span class="plate-status-word">empty</span>
+            </p>
+          </div>
+        ))}
+
+        <!-- pour gauge — needle swings to the active mold -->
+        <svg class="absolute bottom-5 right-6 h-12 w-20" viewBox="0 0 80 48" fill="none">
+          <path d="M8 44 A 32 32 0 0 1 72 44" stroke="rgba(255,179,92,0.18)" stroke-width="1.5" />
+          {[0, 1, 2, 3].map((tick) => {
+            const a = (-180 + (tick * 180) / 3) * (Math.PI / 180);
+            const x1 = 40 + 32 * Math.cos(a);
+            const y1 = 44 + 32 * Math.sin(a);
+            const x2 = 40 + 27 * Math.cos(a);
+            const y2 = 44 + 27 * Math.sin(a);
+            return <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(255,179,92,0.4)" stroke-width="1.5" />;
+          })}
+          <line class="plate-needle" x1="40" y1="44" x2="40" y2="18" stroke="var(--color-ember-core)" stroke-width="1.5" style="transform-origin: 40px 44px; transform: rotate(-90deg);" />
+          <circle cx="40" cy="44" r="2.5" fill="var(--color-ember-amber)" />
+        </svg>
+      </aside>
+    </div>
+
+    <!-- CAST RECORD — what has left the floor -->
+    <div class="mt-16" data-anim="fade-up">
+      <div class="mb-6 flex items-baseline justify-between border-b border-hairline pb-3">
+        <p class="eyebrow">Cast record — service index</p>
+        <p class="hidden font-mono text-[10px] uppercase tracking-[0.2em] text-ivory/30 md:block">06 lines · all shipped</p>
+      </div>
+      <ul class="grid grid-cols-1 gap-x-16 md:grid-cols-2">
+        {services.map((service) => (
+          <li class="cast-record-row group flex items-baseline gap-4 border-b border-hairline py-4">
+            <span class="font-mono text-[11px] tracking-[0.18em] text-ember-amber/60">{service.index}</span>
+            <div class="min-w-0">
+              <span class="text-[15px] font-medium text-ivory">{service.title}</span>
+              <span class="mt-0.5 block text-sm text-ivory/55 md:ml-2 md:mt-0 md:inline">{service.description}</span>
+            </div>
+            <span class="ml-auto h-[5px] w-[5px] shrink-0 self-center rounded-full bg-ember-core/60 shadow-[0_0_6px_1px_rgba(255,92,26,0.4)] transition-all duration-300 group-hover:bg-ember-core group-hover:shadow-[0_0_10px_2px_rgba(255,92,26,0.6)]" aria-hidden="true"></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* pillar titles — restrained sans, shared across solid / ghost / melt layers */
+  .cast-title {
+    font-family: var(--font-sans);
+    font-size: clamp(1.0625rem, 0.92rem + 0.55vw, 1.375rem);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+  }
+
+  /* the three type layers must wrap identically — same metrics */
+  .cast-ghost {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 179, 92, 0.22);
+  }
+  .cast-melt .cast-melt-text {
+    /* layers must occupy the exact same box — skip display-font padding */
+    display: inline;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* enhanced (≥1024px, scene running): solid hides until poured; ghost shows;
+     inline bullets retire visually but stay in the accessibility tree */
+  @media (min-width: 1024px) {
+    [data-scene='applied'].is-enhanced .cast-bullets {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    [data-scene='applied'].is-enhanced .cast-row {
+      border-color: rgba(255, 179, 92, 0.06);
+    }
+  }
+
+  /* re-melt hover (set rows only — scene toggles .is-set) */
+  .cast-row.is-set:hover .cast-index {
+    color: var(--color-ember-amber);
+  }
+
+  /* status word color states driven by the scene */
+  .plate-spec.is-pouring .plate-status-word {
+    color: var(--color-ember-core);
+  }
+  .plate-spec.is-set .plate-status-word {
+    color: var(--color-ember-amber);
+  }
+</style>

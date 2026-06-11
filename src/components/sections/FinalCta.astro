@@ -1,0 +1,80 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { sections, site } from '../../content/site';
+
+const s = sections.ignite;
+---
+
+<section id={s.id} data-scene="final-cta" class="relative flex min-h-[90svh] flex-col items-center justify-center overflow-hidden bg-void text-center">
+  <div class="heat-floor" aria-hidden="true"></div>
+
+  <!-- sparse CSS embers — no WebGL remount here -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    {[
+      { left: '12%', delay: '0s', dur: '10s', drift: '24px', op: 0.5 },
+      { left: '24%', delay: '4s', dur: '12s', drift: '-14px', op: 0.35 },
+      { left: '38%', delay: '2s', dur: '9s', drift: '18px', op: 0.45 },
+      { left: '55%', delay: '6s', dur: '11s', drift: '-22px', op: 0.4 },
+      { left: '68%', delay: '1s', dur: '10s', drift: '12px', op: 0.5 },
+      { left: '81%', delay: '5s', dur: '13s', drift: '-18px', op: 0.3 },
+      { left: '90%', delay: '3s', dur: '9.5s', drift: '20px', op: 0.45 },
+    ].map((e) => (
+      <span
+        class="ember-dot bottom-[8%]"
+        style={`left:${e.left}; --ember-opacity:${e.op}; --ember-drift:${e.drift}; animation-duration:${e.dur}; animation-delay:${e.delay};`}
+      ></span>
+    ))}
+  </div>
+
+  <div class="wrap relative flex flex-col items-center">
+    <Eyebrow index={s.index} name={s.name} temp={s.temp} class="justify-center" />
+
+    <h2 class="mt-8 font-display text-hero font-[340] text-ivory" data-anim="smolder">
+      Ready to <em class="text-gradient-molten">ignite</em>?
+    </h2>
+
+    <p class="mt-6 max-w-md text-body-lg text-ivory/55" data-anim="fade-up">
+      Tell us what you&rsquo;re building. We&rsquo;ll bring the fire.
+    </p>
+
+    <!-- the molten orb — magnetic on desktop -->
+    <div class="cta-orb-host relative mt-12" data-anim="fade-up" data-anim-delay="0.1">
+      <button type="button" class="consultation-trigger cta-orb group relative flex h-[200px] w-[200px] items-center justify-center rounded-full sm:h-[220px] sm:w-[220px]">
+        <span class="cta-orb-fill absolute inset-0 rounded-full" aria-hidden="true"></span>
+        <span class="relative px-8 font-sans text-[15px] font-semibold leading-snug text-[#160c06]">
+          Start a<br />Consultation
+        </span>
+      </button>
+    </div>
+
+    <a href={`mailto:${site.email}`} class="mt-10 font-mono text-[11px] uppercase tracking-[0.22em] text-ivory/35 transition-colors hover:text-ember-amber" data-anim="fade-up">
+      or write to {site.email}
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta-orb-fill {
+    background: conic-gradient(from 0deg, #d63a10, #ff5c1a, #ffb35c, #ff5c1a, #d63a10);
+    animation: var(--animate-spin-slow);
+    box-shadow:
+      0 0 40px rgba(255, 92, 26, 0.35),
+      0 0 140px rgba(255, 92, 26, 0.15);
+    transition: box-shadow 0.3s var(--ease-snap);
+  }
+  .cta-orb:hover .cta-orb-fill {
+    box-shadow:
+      0 0 60px rgba(255, 92, 26, 0.5),
+      0 0 180px rgba(255, 92, 26, 0.22);
+  }
+  /* the magnetic translate is applied to the button by the scene */
+  .cta-orb {
+    will-change: transform;
+    transition: scale 0.15s var(--ease-snap);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cta-orb-fill {
+      animation: none;
+    }
+  }
+</style>

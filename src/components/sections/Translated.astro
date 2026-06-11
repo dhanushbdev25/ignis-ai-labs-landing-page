@@ -1,0 +1,100 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import Logo from '../ui/Logo.astro';
+import { sections } from '../../content/site';
+import { translatedIntro, microLabels, systems } from '../../content/systems';
+
+const s = sections.translated;
+---
+
+<section id={s.id} class="relative overflow-hidden bg-coal">
+  <!-- ====================== desktop: the crucible (pinned) ====================== -->
+  <div class="crucible-stage relative hidden lg:block" data-scene="crucible">
+    <div class="relative flex h-screen items-center justify-center">
+      <!-- header, fixed top-left of the stage -->
+      <div class="absolute left-[clamp(20px,5vw,96px)] top-16 z-10 max-w-xs">
+        <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+        <h2 class="section-title" data-anim="smolder">
+          Intelligence, <em class="text-gradient-molten">Translated</em>.
+        </h2>
+        <p class="mt-3 text-sm text-ivory/55" data-anim="fade-up">{translatedIntro}</p>
+      </div>
+
+      <!-- ambient -->
+      <div class="heat-glow left-1/2 top-1/2 h-[70vh] w-[44vw] -translate-x-1/2 -translate-y-1/2" aria-hidden="true"></div>
+
+      <!-- the crucible ring -->
+      <div class="crucible-ring relative z-[1] flex h-72 w-72 translate-y-[5vh] items-center justify-center rounded-full" aria-hidden="true">
+        <span class="crucible-rim animate-spin-slow absolute inset-0 rounded-full"></span>
+        <span class="animate-breathe absolute inset-6 rounded-full bg-[radial-gradient(circle,rgba(255,92,26,0.22)_0%,rgba(122,34,8,0.08)_55%,transparent_75%)]"></span>
+        <Logo variant="mark" class="h-9 w-9" />
+        <!-- what the crucible is doing — cross-fades through the scrub -->
+        <span id="crucible-mode" class="absolute bottom-9 font-mono text-[10px] uppercase tracking-[0.2em] text-ember-amber/60" data-labels={JSON.stringify(microLabels)}>
+          {microLabels[0]}
+        </span>
+      </div>
+
+      <!-- orbit guide — a faint dashed ellipse the systems travel on -->
+      <div class="crucible-orbit-guide pointer-events-none absolute left-1/2 top-[calc(50%+5vh)] -translate-x-1/2 -translate-y-1/2 border border-dashed border-ember-amber/15 [border-radius:50%]" aria-hidden="true"></div>
+
+      <!-- ember filament from ring to the reading position (3 o'clock) -->
+      <span class="crucible-filament absolute left-1/2 top-[calc(50%+5vh)] z-0 h-px origin-left bg-gradient-to-r from-ember-core/70 to-ember-amber/20" aria-hidden="true"></span>
+
+      <!-- active system readout -->
+      <p id="crucible-readout" class="absolute left-1/2 top-[calc(50%+5vh)] z-10 ml-[clamp(12rem,15vw,17rem)] max-w-[14rem] -translate-y-10 font-mono text-[11px] uppercase tracking-[0.16em] text-ember-amber/80 opacity-0"></p>
+
+      <!-- orbiting system nodes (positioned by the scene) -->
+      <ul class="crucible-orbit pointer-events-none absolute left-1/2 top-[calc(50%+5vh)] z-[1]" aria-hidden="true">
+        {systems.map((system) => (
+          <li class="crucible-node absolute font-mono text-[12px] uppercase tracking-[0.16em] text-ivory/40" data-micro={system.microText}>
+            <span class="block whitespace-nowrap">{system.name}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- ====================== mobile / reduced-motion: the ledger ====================== -->
+  <div class="section-pad wrap lg:hidden">
+    <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+    <h2 class="section-title" data-anim="smolder">
+      Intelligence, <em class="text-gradient-molten">Translated</em>.
+    </h2>
+    <p class="mt-3 max-w-md text-base text-ivory/55" data-anim="fade-up">{translatedIntro}</p>
+
+    <ul class="mt-10 border-t border-hairline">
+      {systems.map((system) => (
+        <li class="flex items-baseline gap-4 border-b border-hairline py-5" data-anim="fade-up">
+          <span class="h-[3px] w-[3px] shrink-0 translate-y-[-3px] rounded-full bg-ember-core shadow-[0_0_6px_1px_rgba(255,92,26,0.5)]" aria-hidden="true"></span>
+          <div>
+            <span class="font-mono text-[13px] uppercase tracking-[0.16em] text-ivory">{system.name}</span>
+            <p class="mt-1 text-sm text-ivory/45">{system.outcome}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-10 font-mono text-[10px] uppercase tracking-[0.2em] text-ember-amber/50">
+      {microLabels.join(' · ')}
+    </p>
+  </div>
+</section>
+
+<style>
+  .crucible-rim {
+    background: conic-gradient(
+      from 220deg,
+      transparent 0deg,
+      rgba(255, 92, 26, 0.5) 40deg,
+      rgba(255, 179, 92, 0.15) 70deg,
+      transparent 110deg
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
+  }
+  .crucible-filament {
+    width: clamp(10rem, 13vw, 15rem);
+    margin-left: 9.5rem; /* start just outside the ring edge */
+    transform: scaleX(0);
+  }
+</style>

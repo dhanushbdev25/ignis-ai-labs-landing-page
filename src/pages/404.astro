@@ -1,53 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/layout/Navbar.astro';
-import Footer from '../components/layout/Footer.astro';
 
-// Prerender this page as static HTML
 export const prerender = true;
 ---
 
-<Layout title="404 - Page Not Found | Ignis AI Labs">
-  <Navbar />
-  
-  <main class="min-h-[60vh] flex items-center justify-center">
-    <div class="container-custom text-center py-20">
-      <!-- 404 Graphic -->
-      <div class="relative mb-8">
-        <h1 class="text-[150px] md:text-[200px] font-bold text-gradient opacity-20 leading-none">
-          404
-        </h1>
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-24 h-24 rounded-full bg-gradient-primary flex items-center justify-center animate-pulse-glow">
-            <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Content -->
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        Page Not Found
-      </h2>
-      <p class="text-xl text-[var(--color-text-secondary)] mb-8 max-w-md mx-auto">
-        Oops! The page you're looking for doesn't exist or has been moved.
+<Layout title="404 — Cold Trace | Ignis AI Labs">
+  <section class="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-void text-center">
+    <div class="heat-floor" aria-hidden="true"></div>
+
+    <div class="wrap relative flex flex-col items-center py-32">
+      <p class="eyebrow">404 / COLD TRACE — 0000°C</p>
+      <h1 class="mt-8 max-w-3xl font-display text-display font-[340] text-ivory">
+        This page never made it <em class="text-gradient-molten">out of the forge</em>.
+      </h1>
+      <p class="mt-6 max-w-md text-body-lg text-ivory/55">
+        The address you followed doesn&rsquo;t exist — or has long since cooled.
       </p>
-      
-      <!-- Actions -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="/" class="btn btn-primary">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-8">
+        <a href="/" class="btn-molten">
+          <span>Back to the fire</span>
+          <svg viewBox="0 0 14 14" class="h-3 w-3" fill="none" aria-hidden="true">
+            <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
           </svg>
-          Back to Home
         </a>
-        <button class="btn btn-secondary consultation-trigger">
-          Contact Support
-        </button>
+        <button type="button" class="consultation-trigger link-filament">Contact us</button>
       </div>
     </div>
-  </main>
-  
-  <Footer />
+  </section>
 </Layout>

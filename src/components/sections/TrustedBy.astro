@@ -1,32 +1,39 @@
 ---
-import { mockTrustedBy } from '../../lib/mock-data';
+import { Image } from 'astro:assets';
+import { trustedBy } from '../../content/testimonials';
 ---
 
-<section class="trusted-by-section pt-12 md:pt-16 pb-12 md:pb-16 bg-[var(--color-bg-primary)]">
-  <div class="container-custom">
-    <p class="text-center text-[var(--color-text-muted)] mb-10 text-xs uppercase tracking-[0.2em] font-medium">Trusted by</p>
-    
-    <!-- Infinite Carousel Wrapper -->
-    <div class="overflow-hidden relative">
-      <!-- Carousel Track - Multiple duplicates for seamless circular flow -->
-      <div class="carousel-track flex items-center gap-10 md:gap-16">
-        {/* Repeat logos 4 times to ensure no gaps at any screen size */}
-        {[...Array(4)].map((_, setIndex) => (
-          mockTrustedBy.map((logo, logoIndex) => (
-            <div 
-              class="h-16 md:h-20 flex items-center justify-center flex-shrink-0"
-              style="max-width: 200px;"
-            >
-              <img 
-                src={logo.logo}
-                alt={logo.name}
-                class="max-h-full max-w-full w-auto h-auto object-contain"
-                style="aspect-ratio: auto;"
+<section class="overflow-hidden border-y border-hairline bg-void" aria-label="Trusted by">
+  <!-- row 1: indexed logo cells, scrolling left -->
+  <div class="marquee relative overflow-hidden" data-marquee>
+    <span class="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-void to-transparent" aria-hidden="true"></span>
+    <span class="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-void to-transparent" aria-hidden="true"></span>
+
+    <div class="marquee-track items-stretch">
+      {[0, 1].map((dup) => (
+        <ul class="flex shrink-0 items-stretch" aria-hidden={dup === 1 ? 'true' : undefined}>
+          {trustedBy.map((client, i) => (
+            <li class="trusted-cell group flex shrink-0 items-center gap-5 border-r border-hairline px-10 py-6 transition-colors duration-300 hover:bg-surface-1">
+              <span class="font-mono text-[10px] tracking-[0.18em] text-ember-amber/40 transition-colors duration-300 group-hover:text-ember-amber/80">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <Image
+                src={client.logo}
+                alt={dup === 0 ? client.name : ''}
+                height={26}
+                densities={[1, 2]}
+                loading="lazy"
+                decoding="async"
+                class="h-[26px] w-auto opacity-45 brightness-0 invert-[0.93] sepia-[0.12] transition-opacity duration-300 group-hover:opacity-95"
               />
-            </div>
-          ))
-        ))}
-      </div>
+              <span class="whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.18em] text-ivory/30 transition-colors duration-300 group-hover:text-ivory/70">
+                {client.name}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ))}
     </div>
   </div>
+
 </section>

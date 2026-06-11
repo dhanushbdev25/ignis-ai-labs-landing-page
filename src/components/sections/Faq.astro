@@ -1,0 +1,60 @@
+---
+import Eyebrow from '../ui/Eyebrow.astro';
+import { sections, site } from '../../content/site';
+import { faqs } from '../../content/faqs';
+
+const s = sections.answered;
+---
+
+<section id={s.id} class="section-pad relative bg-void">
+  <div class="wrap grid grid-cols-1 gap-10 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <div class="lg:sticky lg:top-32">
+        <Eyebrow index={s.index} name={s.name} temp={s.temp} />
+        <h2 class="section-title" data-anim="smolder">
+          Intelligence, <em class="text-gradient-molten">Answered</em>.
+        </h2>
+        <p class="mt-5 max-w-xs text-base text-ivory/50" data-anim="fade-up">
+          Still glowing questions? Write to{' '}
+          <a href={`mailto:${site.email}`} class="text-ember-amber underline decoration-hairline-hot underline-offset-4 transition-colors hover:text-ember-core">{site.email}</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="border-t border-hairline lg:col-span-8" data-accordion>
+      {faqs.map((faq, i) => (
+        <details class="faq-item group relative border-b border-hairline" data-anim="fade-up">
+          <!-- open-state filament on the left edge -->
+          <span class="faq-filament absolute left-0 top-0 h-full w-[2px] origin-top scale-y-0 bg-gradient-to-b from-ember-core to-ember-amber/30 transition-transform duration-500 ease-out" aria-hidden="true"></span>
+
+          <summary class="flex cursor-pointer list-none items-baseline gap-5 py-5 pl-5 pr-12 [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-[11px] tracking-[0.18em] text-ember-amber/60">Q.{String(i + 1).padStart(2, '0')}</span>
+            <span class="text-[clamp(1.0625rem,1.4vw,1.25rem)] font-medium leading-snug text-ivory transition-colors duration-300 group-hover:text-ember-amber">
+              {faq.question}
+            </span>
+            <!-- plus that heats and rotates 45° on open -->
+            <svg class="faq-plus absolute right-2 top-8 h-3 w-3 text-ivory/50 transition-all duration-300" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 0v12M0 6h12" stroke="currentColor" stroke-width="1.1" />
+            </svg>
+          </summary>
+          <div class="faq-body overflow-hidden">
+            <p class="max-w-2xl pb-8 pl-[4.25rem] pr-8 text-base leading-relaxed text-ivory/55">{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-item[open] .faq-filament {
+    transform: scaleY(1);
+  }
+  .faq-item[open] .faq-plus {
+    transform: rotate(45deg);
+    color: var(--color-ember-core);
+  }
+  .faq-item[open] summary span:nth-child(2) {
+    color: var(--color-ember-amber);
+  }
+</style>

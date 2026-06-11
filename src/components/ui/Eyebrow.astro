@@ -1,0 +1,15 @@
+---
+/** Temperature Index eyebrow — `01 / APPLIED — 0420°C` */
+interface Props {
+  index: string;
+  name: string;
+  temp?: string;
+  class?: string;
+}
+const { index, name, temp, class: className = '' } = Astro.props;
+---
+
+<p class={`eyebrow flex items-center gap-3 ${className}`} data-anim="fade-up">
+  <span aria-hidden="true" class="inline-block h-px w-8 bg-ember-amber/40"></span>
+  <span>{index} / {name}{temp && <span class="text-ember-amber/40"> — {temp}</span>}</span>
+</p>
