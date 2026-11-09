@@ -7,7 +7,7 @@ export const site = {
   email: 'contact@ignisailabs.com',
   phone: '+91 83000 40510',
   phoneHref: 'tel:+918300040510',
-  location: 'Chennai, IN',
+  location: 'Tirunelveli, IN',
   ogImage: 'https://ignisailabs.com/og-image.png',
 };
 
@@ -25,7 +25,7 @@ export const hero = {
     'integrations',
   ],
   subline: 'End-to-end enterprise systems, integrations, and analytics.',
-  ctaPrimary: 'Start a Consultation',
+  ctaPrimary: 'Request a Callback',
   ctaSecondary: 'See Our Work',
   scrollCue: 'SCROLL TO SMELT',
 };

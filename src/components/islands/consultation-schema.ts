@@ -2,13 +2,16 @@ import { z } from 'zod';
 import { PRIMARY_INTEREST_OPTIONS, BACKGROUND_OPTIONS } from '../../content/form-options';
 
 export const consultationSchema = z.object({
-  fullName: z.string().min(1, 'Full name is required'),
-  email: z.string().min(1, 'Email address is required').email('Invalid email address'),
+  fullName: z.string().trim().min(1, 'Full name is required'),
+  email: z.string().trim().min(1, 'Email address is required').email('Invalid email address'),
   mobile: z
     .string()
-    .min(1, 'Mobile number is required')
-    .regex(/^[\d\s\-+()]+$/, 'Invalid mobile number format'),
-  company: z.string().optional(),
+    .trim()
+    .optional()
+    .refine((val) => !val || /^[\d\s\-+()]+$/.test(val), {
+      message: 'Invalid mobile number format',
+    }),
+  company: z.string().trim().optional(),
   primaryInterest: z.enum(PRIMARY_INTEREST_OPTIONS, {
     errorMap: () => ({ message: 'Please select your primary interest' }),
   }),
@@ -17,6 +20,7 @@ export const consultationSchema = z.object({
   }),
   goals: z
     .string()
+    .trim()
     .min(1, 'Please tell us what you are looking to achieve')
     .min(10, 'Please provide more details (at least 10 characters)'),
 });

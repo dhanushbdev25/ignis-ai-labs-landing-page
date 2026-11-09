@@ -73,7 +73,7 @@ export default function ConsultationModal() {
               <rect x="16.09" y="16.88" width="4.5" height="14" rx=".4" fill="currentColor" />
             </svg>
             <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-ember-amber/50 [writing-mode:vertical-rl]">
-              CONSULTATION / 1538°C
+              CALLBACK / 1538°C
             </p>
           </div>
 
@@ -84,7 +84,7 @@ export default function ConsultationModal() {
                   07 / IGNITION
                 </p>
                 <h2 id="consultation-title" className="mt-3 font-display text-[clamp(1.5rem,3.5vw,2.25rem)] leading-tight tracking-tight text-ivory">
-                  Start a <em className="font-display italic text-gradient-molten">consultation</em>.
+                  Request a <em className="font-display italic text-gradient-molten">callback</em>.
                 </h2>
               </div>
               <button

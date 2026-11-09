@@ -10,8 +10,8 @@ import slizzo from '../assets/logos/Slizzo.png';
 export const trustedBy = [
   { name: 'Indocool', logo: indocool },
   { name: 'Muphile Labs', logo: muphileLabs },
-  { name: 'Narayna Pearls', logo: naraynaPearls },
-  { name: 'Waizo', logo: waizo },
+  { name: 'Narayana Pearls', logo: naraynaPearls },
+  { name: 'Waioz', logo: waizo },
   { name: 'NIP', logo: nip },
   { name: 'Alaya Bakery', logo: alayaBakery },
   { name: 'Slizzo', logo: slizzo },

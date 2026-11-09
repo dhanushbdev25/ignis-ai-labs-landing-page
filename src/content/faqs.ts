@@ -29,6 +29,6 @@ export const faqs: Faq[] = [
   {
     question: 'How can I contact your team?',
     answer:
-      'You can reach our team through multiple channels: email at contact@ignisailabs.com, through our contact form, or by booking a consultation call. We typically respond within 24 hours and are available for urgent matters.',
+      'You can reach our team through multiple channels: email at contact@ignisailabs.com, through our contact form, or by requesting a callback. We typically respond within 24 hours and are available for urgent matters.',
   },
 ];

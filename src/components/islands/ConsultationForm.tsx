@@ -49,22 +49,43 @@ export default function ConsultationForm({ onClose }: Props) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ConsultationFields>({ resolver: zodResolver(consultationSchema) });
 
   const onSubmit = async (data: ConsultationFields) => {
+    if (submitting) return;
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const response = await fetch('/api/consultation', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, submittedAt: new Date().toISOString() }),
+        body: JSON.stringify({
+          name: data.fullName,
+          fullName: data.fullName,
+          email: data.email,
+          subject: data.primaryInterest ? `Callback Request: ${data.primaryInterest}` : 'Website Callback Request',
+          message: data.goals,
+          goals: data.goals,
+          mobile: data.mobile || undefined,
+          company: data.company || undefined,
+          primaryInterest: data.primaryInterest,
+          background: data.background,
+          submittedAt: new Date().toISOString(),
+        }),
       });
+
+      const responseData = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error((errorData as { error?: string }).error || 'Failed to submit');
+        throw new Error(
+          (responseData as { error?: string }).error || 'Failed to submit enquiry. Please try again.'
+        );
       }
+
+      // Reset form only after successful email submission
+      reset();
       setTicket(`REQ-${Date.now().toString(36).toUpperCase()}`);
     } catch (error) {
       setSubmitError(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
@@ -84,7 +105,7 @@ export default function ConsultationForm({ onClose }: Props) {
         </h3>
         <p className="mt-4 max-w-md text-base leading-relaxed text-ivory/60">
           Your request is in the forge. A member of our team will reach out to
-          schedule the consultation.
+          schedule a callback.
         </p>
         <button
           type="button"
@@ -113,7 +134,7 @@ export default function ConsultationForm({ onClose }: Props) {
         </FieldShell>
 
         <FieldShell error={errors.mobile?.message}>
-          <FieldLabel htmlFor="cf-mobile" required>Mobile Number</FieldLabel>
+          <FieldLabel htmlFor="cf-mobile">Mobile Number</FieldLabel>
           <input id="cf-mobile" type="tel" autoComplete="tel" placeholder="+91 00000 00000" className={inputBase}
             aria-invalid={!!errors.mobile} {...register('mobile')} />
         </FieldShell>
@@ -176,7 +197,7 @@ export default function ConsultationForm({ onClose }: Props) {
         aria-busy={submitting}
         className="btn-molten w-full justify-center disabled:cursor-not-allowed disabled:opacity-60"
       >
-        <span>{submitting ? 'Transmitting…' : 'Submit Request'}</span>
+        <span>{submitting ? 'Transmitting…' : 'Request Callback'}</span>
       </button>
     </form>
   );
