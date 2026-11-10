@@ -12,11 +12,12 @@ const s = sections.answered;
       <div class="lg:sticky lg:top-32">
         <Eyebrow index={s.index} name={s.name} temp={s.temp} />
         <h2 class="section-title" data-anim="smolder">
-          Intelligence, <em class="text-gradient-molten">Answered</em>.
+          Before you <em class="text-gradient-molten">ask</em>.
         </h2>
         <p class="mt-5 max-w-xs text-base text-ivory/50" data-anim="fade-up">
-          Still glowing questions? Write to{' '}
-          <a href={`mailto:${site.email}`} class="text-ember-amber underline decoration-hairline-hot underline-offset-4 transition-colors hover:text-ember-core">{site.email}</a>
+          Still have questions? Write to{' '}
+          <a href={`mailto:${site.email}`} class="text-ember-amber underline decoration-hairline-hot underline-offset-4 transition-colors hover:text-ember-core">{site.email}</a>{' '}
+          or <button type="button" class="consultation-trigger text-ember-amber underline decoration-hairline-hot underline-offset-4 transition-colors hover:text-ember-core cursor-pointer">request a callback</button>.
         </p>
       </div>
     </div>

@@ -1,0 +1,50 @@
+---
+import type { FaqItem } from '../../lib/seo/schema';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  faqs: FaqItem[];
+}
+
+const {
+  title = 'Frequently Asked Questions',
+  subtitle = 'Clear answers to common questions about deployment, integration, and timelines.',
+  faqs,
+} = Astro.props;
+---
+
+<section id="faq" class="section-pad border-t border-hairline bg-void/50">
+  <div class="wrap max-w-4xl">
+    <div class="mb-12">
+      <h2 class="font-display text-[clamp(1.75rem,3vw,2.5rem)] font-[340] text-ivory">
+        {title}
+      </h2>
+      <p class="mt-3 text-base text-ivory/60 font-sans">
+        {subtitle}
+      </p>
+    </div>
+
+    <div class="border-t border-hairline" data-accordion>
+      {faqs.map((faq, i) => (
+        <details class="group relative border-b border-hairline py-5">
+          <summary class="flex cursor-pointer list-none items-baseline gap-4 pr-8 [&::-webkit-details-marker]:hidden">
+            <span class="font-mono text-[11px] tracking-[0.18em] text-ember-amber/60 shrink-0">
+              Q.{String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="text-[17px] font-medium leading-snug text-ivory transition-colors group-hover:text-ember-amber">
+              {faq.question}
+            </span>
+            <span class="ml-auto font-mono text-sm text-ember-core transition-transform group-open:rotate-45 shrink-0" aria-hidden="true">
+              +
+            </span>
+          </summary>
+          <div class="mt-4 pl-9 text-base text-ivory/65 leading-relaxed font-sans">
+            <p>{faq.answer}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+

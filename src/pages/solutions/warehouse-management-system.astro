@@ -1,0 +1,9 @@
+---
+export const prerender = true;
+
+import SolutionPageTemplate from '../../components/layout/SolutionPageTemplate.astro';
+import { solutionsWMS } from '../../content/pages-content';
+---
+
+<SolutionPageTemplate data={solutionsWMS} isSoftware={true} />
+

@@ -1,33 +1,48 @@
 export const site = {
   name: 'Ignis AI Labs',
   url: 'https://ignisailabs.com',
-  title: 'Ignis AI Labs',
+  title: 'Ignis AI Labs | Factory Digitalization, WMS, ERP & AI Automation',
   description:
-    'Software development and engineering services. We build scalable, high-performance solutions that drive real business impact and transform your digital operations.',
+    'Factory digitalization, production routing software (PRC), WMS, ERP and SAP integrations for manufacturing and logistics plants in India and worldwide.',
   email: 'contact@ignisailabs.com',
-  phone: '+91 83000 40510',
-  phoneHref: 'tel:+918300040510',
-  location: 'Tirunelveli, IN',
+  phone: '+91 75502 15578',
+  phoneHref: 'tel:+917550215578',
+  location: 'India and worldwide',
+  areaServed: 'India and worldwide',
   ogImage: 'https://ignisailabs.com/og-image.png',
 };
 
 export const hero = {
-  eyebrow: '00 / IGNITION',
-  headlineA: "We Don't Build Software.",
-  headlineB: 'We',
-  headlineEm: 'Grow',
-  headlineC: 'Intelligence.',
-  rotatingWords: [
-    'digital transformation',
-    'ERP modernization',
-    'financial systems',
-    'analytics insights',
-    'integrations',
-  ],
-  subline: 'End-to-end enterprise systems, integrations, and analytics.',
-  ctaPrimary: 'Request a Callback',
-  ctaSecondary: 'See Our Work',
-  scrollCue: 'SCROLL TO SMELT',
+  eyebrow: 'FACTORY DIGITALIZATION · SAP INTEGRATION · AI AUTOMATION',
+  headlineLead: 'Digitalize',
+  headlineA: 'Your Factory.',
+  headlineB: 'Connect Everything.',
+  headlineC: 'Automate the Rest.',
+  subline:
+    'Ready-built products (WMS, ERP, logistics and PRC) plus custom software development for factories, plants and warehouses, integrated with SAP and existing systems, with AI automation on top.',
+  ctaPrimary: 'Book a Free Plant Assessment',
+  ctaSecondary: 'Explore Our Products',
+  ctaNote: 'We respond within 24 hours.',
+  scrollCue: 'SCROLL TO EXPLORE',
+  plantConnect: {
+    title: 'HOW IGNIS CONNECTS YOUR PLANT',
+    shopFloor: {
+      badge: 'SHOP FLOOR',
+      title: 'Production and warehouse',
+      desc: 'Production steps, stock and dispatch captured digitally.',
+    },
+    platform: {
+      badge: 'IGNIS PLATFORM',
+      title: 'WMS · ERP · Logistics · PRC',
+      desc: 'With AI automation and agentic workflows on top.',
+    },
+    existingSystems: {
+      badge: 'YOUR EXISTING SYSTEMS',
+      title: 'SAP · Oracle · MS Dynamics · Zoho · Tally',
+      desc: 'Connected without replacing them.',
+    },
+    footnote: '',
+  },
 };
 
 /** Section eyebrows — the Temperature Index. 1538°C = melting point of iron. */
@@ -42,11 +57,11 @@ export const sections = {
 } as const;
 
 export const navLinks = [
-  { label: 'Capabilities', href: '#capabilities', index: '01' },
-  { label: 'Integrations', href: '#integrations', index: '02' },
-  { label: 'Process', href: '#process', index: '03' },
-  { label: 'Work', href: '#work', index: '04' },
-  { label: 'FAQ', href: '#faq', index: '06' },
+  { label: 'Capabilities', href: '/#capabilities', index: '01' },
+  { label: 'Integrations', href: '/#integrations', index: '02' },
+  { label: 'Process', href: '/#process', index: '03' },
+  { label: 'Products', href: '/#work', index: '04' },
+  { label: 'FAQ', href: '/#faq', index: '06' },
 ] as const;
 
 export const socials = [

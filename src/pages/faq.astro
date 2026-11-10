@@ -1,0 +1,128 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import FaqSection from '../components/ui/FaqSection.astro';
+import CtaBlock from '../components/ui/CtaBlock.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'FAQ', url: 'https://ignisailabs.com/faq' },
+];
+
+const generalFaqs = [
+  {
+    question: 'Do you offer ready-built software products or custom development?',
+    answer:
+      'We provide both. We have ready-built core systems including Production Routing Chart (PRC), Warehouse Management System (WMS), ERP, and Logistics handlers that can be deployed quickly. We also build custom industrial software and tailor our existing products to match your plant workflows.',
+  },
+  {
+    question: 'Can your applications integrate with our existing SAP or ERP system?',
+    answer:
+      'Yes. We specialize in SAP integration (S/4HANA, ECC, Business One) using RFC connectors, BAPIs, and REST APIs. We also integrate with Oracle, Zoho Books, Tally, custom SQL databases, and industrial hardware.',
+  },
+  {
+    question: 'What industries and factory types do you work with?',
+    answer:
+      'We work primarily with composites and fiber moulding plants, precision discrete manufacturers, packaging plants, warehousing operations, and export logistics companies across India and worldwide.',
+  },
+  {
+    question: 'How long does a typical software deployment take from kickoff to go-live?',
+    answer:
+      'A focused module such as the Production Routing Chart (PRC) or WMS typically deploys in 2 to 6 weeks, including shop-floor process mapping, hardware configuration, and operator onboarding. Multi-system enterprise integrations typically require 6 to 12 weeks.',
+  },
+  {
+    question: 'What hardware is required on the plant floor or warehouse?',
+    answer:
+      'Our software runs on standard, non-proprietary hardware: industrial rugged Android tablets, handheld barcode/RFID scanners, touch-panel industrial PCs, and standard thermal label printers.',
+  },
+  {
+    question: 'Where is our operational data hosted, and who owns it?',
+    answer:
+      'You maintain complete ownership of your operational data and custom business logic. Deployments can be hosted on your corporate AWS, Azure, Google Cloud, Cloudflare infrastructure, or on on-premise local servers for air-gapped security.',
+  },
+  {
+    question: 'How do you handle plant-floor training and shift-worker adoption?',
+    answer:
+      'Interfaces are engineered with high contrast, large touch targets, minimal typing, and multi-language support. We conduct hands-on shift walkthroughs and provide visual pocket guides so operators can use the system with under 30 minutes of instruction.',
+  },
+  {
+    question: 'What ongoing support and maintenance do you provide after deployment?',
+    answer:
+      'We provide dedicated SLA-backed engineering support, proactive system monitoring, regular security updates, and on-call troubleshooting during plant operating shifts.',
+  },
+];
+---
+
+<Layout
+  title="Frequently Asked Questions (FAQ) | Ignis AI Labs"
+  description="Answers to common questions about factory digitalization, PRC, WMS, SAP integration, hardware requirements, deployment timelines, and data security."
+  canonical="https://ignisailabs.com/faq"
+  breadcrumbs={breadcrumbs}
+  faqs={generalFaqs}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Direct Answers"
+    title="Frequently Asked Questions"
+    lead="Clear answers to common questions about our ready-built products, custom software engineering, SAP integrations, deployment timelines, and plant-floor operations."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <main class="section-pad">
+    <div class="wrap max-w-4xl space-y-16">
+      <FaqSection
+        title="Commercial, Technical & Deployment Questions"
+        subtitle="Browse answers below or reach out directly to discuss your specific factory layout."
+        faqs={generalFaqs}
+      />
+
+      <section class="rounded-xl border border-hairline bg-surface-1/50 p-6 sm:p-8">
+        <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-ember-amber mb-3">
+          Explore Specific Software &amp; Service Details
+        </h3>
+        <p class="text-sm text-ivory/80 mb-6 font-sans">
+          Looking for specific details on our solutions or services? Read each comprehensive breakdown:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-mono">
+          <a href="/solutions/production-routing-chart" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; Production Routing Chart (PRC)
+          </a>
+          <a href="/solutions/warehouse-management-system" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; Warehouse Management System (WMS)
+          </a>
+          <a href="/solutions/erp-for-manufacturers" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; ERP for Manufacturers
+          </a>
+          <a href="/solutions/logistics-software" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; Logistics &amp; Dispatch Software
+          </a>
+          <a href="/services/sap-and-system-integration" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; SAP &amp; System Integration
+          </a>
+          <a href="/services/ai-automation-for-manufacturing" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; AI &amp; Process Automation
+          </a>
+          <a href="/services/custom-software-for-factories" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; Custom Software for Factories
+          </a>
+          <a href="/case-studies" class="text-ivory/80 hover:text-ember-amber">
+            &rarr; Live Client Case Studies
+          </a>
+        </div>
+      </section>
+
+      <CtaBlock
+        heading="Have a Specific Question About Your Plant?"
+        description="Speak directly with an engineer. We will review your current systems, floor constraints, and timeline on a 30-minute discovery call."
+        primaryText="Schedule a Technical Call"
+        primaryHref="/#contact"
+        secondaryText="View Case Studies"
+        secondaryHref="/case-studies"
+      />
+    </div>
+  </main>
+</Layout>
+

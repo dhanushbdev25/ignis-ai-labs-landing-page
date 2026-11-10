@@ -1,0 +1,154 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import CtaBlock from '../components/ui/CtaBlock.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'About', url: 'https://ignisailabs.com/about' },
+];
+
+const faqs = [
+  {
+    question: 'What is Ignis AI Labs?',
+    answer:
+      'Ignis AI Labs is an engineering and AI studio specializing in software for factories, plants, warehouses, and logistics operators. We provide both ready-built products (PRC, WMS, ERP, Logistics) and custom software engineering.',
+  },
+  {
+    question: 'Where does Ignis AI Labs operate?',
+    answer:
+      'We serve manufacturing and logistics clients across India and worldwide through remote technical integration and on-site plant walkthroughs.',
+  },
+  {
+    question: 'How do you approach industrial software projects?',
+    answer:
+      'We start with plant walkthroughs and process mapping to identify bottlenecks where paper, spreadsheets, or disconnected systems slow teams down. We then deploy modular software integrated with existing ERPs like SAP.',
+  },
+];
+---
+
+<Layout
+  title="About Ignis AI Labs | Factory & Warehouse Software"
+  description="Ignis AI Labs is an engineering and AI studio building production routing, WMS, ERP, and automation software for manufacturing and logistics teams."
+  canonical="https://ignisailabs.com/about"
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Company Overview"
+    title="Engineering Software for the Physical World"
+    lead="Ignis AI Labs is an engineering and AI studio. We build production routing systems, warehouse management software, ERPs, and automation pipelines for factories, plants, and logistics operators across India and worldwide."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <main class="section-pad">
+    <div class="wrap max-w-4xl space-y-16">
+      <!-- Section 1: Who We Are -->
+      <section class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8 space-y-4">
+        <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-ember-core">
+          Who We Are
+        </h2>
+        <p class="text-lg sm:text-xl font-light text-ivory leading-relaxed font-sans">
+          Most enterprise software is designed for desktop offices, not the physical plant floor. We build software specifically for operators in safety boots, warehouse pickers with barcode scanners, and plant managers managing multi-stage manufacturing lines.
+        </p>
+        <p class="text-base text-ivory/80 leading-relaxed font-sans">
+          Our team combines systems engineering, industrial process mapping, and modern web architectures. Whether tailoring our Production Routing Chart (PRC) for a composites manufacturer or integrating barcode picking directly with SAP S/4HANA, we build resilient tools that operators actually adopt.
+        </p>
+      </section>
+
+      <!-- Section 2: Products & Custom Builds -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          Both Ready-Built Products and Custom Engineering
+        </h2>
+        <p class="text-base text-ivory/80 leading-relaxed font-sans">
+          Industrial operations rarely fit rigid, one-size-fits-all software. We offer:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-6">
+            <h3 class="font-mono text-sm uppercase tracking-wider text-ember-amber mb-2">Ready-Built Core Products</h3>
+            <ul class="text-sm text-ivory/80 space-y-2 font-sans">
+              <li>&bull; <strong>Production Routing Chart (PRC):</strong> Digital traveler cards and gate approvals for discrete manufacturing.</li>
+              <li>&bull; <strong>Warehouse Management System (WMS):</strong> Bin-level barcode tracking, wave picking, and automated dispatch.</li>
+              <li>&bull; <strong>Manufacturing ERP:</strong> Inventory, production bills of materials, and financial accounting.</li>
+              <li>&bull; <strong>Logistics &amp; Customs Handler:</strong> Automated shipping document packets and container tracking.</li>
+            </ul>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-6">
+            <h3 class="font-mono text-sm uppercase tracking-wider text-ember-amber mb-2">Custom Software &amp; Integration</h3>
+            <ul class="text-sm text-ivory/80 space-y-2 font-sans">
+              <li>&bull; <strong>SAP &amp; ERP Integration:</strong> RFC, BAPI, and API bi-directional connectors for SAP, Oracle, Zoho, and Tally.</li>
+              <li>&bull; <strong>AI &amp; Automation:</strong> OCR document extraction, visual defect logging, and schedule optimization.</li>
+              <li>&bull; <strong>Plant-Floor Web &amp; Mobile Apps:</strong> Rugged tablet applications designed for noisy, high-dust environments.</li>
+              <li>&bull; <strong>Architecture Consulting:</strong> Plant walkthroughs and digitalization roadmaps.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Principles -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          How We Work
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <p class="font-mono text-xs text-ember-core uppercase tracking-wider mb-2">01. Plant Walkthrough</p>
+            <p class="text-sm text-ivory/80 font-sans">
+              We map the physical reality of your plant floor first, finding where paperwork and manual registers create blind spots.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <p class="font-mono text-xs text-ember-core uppercase tracking-wider mb-2">02. Non-Disruptive Rollout</p>
+            <p class="text-sm text-ivory/80 font-sans">
+              We deploy software bay by bay or zone by zone so shift dispatches and production lines continue uninterrupted.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <p class="font-mono text-xs text-ember-core uppercase tracking-wider mb-2">03. Complete Ownership</p>
+            <p class="text-sm text-ivory/80 font-sans">
+              You own your data and operational infrastructure. We deploy to your preferred cloud or on-premise servers.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Service Area & Contact -->
+      <section class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8 space-y-4">
+        <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-ember-amber">
+          Service Area &amp; Contact Details
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm font-sans text-ivory/80">
+          <div>
+            <p class="font-mono text-xs text-ivory/50 uppercase tracking-wider mb-1">Service Area</p>
+            <p class="text-base text-ivory font-medium">India and worldwide</p>
+            <p class="text-xs text-ivory/60 mt-1">Available for remote software deployments and on-site engineering walkthroughs.</p>
+          </div>
+          <div>
+            <p class="font-mono text-xs text-ivory/50 uppercase tracking-wider mb-1">Direct Inquiries</p>
+            <p class="text-base text-ivory font-medium">
+              <a href="mailto:contact@ignisailabs.com" class="hover:text-ember-amber transition-colors">
+                contact@ignisailabs.com
+              </a>
+            </p>
+            <p class="text-xs text-ivory/60 mt-1">Engineering response within 24 hours.</p>
+          </div>
+        </div>
+      </section>
+
+      <CtaBlock
+        heading="Discuss Your Production or Logistics Project"
+        description="Book a technical discovery session. We will evaluate your plant requirements and outline a deployment plan."
+        primaryText="Schedule a Consultation"
+        primaryHref="/#contact"
+        secondaryText="Explore Our Products"
+        secondaryHref="/solutions/production-routing-chart"
+      />
+    </div>
+  </main>
+</Layout>
+

@@ -1,8 +1,30 @@
 ---
 import Logo from '../ui/Logo.astro';
-import { site, navLinks, socials } from '../../content/site';
+import { site, socials } from '../../content/site';
 
 const year = new Date().getFullYear();
+
+const solutionsLinks = [
+  { label: 'Production Routing Chart (PRC)', href: '/solutions/production-routing-chart' },
+  { label: 'Warehouse Management (WMS)', href: '/solutions/warehouse-management-system' },
+  { label: 'ERP for Manufacturers', href: '/solutions/erp-for-manufacturers' },
+  { label: 'Logistics & Customs Software', href: '/solutions/logistics-software' },
+];
+
+const servicesLinks = [
+  { label: 'SAP & System Integration', href: '/services/sap-and-system-integration' },
+  { label: 'AI Automation for Plants', href: '/services/ai-automation-for-manufacturing' },
+  { label: 'Custom Industrial Software', href: '/services/custom-software-for-factories' },
+  { label: 'Composites & Fiber Moulding', href: '/industries/composites-and-fiber-moulding' },
+];
+
+const companyLinks = [
+  { label: 'About Us', href: '/about' },
+  { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Frequently Asked Questions', href: '/faq' },
+  { label: 'Contact & Assessment', href: '/contact' },
+  { label: 'AI Documentation (llms.txt)', href: '/llms.txt' },
+];
 ---
 
 <footer class="relative overflow-hidden bg-void">
@@ -14,56 +36,97 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="wrap relative border-t border-hairline pt-14 pb-0">
-    <div class="grid grid-cols-2 gap-x-8 gap-y-10 pb-14 md:grid-cols-4">
+    <div class="grid grid-cols-2 gap-x-8 gap-y-10 pb-14 md:grid-cols-4 lg:grid-cols-5">
+      <!-- Col 1: Solutions -->
       <div>
-        <h3 class="eyebrow mb-6">Sitemap</h3>
+        <h3 class="eyebrow mb-6">Solutions</h3>
         <ul class="space-y-3">
-          {navLinks.map((link) => (
+          {solutionsLinks.map((link) => (
             <li>
-              <a href={link.href} class="text-sm text-ivory/60 transition-colors hover:text-ember-amber">{link.label}</a>
+              <a href={link.href} class="text-xs sm:text-sm text-ivory/60 transition-colors hover:text-ember-amber">
+                {link.label}
+              </a>
             </li>
           ))}
         </ul>
       </div>
 
+      <!-- Col 2: Services -->
+      <div>
+        <h3 class="eyebrow mb-6">Services</h3>
+        <ul class="space-y-3">
+          {servicesLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-xs sm:text-sm text-ivory/60 transition-colors hover:text-ember-amber">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Col 3: Company -->
+      <div>
+        <h3 class="eyebrow mb-6">Company</h3>
+        <ul class="space-y-3">
+          {companyLinks.map((link) => (
+            <li>
+              <a href={link.href} class="text-xs sm:text-sm text-ivory/60 transition-colors hover:text-ember-amber">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Col 4: Contact -->
       <div>
         <h3 class="eyebrow mb-6">Contact</h3>
         <ul class="space-y-3">
           <li>
-            <a href={`mailto:${site.email}`} class="text-sm text-ivory/60 transition-colors hover:text-ember-amber">{site.email}</a>
+            <a href={`mailto:${site.email}`} class="text-xs sm:text-sm text-ivory/60 transition-colors hover:text-ember-amber">
+              {site.email}
+            </a>
           </li>
           <li>
-            <a href={site.phoneHref} class="text-sm text-ivory/60 transition-colors hover:text-ember-amber">{site.phone}</a>
+            <a href={site.phoneHref} class="text-xs sm:text-sm text-ivory/60 transition-colors hover:text-ember-amber">
+              {site.phone}
+            </a>
+          </li>
+          <li class="pt-2">
+            <button type="button" class="consultation-trigger text-xs font-mono uppercase tracking-widest text-ember-core hover:text-ember-amber transition-colors cursor-pointer">
+              Book Plant Assessment &rarr;
+            </button>
           </li>
         </ul>
       </div>
 
-      <div>
-        <h3 class="eyebrow mb-6">Elsewhere</h3>
-        <ul class="space-y-3">
+      <!-- Col 5: Service Area & Status -->
+      <div class="col-span-2 sm:col-span-1">
+        <h3 class="eyebrow mb-6">Deployment</h3>
+        <p class="font-mono text-[11px] leading-relaxed tracking-[0.14em] text-ivory/40 uppercase mb-4">
+          Status: <span class="text-ember-amber/80">Operational</span><br />
+          Service Area: <span class="text-ivory/70">{site.location}</span><br />
+          Time: <span id="forge-clock"></span>
+        </p>
+        <ul class="flex gap-4">
           {socials.map((social) => (
             <li>
-              <a href={social.href} rel="noopener noreferrer" target="_blank" class="text-sm text-ivory/60 transition-colors hover:text-ember-amber">{social.label}</a>
+              <a href={social.href} rel="noopener noreferrer" target="_blank" class="text-xs font-mono uppercase text-ivory/50 transition-colors hover:text-ember-amber">
+                {social.label}
+              </a>
             </li>
           ))}
         </ul>
-      </div>
-
-      <div>
-        <h3 class="eyebrow mb-6">Status</h3>
-        <p class="font-mono text-[11px] leading-relaxed tracking-[0.14em] text-ivory/40 uppercase">
-          Forge status: <span class="text-ember-amber/80">Operational</span><br />
-          {site.location} <span id="forge-clock"></span>
-        </p>
       </div>
     </div>
 
     <div class="flex flex-col gap-2 border-t border-hairline py-6 sm:flex-row sm:items-center sm:justify-between">
       <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/30">
-        © {year} Ignis AI Labs
+        &copy; {year} Ignis AI Labs. All rights reserved.
       </p>
       <p class="font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/30">
-        IGNIS — LATIN, “FIRE”
+        Ready-Built Products &amp; Custom Plant Engineering &middot; India and Worldwide
       </p>
     </div>
 
@@ -75,7 +138,7 @@ const year = new Date().getFullYear();
 </footer>
 
 <script>
-  // live forge clock — Chennai time
+  // live forge clock
   const clock = document.getElementById('forge-clock');
   function tick() {
     if (!clock) return;
@@ -85,7 +148,7 @@ const year = new Date().getFullYear();
       minute: '2-digit',
       hour12: false,
     });
-    clock.textContent = `· ${time} IST`;
+    clock.textContent = `${time} IST`;
   }
   tick();
   setInterval(tick, 30_000);

@@ -13,7 +13,7 @@ export const trustedBy = [
   { name: 'Narayana Pearls', logo: naraynaPearls },
   { name: 'Waioz', logo: waizo },
   { name: 'NIP', logo: nip },
-  { name: 'Alaya Bakery', logo: alayaBakery },
+  { name: 'Alaya', logo: alayaBakery },
   { name: 'Slizzo', logo: slizzo },
 ];
 
@@ -24,15 +24,15 @@ export const testimonials: Testimonial[] = [
       "We engaged Ignis through a consulting arrangement, and their engineering team handled multiple projects with competence and reliability. They've been a dependable partner for resourcing needs.",
     author: 'Abdul Wahab',
     role: 'Managing Director',
-    company: 'Waizo',
+    company: 'Waioz',
   },
   {
-    title: 'Better visibility into sales patterns',
+    title: 'Seamless WMS and PRC deployment with SAP integration',
     quote:
-      'Managing demand in a bakery is always tricky. Ignis built tools that gave us better visibility into sales patterns and helped us plan our inventory more accurately. It reduced waste and improved margins immediately.',
-    author: 'Linsha',
-    role: 'Managing Director',
-    company: 'Slizzo',
+      'Ignis deployed our WMS and PRC applications with direct SAP integration, giving us end-to-end visibility from raw materials to shop-floor production routing. It replaced manual tracking across the plant without disrupting daily operations.',
+    author: 'Ramesh R',
+    role: 'Operations & Supply Chain',
+    company: 'Indocool',
   },
   {
     title: 'Rare ability to integrate complex software systems',
@@ -41,5 +41,13 @@ export const testimonials: Testimonial[] = [
     author: 'Veeramani Viswanathan',
     role: 'Technical Director',
     company: 'Muphile Labs',
+  },
+  {
+    title: 'Better visibility into sales patterns',
+    quote:
+      'Managing demand in a bakery is always tricky. Ignis built tools that gave us better visibility into sales patterns and helped us plan our inventory more accurately. It reduced waste and improved margins immediately.',
+    author: 'Linsha',
+    role: 'Managing Director',
+    company: 'Slizzo',
   },
 ];

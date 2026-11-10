@@ -1,0 +1,9 @@
+---
+export const prerender = true;
+
+import SolutionPageTemplate from '../../components/layout/SolutionPageTemplate.astro';
+import { solutionsPRC } from '../../content/pages-content';
+---
+
+<SolutionPageTemplate data={solutionsPRC} isSoftware={true} />
+

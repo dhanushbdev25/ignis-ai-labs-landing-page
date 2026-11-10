@@ -10,46 +10,117 @@ import { hero } from '../../content/site';
   <!-- WebGL mount point (lazy) -->
   <div id="ember-field" class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700" aria-hidden="true"></div>
 
-  <div class="wrap relative w-full pt-28 pb-20">
-    <div class="max-w-[58rem]" data-hero-parallax>
-      <p class="eyebrow flex items-center gap-3" data-hero-reveal>
-        <span aria-hidden="true" class="inline-block h-px w-8 bg-ember-amber/40"></span>
-        <span>{hero.eyebrow} — EST. MMXXIV</span>
-      </p>
+  <div class="wrap relative w-full max-w-[1560px] pt-28 pb-16 lg:pt-32 lg:pb-18">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.2fr_1fr] xl:gap-14 2xl:gap-16" data-hero-parallax>
+      
+      <!-- Left Column: Copy & Actions -->
+      <div class="w-full">
+        <p class="eyebrow flex items-center gap-3 text-ember-core" data-hero-reveal>
+          <span aria-hidden="true" class="inline-block h-px w-8 bg-ember-core/70"></span>
+          <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-ember-core">{hero.eyebrow}</span>
+        </p>
 
-      <h1 class="mt-8 font-display text-hero font-[340] text-ivory">
-        <span class="hero-line block" data-hero-line>We Don&rsquo;t Build</span>
-        <span class="hero-line block" data-hero-line>Software.</span>
-        <span class="hero-line block" data-hero-line>
-          {hero.headlineB} <em class="text-gradient-molten pr-1">{hero.headlineEm}</em> {hero.headlineC}
-        </span>
-      </h1>
+        <h1 class="mt-7 font-display text-[clamp(2.15rem,3.4vw,4.15rem)] font-[340] leading-[1.08] tracking-tight text-ivory">
+          <span class="hero-line block sm:whitespace-nowrap" data-hero-line>
+            <em class="font-display italic text-gradient-molten pr-1">{hero.headlineLead}</em> {hero.headlineA}
+          </span>
+          <span class="hero-line block sm:whitespace-nowrap" data-hero-line>{hero.headlineB}</span>
+          <span class="hero-line block sm:whitespace-nowrap" data-hero-line>{hero.headlineC}</span>
+        </h1>
 
-      <p class="mt-8 flex flex-wrap items-baseline gap-x-2 font-mono text-[13px] uppercase tracking-[0.18em] text-ivory/50" data-hero-reveal>
-        <span>Intelligence for</span>
-        <span id="hero-rotator" class="relative inline-block overflow-hidden align-baseline text-ember-amber" data-words={JSON.stringify(hero.rotatingWords)}>
-          <span class="hero-word inline-block">{hero.rotatingWords[0]}</span>
-        </span>
-      </p>
+        <p class="mt-6 max-w-xl text-body-lg text-ivory/65 leading-relaxed font-sans" data-hero-reveal>
+          {hero.subline}
+        </p>
 
-      <p class="mt-4 max-w-md text-body-lg text-ivory/60" data-hero-reveal>
-        {hero.subline}
-      </p>
+        <div class="mt-8 flex flex-wrap items-center gap-7" data-hero-reveal>
+          <button type="button" class="consultation-trigger btn-molten group">
+            <span>{hero.ctaPrimary}</span>
+            <svg viewBox="0 0 14 14" class="h-3 w-3 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" aria-hidden="true">
+              <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
+            </svg>
+          </button>
+          <a href="#capabilities" class="link-filament text-sm font-medium">
+            <span>{hero.ctaSecondary}</span>
+            <svg viewBox="0 0 14 14" class="link-arrow h-3 w-3" fill="none" aria-hidden="true">
+              <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
+            </svg>
+          </a>
+        </div>
 
-      <div class="mt-10 flex flex-wrap items-center gap-8" data-hero-reveal>
-        <button type="button" class="consultation-trigger btn-molten">
-          <span>{hero.ctaPrimary}</span>
-          <svg viewBox="0 0 14 14" class="h-3 w-3" fill="none" aria-hidden="true">
-            <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
-          </svg>
-        </button>
-        <a href="#work" class="link-filament">
-          <span>{hero.ctaSecondary}</span>
-          <svg viewBox="0 0 14 14" class="link-arrow h-3 w-3" fill="none" aria-hidden="true">
-            <path d="M1 7h11M8 2.5 12.5 7 8 11.5" stroke="currentColor" stroke-width="1.4" />
-          </svg>
-        </a>
+        <p class="mt-4 font-sans text-xs text-ivory/40" data-hero-reveal>
+          {hero.ctaNote}
+        </p>
       </div>
+
+      <!-- Right Column: How Ignis Connects Your Plant Diagram Card -->
+      <div class="w-full max-w-[560px] xl:max-w-[620px] lg:justify-self-end" data-hero-reveal>
+        <div class="relative overflow-hidden rounded-xl border border-hairline bg-[#0c0a08]/90 p-5 sm:p-6 lg:p-7 shadow-[0_16px_36px_rgba(0,0,0,0.6)] backdrop-blur-md">
+          {/* subtle top molten hairline */}
+          <span aria-hidden="true" class="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-ember-red via-ember-core to-ember-amber"></span>
+
+          <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-ivory/45 mb-4">
+            {hero.plantConnect.title}
+          </p>
+
+          <div class="flex flex-col items-stretch">
+            <!-- 1. Shop Floor -->
+            <div class="rounded-lg border border-hairline/80 bg-[#14100c]/80 p-3.5 sm:p-4 transition-colors hover:border-hairline-hot">
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember-core font-medium">
+                {hero.plantConnect.shopFloor.badge}
+              </span>
+              <h3 class="mt-0.5 font-sans text-[14px] sm:text-[15px] font-semibold text-ivory">
+                {hero.plantConnect.shopFloor.title}
+              </h3>
+              <p class="mt-0.5 font-sans text-xs text-ivory/55 leading-relaxed">
+                {hero.plantConnect.shopFloor.desc}
+              </p>
+            </div>
+
+            <!-- Vertical Connector 1 -->
+            <div class="flex justify-center py-1" aria-hidden="true">
+              <span class="h-3.5 sm:h-4 w-px bg-ember-core/45"></span>
+            </div>
+
+            <!-- 2. Ignis Platform (Featured Molten Box) -->
+            <div class="rounded-lg border border-ember-core/90 bg-[#170e08] p-3.5 sm:p-4 shadow-[0_0_24px_rgba(255,92,26,0.15)]">
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember-core font-semibold">
+                {hero.plantConnect.platform.badge}
+              </span>
+              <h3 class="mt-0.5 font-sans text-[14px] sm:text-[15px] font-bold text-ivory tracking-tight">
+                {hero.plantConnect.platform.title}
+              </h3>
+              <p class="mt-0.5 font-sans text-xs text-ivory/75 leading-relaxed">
+                {hero.plantConnect.platform.desc}
+              </p>
+            </div>
+
+            <!-- Vertical Connector 2 -->
+            <div class="flex justify-center py-1" aria-hidden="true">
+              <span class="h-3.5 sm:h-4 w-px bg-ember-core/45"></span>
+            </div>
+
+            <!-- 3. Existing Systems -->
+            <div class="rounded-lg border border-hairline/80 bg-[#14100c]/80 p-3.5 sm:p-4 transition-colors hover:border-hairline-hot">
+              <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember-core font-medium">
+                {hero.plantConnect.existingSystems.badge}
+              </span>
+              <h3 class="mt-0.5 font-sans text-[14px] sm:text-[15px] font-semibold text-ivory">
+                {hero.plantConnect.existingSystems.title}
+              </h3>
+              <p class="mt-0.5 font-sans text-xs text-ivory/55 leading-relaxed">
+                {hero.plantConnect.existingSystems.desc}
+              </p>
+            </div>
+          </div>
+
+          {hero.plantConnect.footnote && (
+            <p class="mt-4 text-center font-mono text-[11px] text-ivory/30">
+              {hero.plantConnect.footnote}
+            </p>
+          )}
+        </div>
+      </div>
+
     </div>
   </div>
 

@@ -1,0 +1,194 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import CtaBlock from '../../components/ui/CtaBlock.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'Case Studies', url: 'https://ignisailabs.com/case-studies' },
+  { name: 'WMS Deployment', url: 'https://ignisailabs.com/case-studies/warehouse-management-system' },
+];
+
+const faqs = [
+  {
+    question: 'Did the warehouse have to pause dispatches during deployment?',
+    answer:
+      'No. Inventory migration and barcode labeling were executed zone by zone during scheduled maintenance windows, keeping daily dispatches active.',
+  },
+  {
+    question: 'What hardware was used on the warehouse floor?',
+    answer:
+      'The warehouse used rugged Android barcode scanners and mobile thermal label printers connected over standard industrial Wi-Fi.',
+  },
+  {
+    question: 'How does the system prevent picking the wrong batch or item?',
+    answer:
+      'Scanners enforce mandatory barcode verification. The operator cannot confirm picking unless the scanned bin and SKU match the system pick list.',
+  },
+  {
+    question: 'Can the WMS integrate with our existing ERP?',
+    answer:
+      'Yes. The system integrates directly with SAP, Oracle, Zoho, and custom ERPs to sync purchase receipts, sales dispatches, and inventory balances.',
+  },
+];
+---
+
+<Layout
+  title="WMS Case Study: Distribution Center | Ignis AI Labs"
+  description="How an industrial distribution center deployed WMS to achieve bin-level stock tracking, barcode-guided picking, and direct SAP synchronization."
+  canonical="https://ignisailabs.com/case-studies/warehouse-management-system"
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  includeSoftwareSchemas={true}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Case Study / Warehouse & Inventory"
+    title="Warehouse Management System (WMS) in Industrial Distribution"
+    lead="An industrial component distribution facility deployed the Ignis AI Labs WMS to resolve inventory discrepancies, eliminate manual stock counts, and accelerate outbound order dispatch. The system introduced bin-level barcode tracking, wave-picking logic, and direct SAP inventory synchronization."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <article class="section-pad">
+    <div class="wrap max-w-4xl space-y-20">
+      <!-- Executive Summary -->
+      <section class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8">
+        <h2 class="font-mono text-[12px] uppercase tracking-[0.2em] text-ember-core mb-3">
+          Executive Summary
+        </h2>
+        <p class="text-lg sm:text-xl font-medium text-ivory leading-relaxed font-sans mb-6">
+          Handling several thousand active industrial SKUs across racking aisles with manual paper tally sheets leads to misplaced pallets, mis-picks, and lengthy truck turnaround times. Ignis AI Labs configured and integrated a dedicated WMS that transformed warehouse floor operations into a barcode-directed workflow.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-hairline font-mono text-xs text-ivory/70">
+          <div>
+            <span class="text-ivory/40 block">Industry:</span>
+            <span>Industrial Parts &amp; Distribution</span>
+          </div>
+          <div>
+            <span class="text-ivory/40 block">Service Area:</span>
+            <span>India and worldwide</span>
+          </div>
+          <div>
+            <span class="text-ivory/40 block">Integration:</span>
+            <span>SAP ERP + Android Handheld Scanners</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Problem -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          The Problem: Misplaced Stock and Slow Dispatches
+        </h2>
+        <div class="space-y-4 text-ivory/80 leading-relaxed font-sans">
+          <p>
+            Before the WMS implementation, the warehouse relied on memory and spreadsheet registers:
+          </p>
+          <ul class="list-disc pl-6 space-y-2 text-ivory/75">
+            <li>Pallets were placed in empty slots without system location tagging, causing pickers to search aisles on foot.</li>
+            <li>Outbound orders suffered from pick errors, leading to return shipments and customer penalties.</li>
+            <li>Physical inventory audits required halting warehouse dispatch for an entire weekend every quarter.</li>
+            <li>SAP stock records diverged from floor inventory due to delayed paper entry at shift ends.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          The Solution: Directed WMS Workflows
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">1. Inbound GRN and Barcode Labeling</h3>
+            <p class="text-sm text-ivory/70">
+              Incoming shipments are verified against purchase orders at the receiving bay. Pallets receive thermal barcode labels before moving into racking.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">2. System-Suggested Put-Away</h3>
+            <p class="text-sm text-ivory/70">
+              Forklift operators are directed by the scanner screen to specific aisle and rack bins, scanning both pallet and bin barcodes to lock location.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">3. Optimized Wave Picking</h3>
+            <p class="text-sm text-ivory/70">
+              Picking lists sort items along the shortest physical walking route through the warehouse, grouping orders to minimize back-and-forth travel.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">4. Automated Outbound Dispatch</h3>
+            <p class="text-sm text-ivory/70">
+              Packing slips and e-way bills generate automatically upon final box scan, immediately deducting inventory in SAP.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Metrics -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          Operational Results
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">99.8%</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Bin-Level Inventory Accuracy</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Eliminated lost pallets and unlocated warehouse stock.</p>
+          </div>
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">[TODO: X%]</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Faster Order Fulfillment</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Reduced walking distance and pick cycle times per order.</p>
+          </div>
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">Zero</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Warehouse Shutdowns</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Replaced quarterly physical inventory halts with rolling cycle counts.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <FaqSection
+        title="Frequently Asked Questions About WMS Rollouts"
+        subtitle="Key details on hardware compatibility, cutover timelines, and warehouse layout preparation."
+        faqs={faqs}
+      />
+
+      <!-- Related Links -->
+      <section class="border-t border-hairline pt-10">
+        <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-ivory/50 mb-4">
+          Related Solutions and Services
+        </h3>
+        <div class="flex flex-wrap gap-4 text-sm font-mono">
+          <a href="/solutions/warehouse-management-system" class="text-ember-amber hover:text-ember-core underline">
+            Warehouse Management System Details &rarr;
+          </a>
+          <a href="/solutions/logistics-software" class="text-ember-amber hover:text-ember-core underline">
+            Logistics &amp; Dispatch Software &rarr;
+          </a>
+          <a href="/services/sap-and-system-integration" class="text-ember-amber hover:text-ember-core underline">
+            SAP &amp; ERP Integration Services &rarr;
+          </a>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <CtaBlock
+        heading="Modernize Your Warehouse Operations"
+        description="Share your warehouse floor layout, SKU volumes, and scanner preferences. We will design an end-to-end WMS workflow for your team."
+        primaryText="Schedule a Warehouse Audit"
+        primaryHref="/#contact"
+        secondaryText="View WMS Features"
+        secondaryHref="/solutions/warehouse-management-system"
+      />
+    </div>
+  </article>
+</Layout>
+

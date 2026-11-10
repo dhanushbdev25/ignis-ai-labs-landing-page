@@ -3,7 +3,6 @@
  * scroll-out fade, and the lazy WebGL ember-field loader.
  */
 import { gsap } from 'gsap';
-import { SplitText } from 'gsap/SplitText';
 
 const heroSection = () => document.querySelector<HTMLElement>('[data-scene="hero"]');
 
@@ -17,38 +16,38 @@ export function playHeroEntrance(delay: number) {
 
   gsap.set(reveals, { y: 28, opacity: 0 });
 
-  // word-mask reveal: each word rises out of its own clip wrapper
-  let split: SplitText | null = null;
-  let words: HTMLElement[] = [];
-  try {
-    split = new SplitText(lines, { type: 'words', mask: 'words', aria: 'auto' });
-    words = split.words as HTMLElement[];
-    // the molten gradient must live on the split word itself to survive the split
-    words.forEach((word) => {
-      if (word.closest('em')) word.classList.add('text-gradient-molten');
-    });
-    gsap.set(words, { yPercent: 120 });
-  } catch {
-    gsap.set(lines, { opacity: 0 });
-  }
-
-  const tl = gsap.timeline({
-    delay,
-    onComplete: () => split?.revert(), // restore clean DOM (and the em's own gradient)
-  });
-
-  if (words.length) {
-    tl.to(words, { yPercent: 0, duration: 1.0, ease: 'expo.out', stagger: 0.055 });
-  } else {
-    tl.to(lines, { opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.12 });
-  }
+  // Clean, overhang-safe line reveal that preserves italic glyphs (D, g, y)
+  // and eliminates WebKit gradient-clip nesting glitches and DOM revert jumps
+  const tl = gsap.timeline({ delay });
 
   tl.fromTo(
     lines,
-    { textShadow: '0 0 36px rgba(255,92,26,0.5)' },
-    { textShadow: '0 0 36px rgba(255,92,26,0)', duration: 1.3, ease: 'power2.out' },
-    0.25
-  ).to(reveals, { y: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.07 }, 0.5);
+    {
+      y: 44,
+      opacity: 0,
+      clipPath: 'inset(-30% -15% 105% -15%)',
+    },
+    {
+      y: 0,
+      opacity: 1,
+      clipPath: 'inset(-30% -15% -35% -15%)',
+      duration: 1.05,
+      ease: 'expo.out',
+      stagger: 0.12,
+      onComplete: () => {
+        lines.forEach((line) => {
+          line.style.removeProperty('clip-path');
+        });
+      },
+    }
+  );
+
+  tl.fromTo(
+    lines,
+    { filter: 'drop-shadow(0 0 24px rgba(255,92,26,0.4))' },
+    { filter: 'drop-shadow(0 0 0px rgba(255,92,26,0))', duration: 1.2, ease: 'power2.out' },
+    0.2
+  ).to(reveals, { y: 0, opacity: 1, duration: 0.85, ease: 'expo.out', stagger: 0.08 }, 0.4);
 }
 
 export function initHero() {

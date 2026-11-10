@@ -1,0 +1,9 @@
+---
+export const prerender = true;
+
+import SolutionPageTemplate from '../../components/layout/SolutionPageTemplate.astro';
+import { servicesCustom } from '../../content/pages-content';
+---
+
+<SolutionPageTemplate data={servicesCustom} isService={true} />
+

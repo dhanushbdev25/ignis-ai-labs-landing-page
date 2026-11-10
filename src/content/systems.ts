@@ -1,7 +1,7 @@
 import type { EnterpriseSystem } from './types';
 
 export const translatedIntro =
-  'Our intelligence adapts to your existing platforms — no replacements, no disruption.';
+  'Keep the systems you have. We make them work together.';
 
 export const microLabels = [
   'Data normalization',

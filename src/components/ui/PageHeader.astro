@@ -1,0 +1,53 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import type { BreadcrumbItem } from '../../lib/seo/schema';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  breadcrumbs: BreadcrumbItem[];
+  lastUpdated?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  breadcrumbs,
+  lastUpdated = 'November 2026',
+} = Astro.props;
+---
+
+<header class="pt-32 pb-12 border-b border-hairline">
+  <div class="wrap max-w-4xl">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-ember-core mb-4">
+      {eyebrow}
+    </p>
+
+    <h1 class="font-display text-[clamp(2.25rem,4.5vw,3.75rem)] font-[340] leading-[1.08] tracking-tight text-ivory">
+      {title}
+    </h1>
+
+    <p class="mt-6 text-body-lg text-ivory/80 leading-relaxed font-sans">
+      {lead}
+    </p>
+
+    <div class="mt-8 flex flex-wrap items-center gap-6">
+      <button type="button" class="consultation-trigger btn-molten">
+        Request a Plant Walkthrough
+      </button>
+      <a href="#faq" class="link-filament text-sm font-medium">
+        Buyer FAQ &rarr;
+      </a>
+      {lastUpdated && (
+        <span class="font-mono text-[11px] uppercase tracking-[0.16em] text-ivory/40 sm:ml-auto">
+          Last updated: {lastUpdated}
+        </span>
+      )}
+    </div>
+  </div>
+</header>
+

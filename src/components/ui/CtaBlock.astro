@@ -1,0 +1,33 @@
+---
+interface Props {
+  heading?: string;
+  lead?: string;
+  buttonText?: string;
+}
+
+const {
+  heading = 'Ready to review your plant operations?',
+  lead = 'We start with a 30-minute walkthrough of your current shop floor or warehouse processes. No obligation and no generic pitch decks.',
+  buttonText = 'Request a Callback',
+} = Astro.props;
+---
+
+<section class="section-pad border-t border-hairline bg-surface-1">
+  <div class="wrap max-w-4xl text-center">
+    <h2 class="font-display text-[clamp(2rem,3.5vw,3rem)] font-[340] text-ivory">
+      {heading}
+    </h2>
+    <p class="mt-4 max-w-xl mx-auto text-base sm:text-lg text-ivory/65 leading-relaxed font-sans">
+      {lead}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-6">
+      <button type="button" class="consultation-trigger btn-molten">
+        {buttonText}
+      </button>
+      <a href="/faq" class="link-filament text-sm font-medium">
+        Read All FAQs &rarr;
+      </a>
+    </div>
+  </div>
+</section>
+

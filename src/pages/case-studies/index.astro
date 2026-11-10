@@ -1,0 +1,89 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import CtaBlock from '../../components/ui/CtaBlock.astro';
+import { caseStudiesList } from '../../content/pages-content';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'Case Studies', url: 'https://ignisailabs.com/case-studies' },
+];
+
+const faqs = [
+  {
+    question: 'Are these case studies based on live client deployments?',
+    answer:
+      'Yes. These represent production systems engineered and deployed for manufacturing, distribution and export teams in India and worldwide.',
+  },
+  {
+    question: 'Can we visit a reference plant or see a live software demonstration?',
+    answer:
+      'Yes. We can demonstrate working workflows on a video call and arrange reference interactions where non-disclosure agreements permit.',
+  },
+  {
+    question: 'How long does a typical software deployment take?',
+    answer:
+      'Deployments typically take 2 to 6 weeks for standard modules like PRC and WMS, and 6 to 12 weeks for complex multi-system ERP and SAP integrations.',
+  },
+];
+---
+
+<Layout
+  title="Case Studies & Deployments | Ignis AI Labs"
+  description="Real-world deployments of production routing, WMS, and export automation software built for factories, plants, and logistics operators."
+  canonical="https://ignisailabs.com/case-studies"
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Proven Deployments"
+    title="Case Studies & Real-World Deployments"
+    lead="See how manufacturing plants, industrial warehouses and export logistics teams use software from Ignis AI Labs to replace paper records, connect SAP, and run without operational bottlenecks."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <main class="section-pad">
+    <div class="wrap max-w-4xl space-y-16">
+      <div class="space-y-8">
+        {caseStudiesList.map((cs) => (
+          <article class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8 hover:border-ember-core/40 transition-colors">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-ivory/50 mb-3">
+              <span class="text-ember-amber uppercase tracking-wider">{cs.industry}</span>
+              <span>{cs.readTime}</span>
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory mb-3">
+              <a href={`/${cs.slug}`} class="hover:text-ember-amber transition-colors">
+                {cs.title}
+              </a>
+            </h2>
+            <p class="text-sm font-mono text-ivory/60 mb-4">Client Type: {cs.clientType}</p>
+            <p class="text-base text-ivory/80 leading-relaxed font-sans mb-6">
+              {cs.impact}
+            </p>
+            <a
+              href={`/${cs.slug}`}
+              aria-label={`Read full case study: ${cs.title}`}
+              class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-ember-core hover:text-ember-amber transition-colors"
+            >
+              Read full case study <span>&rarr;</span>
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <CtaBlock
+        heading="Discuss Your Production or Logistics Requirements"
+        description="Book a technical assessment. We review your process diagrams, ERP architecture, and plant layout to outline a digital roadmap."
+        primaryText="Schedule a Consultation"
+        primaryHref="/#contact"
+        secondaryText="View Ready-Built Solutions"
+        secondaryHref="/solutions/production-routing-chart"
+      />
+    </div>
+  </main>
+</Layout>
+

@@ -1,0 +1,39 @@
+# Ignis AI Labs
+
+> Engineering and AI studio. We build production routing software, warehouse management systems (WMS), ERP, and customs/logistics automation for manufacturing plants, warehouses, and logistics operators across India and worldwide. We provide both ready-built core products and custom engineering integrated with SAP, Oracle, Zoho, and legacy databases.
+
+- Website: https://ignisailabs.com
+- Full Documentation for LLMs: https://ignisailabs.com/llms-full.txt
+- Service Area: India and worldwide
+- Contact: contact@ignisailabs.com
+
+## Core Software Products
+
+- [Production Routing Chart (PRC)](https://ignisailabs.com/solutions/production-routing-chart): Digital routing and traveler card software for composites, fiber moulding, and multi-stage manufacturing plants. Plain markdown: https://ignisailabs.com/solutions/production-routing-chart.md
+- [Warehouse Management System (WMS)](https://ignisailabs.com/solutions/warehouse-management-system): Real-time bin-level stock tracking, barcode/RFID directed picking, and ERP synchronization for plants and distribution centers. Plain markdown: https://ignisailabs.com/solutions/warehouse-management-system.md
+- [ERP for Manufacturers](https://ignisailabs.com/solutions/erp-for-manufacturers): Modular ERP covering raw material inventory, multi-level bills of materials (BOM), production routing, and financial ledgers. Plain markdown: https://ignisailabs.com/solutions/erp-for-manufacturers.md
+- [Logistics & Customs Software](https://ignisailabs.com/solutions/logistics-software): Export document automation (commercial invoices, packing lists, certificates) and multi-carrier container tracking. Plain markdown: https://ignisailabs.com/solutions/logistics-software.md
+
+## Engineering & Integration Services
+
+- [SAP & System Integration](https://ignisailabs.com/services/sap-and-system-integration): Bi-directional RFC, BAPI, and REST connectors syncing plant floor tablets and WMS with SAP S/4HANA, ECC, Oracle, Zoho, and Tally. Plain markdown: https://ignisailabs.com/services/sap-and-system-integration.md
+- [AI & Automation for Manufacturing](https://ignisailabs.com/services/ai-automation-for-manufacturing): Document OCR for vendor packing lists, vision inspection interfaces, and automated shift scheduling. Plain markdown: https://ignisailabs.com/services/ai-automation-for-manufacturing.md
+- [Custom Software for Factories](https://ignisailabs.com/services/custom-software-for-factories): Bespoke web, mobile, and rugged tablet applications tailored to specific plant layouts and shop floor constraints. Plain markdown: https://ignisailabs.com/services/custom-software-for-factories.md
+
+## Industry Specialization
+
+- [Composites & Fiber Moulding](https://ignisailabs.com/industries/composites-and-fiber-moulding): Stage-by-stage traveler cards, resin batch tracking, autoclave logs, and mandatory quality gates for high-mix composites. Plain markdown: https://ignisailabs.com/industries/composites-and-fiber-moulding.md
+
+## Real-World Case Studies
+
+- [PRC in Composites Plant](https://ignisailabs.com/case-studies/production-routing-chart): Paperless traveler cards and live WIP tracking across multi-stage moulding.
+- [WMS in Industrial Distribution](https://ignisailabs.com/case-studies/warehouse-management-system): 99.8% bin accuracy and barcode-guided wave picking with SAP sync.
+- [Automated Customs & Export Workflow](https://ignisailabs.com/case-studies/import-export-workflow-handler): Document packet generation under 2 minutes and container milestone tracking.
+- [All Case Studies](https://ignisailabs.com/case-studies): Directory of live client deployments.
+
+## Company & Frequently Asked Questions
+
+- [About Ignis AI Labs](https://ignisailabs.com/about): Engineering philosophy, operating model, and company details.
+- [FAQ](https://ignisailabs.com/faq): Technical, commercial, and deployment questions answered directly.
+- [Contact & Plant Assessment](https://ignisailabs.com/contact): Book a 30-minute discovery call or request an on-site plant walkthrough.
+

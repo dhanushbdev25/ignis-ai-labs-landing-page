@@ -1,0 +1,141 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../ui/PageHeader.astro';
+import FaqSection from '../ui/FaqSection.astro';
+import CtaBlock from '../ui/CtaBlock.astro';
+import type { PageContent } from '../../content/pages-content';
+
+interface Props {
+  data: PageContent;
+  isSoftware?: boolean;
+  isService?: boolean;
+}
+
+const { data, isSoftware = false, isService = false } = Astro.props;
+---
+
+<Layout
+  title={data.title}
+  description={data.metaDescription}
+  canonical={data.url}
+  breadcrumbs={data.breadcrumbs}
+  faqs={data.faqs}
+  includeSoftwareSchemas={isSoftware}
+  includeServiceSchemas={isService}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow={data.eyebrow}
+    title={data.h1}
+    lead={data.lead}
+    breadcrumbs={data.breadcrumbs}
+    lastUpdated={data.lastUpdated}
+  />
+
+  <!-- Main Content Body -->
+  <article class="section-pad">
+    <div class="wrap max-w-4xl space-y-20">
+      <!-- 1. Definition / Executive Overview (Designed for direct quoting by AI assistants) -->
+      <section class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8">
+        <h2 class="font-mono text-[12px] uppercase tracking-[0.2em] text-ember-core mb-3">
+          Overview &amp; Definition
+        </h2>
+        <p class="text-lg sm:text-xl font-medium text-ivory leading-relaxed font-sans">
+          {data.definition}
+        </p>
+        <div class="mt-6 pt-6 border-t border-hairline flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-ivory/50">
+          <span>Primary Target: Industrial Plants, Warehouses &amp; Factories</span>
+          <a href={data.markdownUrl} class="text-ember-amber hover:text-ember-core transition-colors" target="_blank" rel="noopener">
+            View as Plain Markdown (.md) &rarr;
+          </a>
+        </div>
+      </section>
+
+      <!-- 2. Who This Is For -->
+      <section>
+        <h2 class="font-display text-[clamp(1.75rem,3vw,2.25rem)] font-[340] text-ivory mb-6">
+          Who This Is For
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {data.whoThisIsFor.map((item) => (
+            <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+              <span class="inline-block h-2 w-2 rounded-full bg-ember-core mb-3" aria-hidden="true"></span>
+              <p class="text-sm sm:text-base text-ivory/80 leading-relaxed font-sans">{item}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- 3. Key Problems Solved -->
+      <section>
+        <h2 class="font-display text-[clamp(1.75rem,3vw,2.25rem)] font-[340] text-ivory mb-6">
+          Problems We Solve On The Factory Floor
+        </h2>
+        <ul class="space-y-4 border-t border-hairline pt-4">
+          {data.keyProblemsSolved.map((problem) => (
+            <li class="flex items-start gap-4 border-b border-hairline pb-4">
+              <span class="font-mono text-xs text-ember-amber/60 pt-0.5" aria-hidden="true">0/</span>
+              <p class="text-base text-ivory/75 font-sans leading-relaxed">{problem}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <!-- 4. How It Works (Plain numbered steps) -->
+      <section>
+        <h2 class="font-display text-[clamp(1.75rem,3vw,2.25rem)] font-[340] text-ivory mb-8">
+          How It Works in Production
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {data.howItWorks.map((step) => (
+            <div class="card-frame p-6 relative">
+              <span class="font-mono text-xs tracking-[0.2em] text-ember-core font-semibold">
+                STEP {step.step}
+              </span>
+              <h3 class="mt-2 text-lg font-semibold text-ivory font-sans">
+                {step.title}
+              </h3>
+              <p class="mt-3 text-sm text-ivory/60 leading-relaxed font-sans">
+                {step.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- 5. Core Capabilities & Specifications -->
+      <section>
+        <h2 class="font-display text-[clamp(1.75rem,3vw,2.25rem)] font-[340] text-ivory mb-6">
+          Core Capabilities &amp; Specifications
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {data.featuresOrSpecs.map((item) => (
+            <div class="border-t border-hairline pt-4">
+              <h3 class="text-base font-semibold text-ivory font-sans">
+                {item.title}
+              </h3>
+              <p class="mt-2 text-sm text-ivory/60 leading-relaxed font-sans">
+                {item.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </article>
+
+  <!-- 6. Buyer FAQ (4 to 6 real buyer questions) -->
+  <FaqSection
+    title={`Frequently Asked Questions about ${data.h1.split('for')[0]}`}
+    subtitle="Direct answers regarding integration, deployment timelines, and software customization."
+    faqs={data.faqs}
+  />
+
+  <!-- 7. Call To Action -->
+  <CtaBlock
+    heading="Ready to review this for your facility?"
+    lead="Connect with an Ignis engineer to review your workflow blueprints, hardware, and integration requirements."
+    buttonText="Request a Technical Callback"
+  />
+</Layout>
+

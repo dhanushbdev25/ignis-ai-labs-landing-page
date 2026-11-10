@@ -24,7 +24,7 @@ const routeStops = [iso(2, 2), iso(5, 4), iso(8, 0)];
     <div class="max-w-2xl">
       <Eyebrow index={s.index} name={s.name} temp={s.temp} />
       <h2 class="section-title" data-anim="smolder">
-        Intelligence, <em class="text-gradient-molten">Deployed</em>.
+        Running in <em class="text-gradient-molten">production</em>.
       </h2>
       <p class="mt-3 text-base text-ivory/55" data-anim="fade-up">{deployedIntro}</p>
     </div>
@@ -36,6 +36,17 @@ const routeStops = [iso(2, 2), iso(5, 4), iso(8, 0)];
             <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-ember-amber/60">{project.meta}</p>
             <h3 class="mt-5 font-display text-h2 font-[360] text-ivory">{project.title}</h3>
             <p class="mt-5 max-w-md text-body-lg text-ivory/55">{project.impact}</p>
+            {project.caseStudyHref && (
+              <div class="mt-6">
+                <a
+                  href={project.caseStudyHref}
+                  aria-label={`Read case study: ${project.title}`}
+                  class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-ember-core transition-colors hover:text-ember-amber"
+                >
+                  Read case study <span>&rarr;</span>
+                </a>
+              </div>
+            )}
           </div>
 
           <div class={`lg:col-span-6 ${i % 2 === 1 ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-7'}`} data-anim="fade-up" data-anim-delay="0.1">

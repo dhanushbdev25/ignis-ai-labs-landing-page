@@ -1,0 +1,43 @@
+# User-agents and web crawlers
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# OpenAI bots & search
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic Claude bots
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+# Perplexity AI bots
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Google AI & extended indexing
+User-agent: Google-Extended
+Allow: /
+
+# Apple AI & Siri indexing
+User-agent: Applebot-Extended
+Allow: /
+
+# Sitemaps
+Sitemap: https://ignisailabs.com/sitemap-index.xml
+

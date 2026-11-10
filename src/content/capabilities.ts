@@ -1,30 +1,36 @@
 import type { Pillar, Service } from './types';
 
 export const appliedIntro =
-  'Four disciplines, one engineering culture. We work the raw material of enterprise complexity — systems, data, workflows — into intelligence that holds its shape under load.';
+  'Ready-built products plus custom integration and AI, so you can digitalize production without replacing the systems you already run.';
 
 export const pillars: Pillar[] = [
   {
     index: '01',
-    title: 'Software & Platforms',
-    items: ['Full-stack web + mobile', 'Platforms, portals, products', 'Cloud + DevOps + modernization'],
+    title: 'Products: WMS, ERP, Logistics and PRC',
+    description: 'Ready-built systems you can deploy and customize.',
+    items: ['Ready-built WMS & ERP', 'Logistics & PRC systems', 'Deploy & customize'],
   },
   {
     index: '02',
-    title: 'Enterprise Systems & Integrations',
-    items: ['ERP workflows', 'Finance & compliance', 'SAP + 3rd-party integrations'],
+    title: 'SAP and System Integration',
+    description: 'Connect your plant to SAP and any third-party system.',
+    items: ['SAP S/4HANA & ECC', 'Third-party & legacy systems', 'Plant-wide data sync'],
   },
   {
     index: '03',
-    title: 'Analytics & AI',
-    items: ['Data pipelines & AI automation', 'Dashboards + insights', 'Forecasting + decision support'],
+    title: 'AI and Automation',
+    description: 'Agentic workflows, data pipelines and dashboards.',
+    items: ['Agentic workflows', 'Data pipelines', 'Operational dashboards'],
   },
   {
     index: '04',
-    title: 'Consulting',
-    items: ['Architecture & solution design', 'Integration consulting', 'Fractional leadership (CTO / Tech Lead)'],
+    title: 'Custom Software and Consulting',
+    description: 'Software for any factory process, plus architecture advice.',
+    items: ['Factory process software', 'Architecture advice', 'Strategic tech consulting'],
   },
 ];
+
+export const capabilities = pillars;
 
 export const services: Service[] = [
   { index: '01', title: 'Software Engineering', description: 'Custom platforms, cloud-native systems, resilient delivery.' },

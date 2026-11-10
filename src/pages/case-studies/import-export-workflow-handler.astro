@@ -1,0 +1,194 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import CtaBlock from '../../components/ui/CtaBlock.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'Case Studies', url: 'https://ignisailabs.com/case-studies' },
+  { name: 'Customs Automation', url: 'https://ignisailabs.com/case-studies/import-export-workflow-handler' },
+];
+
+const faqs = [
+  {
+    question: 'How does the software handle changing tariff codes and customs regulations?',
+    answer:
+      'The platform maintains an audited rule engine where HS codes, duty percentages, and country-specific declaration requirements can be updated without code changes.',
+  },
+  {
+    question: 'Can the tool generate documents for multiple ports and freight forwarders?',
+    answer:
+      'Yes. Document templates for ocean bills of lading, air waybills, certificates of origin, and commercial invoices are customized per shipping lane and buyer requirement.',
+  },
+  {
+    question: 'Does the software alert staff to shipping delays or customs queries?',
+    answer:
+      'Yes. The system polls shipping line APIs and customs portals, triggering email and SMS notifications when container hold flags or status updates occur.',
+  },
+  {
+    question: 'Can the tool extract data from vendor PDF packing lists?',
+    answer:
+      'Yes. Automated OCR and document parsing extract line items, weights, and serial numbers directly into shipment dockets to eliminate manual keying.',
+  },
+];
+---
+
+<Layout
+  title="Import/Export Case Study: Customs Automation | Ignis"
+  description="How an export manufacturing team automated shipping document packets, tariff classifications, and container tracking to cut clearance delays."
+  canonical="https://ignisailabs.com/case-studies/import-export-workflow-handler"
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  includeSoftwareSchemas={true}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Case Study / Logistics & Customs Automation"
+    title="Automating Import/Export Customs Workflows for Manufacturing"
+    lead="An industrial component exporter deployed the Ignis AI Labs Import/Export Workflow Handler to automate commercial invoices, packing lists, certificate generation, and multi-carrier container milestone tracking. The system reduced document generation time from hours to minutes and prevented port demurrage penalties."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <article class="section-pad">
+    <div class="wrap max-w-4xl space-y-20">
+      <!-- Executive Summary -->
+      <section class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8">
+        <h2 class="font-mono text-[12px] uppercase tracking-[0.2em] text-ember-core mb-3">
+          Executive Summary
+        </h2>
+        <p class="text-lg sm:text-xl font-medium text-ivory leading-relaxed font-sans mb-6">
+          Cross-border shipments require precise alignment between commercial invoices, packing lists, HS classifications, and regulatory declarations. A single typographical error or weight discrepancy can hold containers at ports for days. Ignis AI Labs built a unified export document automation platform that pulls data directly from ERP dispatches.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-hairline font-mono text-xs text-ivory/70">
+          <div>
+            <span class="text-ivory/40 block">Industry:</span>
+            <span>Industrial Component Export</span>
+          </div>
+          <div>
+            <span class="text-ivory/40 block">Service Area:</span>
+            <span>India and worldwide</span>
+          </div>
+          <div>
+            <span class="text-ivory/40 block">Key Modules:</span>
+            <span>Document Engine + Freight Tracking</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Problem -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          The Problem: Manual Document Drafting and Port Holds
+        </h2>
+        <div class="space-y-4 text-ivory/80 leading-relaxed font-sans">
+          <p>
+            The export logistics team handled dozens of container shipments monthly across multiple international destinations:
+          </p>
+          <ul class="list-disc pl-6 space-y-2 text-ivory/75">
+            <li>Logistics coordinators manually copied order details from ERP into Word and Excel document sets for customs brokers.</li>
+            <li>Typing mistakes in net vs. gross weights or harmonized system (HS) codes caused document rejections at border control.</li>
+            <li>Container tracking was tracked manually by visiting multiple ocean shipping carrier websites each morning.</li>
+            <li>Demurrage fees and port detention charges accumulated when document approvals took longer than vessel transit.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          The Solution: Centralized Logistics &amp; Customs Automation
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">1. One-Click Document Packets</h3>
+            <p class="text-sm text-ivory/70">
+              Commercial invoices, packing lists, declarations, and certificates of origin are assembled in PDF format in under 60 seconds directly from approved dispatch records.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">2. Automated Validation &amp; HS Code Match</h3>
+            <p class="text-sm text-ivory/70">
+              The system automatically validates that tare weights, gross weights, and destination country rules match before documentation is finalized.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">3. Multi-Carrier Container Tracking</h3>
+            <p class="text-sm text-ivory/70">
+              Live API feeds pull container milestone updates, port gate-in events, customs release flags, and estimated vessel arrivals into a single screen.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <h3 class="font-mono text-sm text-ember-amber mb-2">4. Automated Broker &amp; Customer Alerts</h3>
+            <p class="text-sm text-ivory/70">
+              Completed shipping dockets are automatically emailed to clearing agents and buyers alongside bill of lading numbers and download links.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Metrics -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          Operational Results
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">Minutes</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Document Packet Assembly</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Reduced from 3+ hours per container to under 2 minutes.</p>
+          </div>
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">Zero</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Customs Clerical Errors</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Direct database binding eliminated manual copy-paste transposition mistakes.</p>
+          </div>
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">[TODO: X%]</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Lower Detention / Demurrage</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Advance document clearance before vessel docking eliminated demurrage fees.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <FaqSection
+        title="Frequently Asked Questions About Customs Software"
+        subtitle="Common questions regarding logistics automation, ERP connectivity, and international shipping compliance."
+        faqs={faqs}
+      />
+
+      <!-- Related Links -->
+      <section class="border-t border-hairline pt-10">
+        <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-ivory/50 mb-4">
+          Related Solutions and Services
+        </h3>
+        <div class="flex flex-wrap gap-4 text-sm font-mono">
+          <a href="/solutions/logistics-software" class="text-ember-amber hover:text-ember-core underline">
+            Logistics &amp; Dispatch Software &rarr;
+          </a>
+          <a href="/services/custom-software-for-factories" class="text-ember-amber hover:text-ember-core underline">
+            Custom Industrial Software &rarr;
+          </a>
+          <a href="/services/ai-automation-for-manufacturing" class="text-ember-amber hover:text-ember-core underline">
+            AI Automation for Manufacturing &rarr;
+          </a>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <CtaBlock
+        heading="Automate Your Export &amp; Logistics Documentation"
+        description="Connect with our logistics engineering team to see how your shipping paperwork and freight tracking can be automated end-to-end."
+        primaryText="Schedule a Logistics Consultation"
+        primaryHref="/#contact"
+        secondaryText="View Logistics Software Details"
+        secondaryHref="/solutions/logistics-software"
+      />
+    </div>
+  </article>
+</Layout>
+

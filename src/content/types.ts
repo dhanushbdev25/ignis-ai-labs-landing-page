@@ -1,7 +1,8 @@
 export interface Pillar {
   index: string;
   title: string;
-  items: string[];
+  description?: string;
+  items?: string[];
 }
 
 export interface Service {
@@ -28,6 +29,8 @@ export interface Project {
   title: string;
   impact: string;
   visual: 'warehouse-grid' | 'logistics-flow' | 'document-assembly';
+  caseStudyHref?: string;
+  solutionHref?: string;
 }
 
 export interface Testimonial {

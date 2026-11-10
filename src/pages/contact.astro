@@ -1,0 +1,144 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import FaqSection from '../components/ui/FaqSection.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'Contact', url: 'https://ignisailabs.com/contact' },
+];
+
+const contactFaqs = [
+  {
+    question: 'How quickly does your team respond to consultation requests?',
+    answer:
+      'We review all technical inquiries and respond within 24 business hours. If you submit process diagrams or architectural requirements, an engineer reviews them prior to our initial response.',
+  },
+  {
+    question: 'Can we conduct an on-site plant walkthrough?',
+    answer:
+      'Yes. For plants and distribution centers in India and worldwide, we schedule on-site walkthroughs to observe shift handoffs, traveler card flows, and warehouse layouts firsthand.',
+  },
+  {
+    question: 'Is an initial consultation or plant assessment billable?',
+    answer:
+      'No. Our initial 30-minute discovery call and preliminary assessment are complimentary. We use this time to understand your operational bottlenecks and confirm technical feasibility.',
+  },
+  {
+    question: 'Are you open to signing Non-Disclosure Agreements (NDAs)?',
+    answer:
+      'Yes. We routinely execute mutual NDAs prior to reviewing proprietary manufacturing routings, CAD models, or internal ERP schematics.',
+  },
+];
+---
+
+<Layout
+  title="Contact Ignis AI Labs | Plant Software Consultation"
+  description="Contact Ignis AI Labs for plant assessments, demo requests, and custom software consultations for factories, warehouses, and logistics operators."
+  canonical="https://ignisailabs.com/contact"
+  breadcrumbs={breadcrumbs}
+  faqs={contactFaqs}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Direct Line"
+    title="Contact Ignis AI Labs"
+    lead="Talk directly with an engineer about your factory, warehouse, or logistics workflows. We review your current systems, floor constraints, and timeline on a complimentary assessment."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <main class="section-pad">
+    <div class="wrap max-w-4xl space-y-16">
+      <!-- Contact Channels -->
+      <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8 flex flex-col justify-between">
+          <div>
+            <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-ember-core mb-2">
+              Book a Consultation
+            </h2>
+            <p class="font-serif text-2xl text-ivory font-light mb-4">
+              Schedule a Technical Discovery Call
+            </p>
+            <p class="text-sm text-ivory/80 leading-relaxed font-sans mb-6">
+              Use our interactive consultation form to specify your plant type, primary operational bottleneck, and preferred timeline.
+            </p>
+          </div>
+          <button
+            type="button"
+            class="consultation-trigger inline-flex items-center justify-center gap-2 rounded-lg bg-ember-core px-6 py-3.5 text-xs font-mono uppercase tracking-[0.18em] text-white transition-all hover:bg-ember-red hover:shadow-[0_0_24px_rgba(255,77,0,0.4)] cursor-pointer"
+          >
+            <span>Open Consultation Form</span>
+            <span>&rarr;</span>
+          </button>
+        </div>
+
+        <div class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8 flex flex-col justify-between">
+          <div>
+            <h2 class="font-mono text-xs uppercase tracking-[0.2em] text-ember-amber mb-2">
+              Email &amp; Callback
+            </h2>
+            <p class="font-serif text-2xl text-ivory font-light mb-4">
+              Direct Engineering Inquiries
+            </p>
+            <p class="text-sm text-ivory/80 leading-relaxed font-sans mb-4">
+              Send your project specifications, traveler card samples, or RFP documentation directly to our engineering mailbox:
+            </p>
+            <p class="font-mono text-base text-ember-amber mb-2">
+              <a href="mailto:contact@ignisailabs.com" class="hover:underline">
+                contact@ignisailabs.com
+              </a>
+            </p>
+            <p class="text-xs text-ivory/60 font-sans">
+              Response guaranteed within 24 hours.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-hairline mt-6 font-mono text-xs text-ivory/60">
+            <span>Service Area: </span>
+            <span class="text-ivory font-medium">India and worldwide</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- What to Expect -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          What to Expect During the Assessment
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <p class="font-mono text-xs text-ember-core uppercase tracking-wider mb-2">Step 01</p>
+            <h3 class="font-mono text-sm text-ivory mb-2">Process Mapping</h3>
+            <p class="text-xs text-ivory/70 font-sans leading-relaxed">
+              We review your current traveler cards, spreadsheet logs, or dispatch paperwork to pinpoint bottlenecks.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <p class="font-mono text-xs text-ember-core uppercase tracking-wider mb-2">Step 02</p>
+            <h3 class="font-mono text-sm text-ivory mb-2">Architecture Feasibility</h3>
+            <p class="text-xs text-ivory/70 font-sans leading-relaxed">
+              We verify compatibility with your existing SAP, Oracle, Zoho, or database systems without requiring major overhauls.
+            </p>
+          </div>
+          <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+            <p class="font-mono text-xs text-ember-core uppercase tracking-wider mb-2">Step 03</p>
+            <h3 class="font-mono text-sm text-ivory mb-2">Fixed Deployment Plan</h3>
+            <p class="text-xs text-ivory/70 font-sans leading-relaxed">
+              You receive a phased timeline, hardware requirements, and straightforward investment outline.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <FaqSection
+        title="Consultation & Engagement FAQ"
+        subtitle="Common questions from plant directors before scheduling an initial call."
+        faqs={contactFaqs}
+      />
+    </div>
+  </main>
+</Layout>
+

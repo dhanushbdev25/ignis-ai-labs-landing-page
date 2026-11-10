@@ -1,0 +1,199 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import FaqSection from '../../components/ui/FaqSection.astro';
+import CtaBlock from '../../components/ui/CtaBlock.astro';
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://ignisailabs.com' },
+  { name: 'Case Studies', url: 'https://ignisailabs.com/case-studies' },
+  { name: 'PRC Deployment', url: 'https://ignisailabs.com/case-studies/production-routing-chart' },
+];
+
+const faqs = [
+  {
+    question: 'How long did the initial PRC rollout take on the shop floor?',
+    answer:
+      'The initial phase took [TODO: enter rollout weeks, e.g. 4 weeks] from process mapping to live tablet sign-offs on the curing line.',
+  },
+  {
+    question: 'Did operators need specialized training or computer skills?',
+    answer:
+      'No. The interface was engineered for touchscreen tablets with large touch targets, color-coded status banners, and localized prompts.',
+  },
+  {
+    question: 'Can PRC operate when the factory Wi-Fi drops temporarily?',
+    answer:
+      'Yes. The tablet interface caches active work cards locally and syncs to the central database as soon as connectivity resumes.',
+  },
+  {
+    question: 'How does PRC connect with our existing SAP or ERP?',
+    answer:
+      'PRC syncs production orders and BOMs from SAP via REST APIs or RFC connectors, and posts back completed work hours and scrap counts automatically.',
+  },
+];
+---
+
+<Layout
+  title="PRC Case Study: Composites Plant | Ignis AI Labs"
+  description="How a composites manufacturer replaced paper travelers with digital Production Routing Charts, eliminating lost route sheets and enforcing QA gates."
+  canonical="https://ignisailabs.com/case-studies/production-routing-chart"
+  breadcrumbs={breadcrumbs}
+  faqs={faqs}
+  includeSoftwareSchemas={true}
+  modifiedTime="2026-11-10T00:00:00Z"
+>
+  <PageHeader
+    eyebrow="Case Study / Composites & Fibre Moulding"
+    title="Production Routing Chart (PRC) in High-Mix Composites Manufacturing"
+    lead="A high-mix composites manufacturer replaced paper travelers and clipboards with digital Production Routing Charts (PRC) across cutting, layup, curing, trimming and final inspection. The deployment eliminated lost traveler cards, enforced mandatory quality sign-offs, and provided live production tracking for plant supervisors."
+    breadcrumbs={breadcrumbs}
+    lastUpdated="November 2026"
+  />
+
+  <article class="section-pad">
+    <div class="wrap max-w-4xl space-y-20">
+      <!-- Overview & Context -->
+      <section class="rounded-xl border border-hairline bg-surface-1/70 p-6 sm:p-8">
+        <h2 class="font-mono text-[12px] uppercase tracking-[0.2em] text-ember-core mb-3">
+          Executive Summary
+        </h2>
+        <p class="text-lg sm:text-xl font-medium text-ivory leading-relaxed font-sans mb-6">
+          In composites and fiber moulding, components move through precise chemical and mechanical stages where out-of-sequence operations or missing cure records risk entire batches. Paper traveler sheets frequently get soiled in resin or lost between work centers. Ignis AI Labs engineered and deployed a digital PRC application mounted on shop-floor tablets.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-hairline font-mono text-xs text-ivory/70">
+          <div>
+            <span class="text-ivory/40 block">Industry:</span>
+            <span>Composites &amp; Fiber Moulding</span>
+          </div>
+          <div>
+            <span class="text-ivory/40 block">Service Area:</span>
+            <span>India and worldwide</span>
+          </div>
+          <div>
+            <span class="text-ivory/40 block">Deployment Type:</span>
+            <span>Plant-Floor Tablets + Cloud Server</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Operational Bottleneck -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          The Problem: Paper Travelers and Incomplete Stage Sign-Offs
+        </h2>
+        <div class="space-y-4 text-ivory/80 leading-relaxed font-sans">
+          <p>
+            The plant manufactured complex molded composite components, each requiring sequential steps: raw fiber cutting, manual layup, resin infusion, autoclave curing, CNC trimming, quality testing, and packing.
+          </p>
+          <ul class="list-disc pl-6 space-y-2 text-ivory/75">
+            <li>Physical traveler sheets were stained, torn, or misplaced as parts moved between work areas.</li>
+            <li>Floor managers had to walk 20,000 square feet of floor space to determine which parts were in curing versus trimming.</li>
+            <li>Quality sign-offs were frequently done at the end of the shift from memory rather than at the moment of inspection.</li>
+            <li>Production counts in the central ERP lagged shop-floor reality by 24 to 48 hours.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- The Solution -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          The Solution: Production Routing Chart (PRC)
+        </h2>
+        <div class="space-y-4 text-ivory/80 leading-relaxed font-sans">
+          <p>
+            Ignis AI Labs deployed the PRC software tailored specifically to the plant's routing stages and inspection gates:
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+              <h3 class="font-mono text-sm text-ember-amber mb-2">1. Tablet-Based Operator Stations</h3>
+              <p class="text-sm text-ivory/70">
+                Work centers received ruggedized touchscreens displaying active work orders, bill-of-materials specifications, and required step-by-step procedures.
+              </p>
+            </div>
+            <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+              <h3 class="font-mono text-sm text-ember-amber mb-2">2. Mandatory Quality Hold Gates</h3>
+              <p class="text-sm text-ivory/70">
+                Parts cannot be logged into curing until resin batch numbers and layup QA checklists are signed off digitally with operator pin validation.
+              </p>
+            </div>
+            <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+              <h3 class="font-mono text-sm text-ember-amber mb-2">3. Live Supervisor Floor Map</h3>
+              <p class="text-sm text-ivory/70">
+                Plant supervisors monitor an active dashboard showing every part's location, current dwell time, and bottleneck alerts in real time.
+              </p>
+            </div>
+            <div class="rounded-lg border border-hairline bg-surface-1/50 p-5">
+              <h3 class="font-mono text-sm text-ember-amber mb-2">4. Automated Traceability Records</h3>
+              <p class="text-sm text-ivory/70">
+                Every component generates an immutable digital birth certificate recording timestamps, operator IDs, machine parameters, and inspection photos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results & Metrics -->
+      <section class="space-y-6">
+        <h2 class="font-serif text-2xl sm:text-3xl font-light text-ivory">
+          Operational Results
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">100%</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Paperless Routing</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Zero lost traveler cards across all production bays.</p>
+          </div>
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">[TODO: X%]</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">Faster Inspection Handoffs</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Immediate notification when a batch reaches QA hold gates.</p>
+          </div>
+          <div class="rounded-xl border border-hairline bg-surface-1/80 p-6 text-center">
+            <p class="font-mono text-2xl sm:text-3xl font-semibold text-ember-core mb-2">Real-Time</p>
+            <p class="font-mono text-xs uppercase tracking-wider text-ivory/50">WIP Floor Visibility</p>
+            <p class="text-xs text-ivory/70 mt-2 font-sans">Live status updates without manual phone calls or floor visits.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQs -->
+      <FaqSection
+        title="Frequently Asked Questions About This Deployment"
+        subtitle="Common questions from plant directors considering a digital routing chart system."
+        faqs={faqs}
+      />
+
+      <!-- Related Links -->
+      <section class="border-t border-hairline pt-10">
+        <h3 class="font-mono text-xs uppercase tracking-[0.2em] text-ivory/50 mb-4">
+          Related Solutions and Industries
+        </h3>
+        <div class="flex flex-wrap gap-4 text-sm font-mono">
+          <a href="/solutions/production-routing-chart" class="text-ember-amber hover:text-ember-core underline">
+            Production Routing Chart Software &rarr;
+          </a>
+          <a href="/industries/composites-and-fiber-moulding" class="text-ember-amber hover:text-ember-core underline">
+            Composites &amp; Fiber Moulding Solutions &rarr;
+          </a>
+          <a href="/services/sap-and-system-integration" class="text-ember-amber hover:text-ember-core underline">
+            SAP Integration Services &rarr;
+          </a>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <CtaBlock
+        heading="Digitalize Your Production Routing"
+        description="Let us walk through your current traveler cards and approval gates to show you how PRC will streamline your factory floor."
+        primaryText="Book a Free Plant Assessment"
+        primaryHref="/#contact"
+        secondaryText="Explore PRC Product Details"
+        secondaryHref="/solutions/production-routing-chart"
+      />
+    </div>
+  </article>
+</Layout>
+
