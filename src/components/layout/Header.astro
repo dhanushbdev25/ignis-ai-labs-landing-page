@@ -1,23 +1,66 @@
 ---
 import Logo from '../ui/Logo.astro';
-import { navLinks } from '../../content/site';
+import { navLinks, solutionNavLinks, serviceNavLinks } from '../../content/site';
 ---
 
 <header id="site-header" class="fixed inset-x-0 top-0 z-50">
   <div class="header-bar relative">
     <div class="wrap flex h-[var(--header-h)] items-center justify-between transition-[height] duration-400">
-      <a href="/#top" class="flex items-center gap-3" aria-label="Ignis AI Labs — home">
+      <a href="/" class="flex items-center gap-3" aria-label="Ignis AI Labs — Home">
         <Logo variant="mark" class="h-5 w-5" />
         <span class="font-mono text-[12px] font-medium uppercase tracking-[0.22em] text-ivory">Ignis AI Labs</span>
-        <span id="nav-gauge" class="hidden font-mono text-[11px] tracking-[0.18em] text-ember-amber/60 transition-opacity duration-300 md:inline" aria-hidden="true"></span>
+        <span id="nav-gauge" class="hidden font-mono text-[11px] tracking-[0.18em] text-ember-amber/60 transition-opacity duration-300 xl:inline" aria-hidden="true"></span>
       </a>
 
-      <nav class="hidden items-center gap-8 lg:flex" aria-label="Primary">
+      <nav class="hidden items-center gap-6 lg:flex" aria-label="Primary">
+        <!-- Solutions dropdown -->
+        <div class="relative group py-2">
+          <a href="/#work" class="nav-link inline-flex items-center gap-1 text-sm font-medium text-ivory/70 transition-colors duration-300 hover:text-ivory">
+            <span>Solutions</span>
+            <svg viewBox="0 0 12 12" class="h-3 w-3 opacity-60 transition-transform duration-200 group-hover:rotate-180" fill="none" aria-hidden="true">
+              <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <div class="invisible absolute left-0 top-full w-64 pt-1 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+            <ul class="rounded-lg border border-hairline bg-coal/95 p-2 shadow-2xl backdrop-blur-xl">
+              {solutionNavLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="block rounded-md px-3 py-2 text-xs text-ivory/75 transition-colors hover:bg-surface-1 hover:text-ember-amber">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Services dropdown -->
+        <div class="relative group py-2">
+          <a href="/#capabilities" class="nav-link inline-flex items-center gap-1 text-sm font-medium text-ivory/70 transition-colors duration-300 hover:text-ivory">
+            <span>Services</span>
+            <svg viewBox="0 0 12 12" class="h-3 w-3 opacity-60 transition-transform duration-200 group-hover:rotate-180" fill="none" aria-hidden="true">
+              <path d="M2.5 4.5 6 8l3.5-3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <div class="invisible absolute left-0 top-full w-64 pt-1 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+            <ul class="rounded-lg border border-hairline bg-coal/95 p-2 shadow-2xl backdrop-blur-xl">
+              {serviceNavLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="block rounded-md px-3 py-2 text-xs text-ivory/75 transition-colors hover:bg-surface-1 hover:text-ember-amber">
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         {navLinks.map((link) => (
           <a href={link.href} class="nav-link text-sm font-medium text-ivory/70 transition-colors duration-300 hover:text-ivory">
             {link.label}
           </a>
         ))}
+
         <button type="button" class="consultation-trigger btn-ghost">Request a Callback</button>
       </nav>
 
@@ -37,18 +80,37 @@ import { navLinks } from '../../content/site';
   </div>
 
   <!-- mobile menu — full-screen coal panel -->
-  <div id="mobile-menu" class="fixed inset-0 z-40 hidden flex-col justify-between bg-coal pt-28 pb-10" aria-hidden="true">
+  <div id="mobile-menu" class="fixed inset-0 z-40 hidden flex-col justify-between overflow-y-auto bg-coal pt-24 pb-10" aria-hidden="true">
     <nav class="wrap flex flex-col gap-2" aria-label="Mobile">
       {navLinks.map((link) => (
-        <a href={link.href} class="mobile-link group flex items-baseline gap-4 border-b border-hairline py-4">
+        <a href={link.href} class="mobile-link group flex items-baseline gap-4 border-b border-hairline py-3.5">
           <span class="font-mono text-[11px] tracking-[0.18em] text-ember-amber/60">{link.index}</span>
           <span class="font-display text-h2 text-ivory transition-colors group-hover:text-ember-amber">{link.label}</span>
         </a>
       ))}
-      <button type="button" class="consultation-trigger btn-molten mt-8 w-full justify-center">Request a Callback</button>
+
+      <div class="pt-4 pb-2 border-b border-hairline">
+        <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember-amber/60 mb-2">Solutions &amp; Industries</p>
+        <div class="grid grid-cols-1 gap-2 pl-2">
+          {solutionNavLinks.map((item) => (
+            <a href={item.href} class="text-sm text-ivory/75 hover:text-ember-amber py-1">{item.label}</a>
+          ))}
+        </div>
+      </div>
+
+      <div class="pt-4 pb-2 border-b border-hairline">
+        <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-ember-amber/60 mb-2">Engineering Services</p>
+        <div class="grid grid-cols-1 gap-2 pl-2">
+          {serviceNavLinks.map((item) => (
+            <a href={item.href} class="text-sm text-ivory/75 hover:text-ember-amber py-1">{item.label}</a>
+          ))}
+        </div>
+      </div>
+
+      <button type="button" class="consultation-trigger btn-molten mt-6 w-full justify-center">Request a Callback</button>
     </nav>
-    <p class="wrap font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/30">
-      IGNIS — LATIN, “FIRE”
+    <p class="wrap mt-6 font-mono text-[10px] uppercase tracking-[0.22em] text-ivory/30">
+      IGNIS AI LABS &middot; INDIA &amp; WORLDWIDE
     </p>
   </div>
 </header>

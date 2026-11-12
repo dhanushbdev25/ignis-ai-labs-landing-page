@@ -74,9 +74,8 @@ const routeStops = [iso(2, 2), iso(5, 4), iso(8, 0)];
               )}
 
               {project.visual === 'logistics-flow' && (
-                <svg viewBox="0 0 400 300" class="block w-full" role="img" aria-label="Abstract visual: shipping documents clearing a customs gate">
+                <svg viewBox="0 0 400 300" class="block w-full" role="img" aria-label="Abstract visual: shipping documents clearing an export checkpoint">
                   <line x1="200" y1="40" x2="200" y2="260" stroke="rgba(255,179,92,0.4)" stroke-width="1" stroke-dasharray="3 5" />
-                  <text x="200" y="28" text-anchor="middle" fill="rgba(255,179,92,0.55)" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="2">CUSTOMS</text>
                   {[0, 1, 2].map((doc) => (
                     <g class="vg-doc" style={`animation-delay:${doc * 2.7}s`}>
                       <g transform={`translate(0 ${86 + doc * 56})`}>

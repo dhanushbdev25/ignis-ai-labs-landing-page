@@ -24,7 +24,7 @@ export const solutionsPRC: PageContent = {
   markdownUrl: 'https://ignisailabs.com/solutions/production-routing-chart.md',
   title: 'Production Routing Chart (PRC) | Ignis AI Labs',
   metaDescription:
-    'Digital production routing and approval software for composites, moulding and discrete manufacturing plants. Works with or without SAP.',
+    'Digital production routing and approval software by Ignis AI Labs for composites, fiber moulding, and discrete manufacturing plants with SAP sync.',
   targetKeyword: 'production routing software for moulding companies',
   eyebrow: 'Production Software / PRC',
   h1: 'Production Routing Chart (PRC) for Manufacturing Plants',
@@ -116,7 +116,7 @@ export const solutionsPRC: PageContent = {
     {
       question: 'How long does a typical PRC deployment take?',
       answer:
-        'A single production line deployment typically takes [TODO: 3 to 6 weeks] from workflow mapping to operator go-live, depending on ERP integration requirements.',
+        'A single production line rollout is planned during workflow mapping and scoped to your shop-floor routing stages and ERP integration requirements.',
     },
   ],
   breadcrumbs: [
@@ -133,7 +133,7 @@ export const solutionsWMS: PageContent = {
   markdownUrl: 'https://ignisailabs.com/solutions/warehouse-management-system.md',
   title: 'Warehouse Management System (WMS) | Ignis AI Labs',
   metaDescription:
-    'Industrial WMS for manufacturing plants and distribution centers. Real-time stock tracking, bin management, and barcode-guided picking.',
+    'Industrial warehouse management system (WMS) by Ignis AI Labs for manufacturing plants, offering real-time bin tracking and barcode picking.',
   targetKeyword: 'WMS for manufacturing plants',
   eyebrow: 'Warehouse Software / WMS',
   h1: 'Warehouse Management System (WMS) for Plant Operations',
@@ -242,7 +242,7 @@ export const solutionsERP: PageContent = {
   markdownUrl: 'https://ignisailabs.com/solutions/erp-for-manufacturers.md',
   title: 'Manufacturing ERP Software | Ignis AI Labs',
   metaDescription:
-    'Tailored ERP for mid-size manufacturers. Connect production, raw material inventory, purchasing and finance without legacy complexity.',
+    'Tailored manufacturing ERP by Ignis AI Labs connecting shop-floor production, raw material inventory, BOMs, purchasing, and plant-level finance.',
   targetKeyword: 'ERP for small and mid-size factories',
   eyebrow: 'Enterprise Systems / ERP',
   h1: 'ERP Software Built for Mid-Size Manufacturing Plants',
@@ -351,7 +351,7 @@ export const solutionsLogistics: PageContent = {
   markdownUrl: 'https://ignisailabs.com/solutions/logistics-software.md',
   title: 'Logistics & Import/Export Software | Ignis AI Labs',
   metaDescription:
-    'Custom logistics apps, dispatch tracking and automated customs workflow software for manufacturers and freight operators worldwide.',
+    'Automated dispatch tracking, shipping packet generation, and customs workflow software by Ignis AI Labs for manufacturers and freight operators.',
   targetKeyword: 'logistics software for import/export',
   eyebrow: 'Supply Chain Software / Logistics',
   h1: 'Logistics & Import/Export Workflow Software',
@@ -460,7 +460,7 @@ export const servicesSAP: PageContent = {
   markdownUrl: 'https://ignisailabs.com/services/sap-and-system-integration.md',
   title: 'SAP & System Integration for Manufacturing | Ignis AI Labs',
   metaDescription:
-    'Connect factory floor systems, WMS, PRC and IoT to SAP S/4HANA, ECC, Oracle and Tally without replacing legacy software.',
+    'Connect shop-floor routing, WMS, and industrial IoT directly to SAP S/4HANA, ECC, Oracle, Zoho, and Tally without disrupting live operations.',
   targetKeyword: 'SAP integration for manufacturers',
   eyebrow: 'Engineering Services / Integration',
   h1: 'SAP and Enterprise System Integration for Factories',
@@ -569,7 +569,7 @@ export const servicesAI: PageContent = {
   markdownUrl: 'https://ignisailabs.com/services/ai-automation-for-manufacturing.md',
   title: 'AI Automation for Manufacturing Plants | Ignis AI Labs',
   metaDescription:
-    'Industrial AI automation, agentic operational workflows and machine data pipelines engineered for factory floors and logistics hubs.',
+    'Practical AI automation, document OCR, anomaly detection, and operational workflows engineered by Ignis AI Labs for factories and logistics hubs.',
   targetKeyword: 'AI automation for manufacturing',
   eyebrow: 'Engineering Services / AI Automation',
   h1: 'AI Automation & Data Pipelines for Manufacturing',
@@ -661,7 +661,7 @@ export const servicesAI: PageContent = {
     {
       question: 'How quickly can we see measurable return on an AI automation project?',
       answer:
-        'Focused projects like automated document intake or scrap drift detection typically demonstrate measurable time savings and quality improvements within [TODO: 4 to 8 weeks] of floor pilot testing.',
+        'Focused workflows like automated document intake or scrap drift detection are scoped for rapid floor pilot validation before broader plant-wide rollout.',
     },
   ],
   breadcrumbs: [
@@ -678,7 +678,7 @@ export const servicesCustom: PageContent = {
   markdownUrl: 'https://ignisailabs.com/services/custom-software-for-factories.md',
   title: 'Custom Software Development for Factories | Ignis AI Labs',
   metaDescription:
-    'Custom web and mobile apps engineered for manufacturing plant floors, workstations, quality checklists and warehouse teams.',
+    'Custom web, mobile, and rugged tablet software engineered by Ignis AI Labs for factory floor workstations, quality gates, and warehouse teams.',
   targetKeyword: 'custom software for plants',
   eyebrow: 'Engineering Services / Custom Software',
   h1: 'Custom Software Development for Factories and Plants',
@@ -787,7 +787,7 @@ export const industriesComposites: PageContent = {
   markdownUrl: 'https://ignisailabs.com/industries/composites-and-fiber-moulding.md',
   title: 'Composites & Fiber Moulding Software | Ignis AI Labs',
   metaDescription:
-    'Digital production routing, resin batch traceability and oven cure tracking for composites, FRP and fiber moulding manufacturers.',
+    'Digital production routing, resin batch traceability, and autoclave cure tracking built by Ignis AI Labs for composites and fiber moulding plants.',
   targetKeyword: 'production routing software for moulding companies',
   eyebrow: 'Industry Solutions / Composites',
   h1: 'Digitalization Software for Composites & Fiber Moulding Plants',

@@ -21,6 +21,8 @@ const URLS = [
   `https://${HOST}/case-studies/production-routing-chart`,
   `https://${HOST}/case-studies/warehouse-management-system`,
   `https://${HOST}/case-studies/import-export-workflow-handler`,
+  `https://${HOST}/about`,
+  `https://${HOST}/contact`,
   `https://${HOST}/faq`,
 ];
 

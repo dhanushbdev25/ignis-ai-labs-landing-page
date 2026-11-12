@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 import { z } from 'zod';
+import { getMailEnv } from '../../lib/env';
 
 export const prerender = false;
 
@@ -383,27 +384,6 @@ function generatePlainTextEmail(data: {
   return lines.filter((line): line is string => line !== null).join('\n');
 }
 
-// Helper to retrieve secrets across Cloudflare Pages (locals.runtime.env) and Node/Vite (process.env / import.meta.env)
-function getSecret(locals: App.Locals | unknown, key: string): string | undefined {
-  const cfEnv = (locals as { runtime?: { env?: Record<string, string> } })?.runtime?.env;
-  if (cfEnv && typeof cfEnv[key] === 'string' && cfEnv[key].trim()) {
-    return cfEnv[key].trim();
-  }
-
-  const procEnv = typeof process !== 'undefined' ? process.env : undefined;
-  if (procEnv && typeof procEnv[key] === 'string' && procEnv[key].trim()) {
-    return procEnv[key].trim();
-  }
-
-  // @ts-ignore
-  const metaEnv = typeof import.meta !== 'undefined' ? import.meta.env : undefined;
-  if (metaEnv && typeof metaEnv[key] === 'string' && metaEnv[key].trim()) {
-    return metaEnv[key].trim();
-  }
-
-  return undefined;
-}
-
 // OPTIONS handler for CORS preflight
 export const OPTIONS: APIRoute = async () => {
   return new Response(null, {
@@ -504,30 +484,29 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const validatedData = validationResult.data;
 
-    // 7. Retrieve server secrets
-    const resendApiKey = getSecret(locals, 'RESEND_API_KEY');
-    const contactEmail = getSecret(locals, 'CONTACT_EMAIL');
-    const resendFromEmail = getSecret(locals, 'RESEND_FROM_EMAIL') || 'hello@ignisailabs.com';
-
-    if (!resendApiKey) {
-      console.error('[send-email] Missing RESEND_API_KEY environment variable.');
+    // 7. Retrieve Cloudflare Workers runtime environment variables
+    let envVars;
+    try {
+      envVars = getMailEnv(locals);
+    } catch (envError) {
+      const message =
+        envError instanceof Error
+          ? envError.message
+          : 'Missing required Cloudflare runtime environment variables.';
+      console.error('[send-email] Runtime env error:', message);
       return new Response(
         JSON.stringify({
-          error: 'Email service configuration error: RESEND_API_KEY is missing.',
+          error: message,
         }),
         { status: 500, headers: corsHeaders }
       );
     }
 
-    if (!contactEmail) {
-      console.error('[send-email] Missing CONTACT_EMAIL environment variable.');
-      return new Response(
-        JSON.stringify({
-          error: 'Destination email configuration error: CONTACT_EMAIL is missing.',
-        }),
-        { status: 500, headers: corsHeaders }
-      );
-    }
+    const {
+      RESEND_API_KEY: resendApiKey,
+      CONTACT_EMAIL: contactEmail,
+      RESEND_FROM_EMAIL: resendFromEmail,
+    } = envVars;
 
     // 8. Format email details
     const submissionDate = validatedData.submittedAt
@@ -574,20 +553,36 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // 9. Send email using Resend SDK
     const resend = new Resend(resendApiKey);
 
-    const { data, error } = await resend.emails.send({
-      from: formattedFrom,
-      to: [contactEmail],
-      replyTo: validatedData.email,
-      subject: emailSubject,
-      html: htmlContent,
-      text: textContent,
-    });
-
-    if (error) {
-      console.error('[send-email] Resend API error:', error);
+    let sendResult;
+    try {
+      sendResult = await resend.emails.send({
+        from: formattedFrom,
+        to: [contactEmail],
+        replyTo: validatedData.email,
+        subject: emailSubject,
+        html: htmlContent,
+        text: textContent,
+      });
+    } catch (sdkException) {
+      const errMsg =
+        sdkException instanceof Error ? sdkException.message : 'Unexpected Resend client error';
+      console.error('[send-email] Resend SDK threw an exception:', errMsg);
       return new Response(
         JSON.stringify({
-          error: error.message || 'Failed to send notification via Resend.',
+          error: `Email delivery request failed: ${errMsg}`,
+          code: 'RESEND_EXCEPTION',
+        }),
+        { status: 502, headers: corsHeaders }
+      );
+    }
+
+    const { data, error } = sendResult;
+
+    if (error) {
+      console.error('[send-email] Resend API error response:', JSON.stringify(error));
+      return new Response(
+        JSON.stringify({
+          error: error.message || 'Failed to send email via Resend.',
           code: error.name || 'RESEND_ERROR',
         }),
         { status: 502, headers: corsHeaders }

@@ -14,13 +14,26 @@ export function generateOrganizationSchema() {
   return {
     '@type': 'Organization',
     '@id': `${site.url}/#organization`,
-    name: 'Ignis AI Labs',
+    name: site.name,
     url: site.url,
-    logo: `${site.url}/images/systems/Ignis logo Dark Theme.svg`,
+    logo: site.logoUrl,
     description: site.description,
     email: site.email,
     telephone: site.phone,
-    areaServed: 'India and worldwide',
+    foundingDate: site.foundedYear,
+    founder: {
+      '@type': 'Person',
+      name: 'Indira Gandhi',
+      jobTitle: 'Founder & CEO',
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.streetAddress,
+      addressLocality: site.city,
+      addressRegion: site.state,
+      addressCountry: 'IN',
+    },
+    areaServed: site.areaServed,
     sameAs: [
       'https://www.linkedin.com/company/ignisailabs',
       'https://www.instagram.com/ignis_ai_labs',
@@ -30,7 +43,7 @@ export function generateOrganizationSchema() {
       telephone: site.phone,
       contactType: 'Customer Service',
       email: site.email,
-      areaServed: 'India and worldwide',
+      areaServed: site.areaServed,
       availableLanguage: ['English'],
     },
   };
@@ -40,7 +53,7 @@ export function generateWebSiteSchema() {
   return {
     '@type': 'WebSite',
     '@id': `${site.url}/#website`,
-    name: 'Ignis AI Labs',
+    name: site.name,
     url: site.url,
     description: site.description,
     publisher: {
@@ -57,7 +70,7 @@ export function generateServicesSchema() {
       name: 'Factory Digitalization',
       serviceType: 'Factory Digitalization Software',
       provider: { '@id': `${site.url}/#organization` },
-      areaServed: 'India and worldwide',
+      areaServed: site.areaServed,
       description:
         'End-to-end plant digitalization replacing paper sheets, whiteboards and isolated spreadsheets with real-time digital routing, operator inputs and machine visibility.',
     },
@@ -67,7 +80,7 @@ export function generateServicesSchema() {
       name: 'SAP & System Integration',
       serviceType: 'Enterprise System Integration',
       provider: { '@id': `${site.url}/#organization` },
-      areaServed: 'India and worldwide',
+      areaServed: site.areaServed,
       description:
         'Two-way plant floor connectivity with SAP S/4HANA, ECC, Oracle, Zoho, Tally, banking APIs and custom internal databases without replacing existing core systems.',
     },
@@ -77,7 +90,7 @@ export function generateServicesSchema() {
       name: 'AI & Process Automation',
       serviceType: 'AI Engineering & Automation',
       provider: { '@id': `${site.url}/#organization` },
-      areaServed: 'India and worldwide',
+      areaServed: site.areaServed,
       description:
         'Agentic operational workflows, automated anomaly detection, inventory forecasting and production throughput dashboards for industrial facilities.',
     },
@@ -87,7 +100,7 @@ export function generateServicesSchema() {
       name: 'Custom Software Development for Factories',
       serviceType: 'Custom Software Engineering',
       provider: { '@id': `${site.url}/#organization` },
-      areaServed: 'India and worldwide',
+      areaServed: site.areaServed,
       description:
         'Custom web, mobile and edge software engineered for specific factory workstations, quality assurance checkpoints and plant operations.',
     },
@@ -146,12 +159,15 @@ export function generateSoftwareApplicationSchemas() {
 export function generateBreadcrumbSchema(items: BreadcrumbItem[]) {
   return {
     '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.name,
-      item: item.url,
-    })),
+    itemListElement: items.map((item, index) => {
+      const resolvedUrl = item.url.startsWith('/') ? `${site.url}${item.url === '/' ? '' : item.url}` : item.url;
+      return {
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: resolvedUrl,
+      };
+    }),
   };
 }
 
@@ -168,4 +184,3 @@ export function generateFaqSchema(faqs: FaqItem[]) {
     })),
   };
 }
-

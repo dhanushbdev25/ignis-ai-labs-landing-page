@@ -17,16 +17,16 @@ export const projects: Project[] = [
     meta: 'WAREHOUSE · INVENTORY',
     title: 'Warehouse Management System (WMS)',
     impact:
-      'Real-time stock tracking and optimized picking for a [client type] distribution center.',
+      'Real-time stock tracking and optimized picking for a manufacturing distribution center.',
     visual: 'warehouse-grid',
     caseStudyHref: '/case-studies/warehouse-management-system',
     solutionHref: '/solutions/warehouse-management-system',
   },
   {
-    meta: 'LOGISTICS · CUSTOMS AUTOMATION',
+    meta: 'LOGISTICS · EXPORT AUTOMATION',
     title: 'Import/Export Workflow Handler',
     impact:
-      'Import and export management for [client type], with customs documents generated automatically and compliance tracked in one place.',
+      'Import and export management for manufacturing exporters, with shipping documents generated automatically and compliance tracked in one place.',
     visual: 'logistics-flow',
     caseStudyHref: '/case-studies/import-export-workflow-handler',
     solutionHref: '/solutions/logistics-software',

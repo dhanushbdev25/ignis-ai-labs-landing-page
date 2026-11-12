@@ -20,6 +20,8 @@
   Cache-Control: public, max-age=86400
 /llms.txt
   Cache-Control: public, max-age=86400
+/sitemap.xml
+  Cache-Control: public, max-age=3600
 /sitemap-index.xml
   Cache-Control: public, max-age=3600
 /sitemap-0.xml

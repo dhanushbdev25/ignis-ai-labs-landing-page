@@ -39,5 +39,6 @@ User-agent: Applebot-Extended
 Allow: /
 
 # Sitemaps
+Sitemap: https://ignisailabs.com/sitemap.xml
 Sitemap: https://ignisailabs.com/sitemap-index.xml
 

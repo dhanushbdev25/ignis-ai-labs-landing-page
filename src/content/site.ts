@@ -3,13 +3,18 @@ export const site = {
   url: 'https://ignisailabs.com',
   title: 'Ignis AI Labs | Factory Digitalization, WMS, ERP & AI Automation',
   description:
-    'Factory digitalization, production routing software (PRC), WMS, ERP and SAP integrations for manufacturing and logistics plants in India and worldwide.',
+    'Factory digitalization, production routing software (PRC), WMS, ERP, and SAP integrations built for manufacturing and logistics plants worldwide.',
   email: 'contact@ignisailabs.com',
   phone: '+91 75502 15578',
   phoneHref: 'tel:+917550215578',
-  location: 'India and worldwide',
+  city: 'Tirunelveli',
+  state: 'Tamil Nadu',
+  streetAddress: '8/90, Saint Thomas B Colony, Reddiyarpatti',
+  foundedYear: '2025',
+  location: 'Tirunelveli, Tamil Nadu, India · Serving India and worldwide',
   areaServed: 'India and worldwide',
   ogImage: 'https://ignisailabs.com/og-image.png',
+  logoUrl: 'https://ignisailabs.com/favicon-512x512.png',
 };
 
 export const hero = {
@@ -18,6 +23,8 @@ export const hero = {
   headlineA: 'Your Factory.',
   headlineB: 'Connect Everything.',
   headlineC: 'Automate the Rest.',
+  brandIntro:
+    'Ignis AI Labs is a factory digitalization and ERP/WMS software company based in Tamil Nadu, India, serving manufacturers and logistics plants worldwide.',
   subline:
     'Ready-built products (WMS, ERP, logistics and PRC) plus custom software development for factories, plants and warehouses, integrated with SAP and existing systems, with AI automation on top.',
   ctaPrimary: 'Book a Free Plant Assessment',
@@ -56,12 +63,25 @@ export const sections = {
   ignite: { id: 'contact', index: '07', name: 'IGNITION — AGAIN', temp: '1538°C' },
 } as const;
 
+export const solutionNavLinks = [
+  { label: 'Production Routing Chart (PRC)', href: '/solutions/production-routing-chart' },
+  { label: 'Warehouse Management System (WMS)', href: '/solutions/warehouse-management-system' },
+  { label: 'ERP for Manufacturers', href: '/solutions/erp-for-manufacturers' },
+  { label: 'Logistics & Dispatch Software', href: '/solutions/logistics-software' },
+  { label: 'Composites & Fiber Moulding', href: '/industries/composites-and-fiber-moulding' },
+] as const;
+
+export const serviceNavLinks = [
+  { label: 'SAP & System Integration', href: '/services/sap-and-system-integration' },
+  { label: 'AI Automation for Manufacturing', href: '/services/ai-automation-for-manufacturing' },
+  { label: 'Custom Software for Factories', href: '/services/custom-software-for-factories' },
+] as const;
+
 export const navLinks = [
-  { label: 'Capabilities', href: '/#capabilities', index: '01' },
-  { label: 'Integrations', href: '/#integrations', index: '02' },
-  { label: 'Process', href: '/#process', index: '03' },
-  { label: 'Products', href: '/#work', index: '04' },
-  { label: 'FAQ', href: '/#faq', index: '06' },
+  { label: 'Case Studies', href: '/case-studies', index: '01' },
+  { label: 'About', href: '/about', index: '02' },
+  { label: 'FAQ', href: '/faq', index: '03' },
+  { label: 'Contact', href: '/contact', index: '04' },
 ] as const;
 
 export const socials = [
